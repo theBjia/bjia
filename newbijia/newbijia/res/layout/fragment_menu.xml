@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/wwethers"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/rl_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp" >
+
+        <ImageView
+            android:id="@+id/imUserHead"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/gray" />
+
+        <ImageView
+            android:id="@+id/round_iv"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/round_header" />
+
+        <TextView
+            android:id="@+id/tv_UserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/round_iv"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/round_iv"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/wether"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_below="@+id/rl_user"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/wether_bg" >
+
+        <RelativeLayout
+            android:id="@+id/wether_id_no"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="gone" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="获取天气信息失败,亲..."
+                android:textColor="#ffffff"
+                android:textSize="15sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/wether_id"
+            android:layout_width="200dp"
+            android:layout_height="match_parent" >
+
+            <ImageView
+                android:id="@+id/iv_wether_iMg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="17dp"
+                android:layout_marginTop="5dp" />
+
+            <RelativeLayout
+                android:id="@+id/wendu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_toRightOf="@id/iv_wether_iMg" >
+
+                <TextView
+                    android:id="@+id/tv_temperater"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ffffff"
+                    android:textSize="30sp" />
+
+                <TextView
+                    android:id="@+id/tv_wetherson"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/tv_temperater"
+                    android:layout_toRightOf="@id/tv_temperater"
+                    android:textColor="#ffffff"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_wether_adres"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_temperater"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="#ffffff"
+                    android:textSize="18sp" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_wether_date"
+                android:layout_width="142dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/wendu"
+                android:layout_marginLeft="17dp"
+                android:textColor="#ffffff"
+                android:textSize="18sp" />
+
+            <com.llkj.newbjia.customview.DigitalClock
+                android:id="@+id/tv_wether_time"
+                android:layout_width="71dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/wendu"
+                android:textColor="#ffffff"
+                android:textSize="18sp" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,89 @@
+package com.llkj.newbjia.mybijia;
+
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.R;
+
+/**
+ * 个人中心页
+ * @author John
+ *
+ */
+public class MyCenterActivity extends BaseActivity implements OnClickListener{
+				 //用户头像
+	LinearLayout ll_Portrait;
+				      //用户名           用户等级     用户电话      城市圈             社区圈                                        好友圈                      个性签名
+	RelativeLayout rl_UserName,rl_Level,rl_Phone,rl_Citi,rl_UserCommunity,rl_UserFriendRing,rl_Sign;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.my_center);
+		setTitle(R.string.mycenter,true,R.string.kong,false,R.string.kong);
+		initView();
+		initData();
+		initListener();
+	}
+
+	private void initView() {
+		// TODO Auto-generated method stub
+		ll_Portrait = (LinearLayout) findViewById(R.id.ll_Portrait);
+		rl_UserName = (RelativeLayout) findViewById(R.id.rl_UserName);
+		rl_Level = (RelativeLayout) findViewById(R.id.rl_Level);
+		rl_Phone = (RelativeLayout) findViewById(R.id.rl_Phone);
+		rl_Citi = (RelativeLayout) findViewById(R.id.rl_Citi);
+		rl_UserCommunity = (RelativeLayout) findViewById(R.id.rl_UserCommunity);
+		rl_UserFriendRing = (RelativeLayout) findViewById(R.id.rl_UserFriendRing);
+		rl_Sign = (RelativeLayout) findViewById(R.id.rl_Sign);
+	}
+
+	private void initData() {
+		
+	}
+
+	private void initListener() {
+		ll_Portrait.setOnClickListener(this);
+		rl_UserName.setOnClickListener(this);
+		rl_Level.setOnClickListener(this);
+		rl_Phone.setOnClickListener(this);
+		rl_Citi.setOnClickListener(this);
+		rl_UserCommunity.setOnClickListener(this);
+		rl_UserFriendRing.setOnClickListener(this);
+		rl_Sign.setOnClickListener(this);
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.ll_Portrait:
+			
+			break;
+		case R.id.rl_UserName:
+			openActivity(UpdateUserNameActivity.class);
+			break;
+		case R.id.rl_Level:
+	
+			break;
+		case R.id.rl_Phone:
+	
+			break;
+		case R.id.rl_Citi:
+			openActivity(CityActivity.class);
+			break;
+		case R.id.rl_UserCommunity:
+			openActivity(CommunityRingActivity.class);
+			break;
+		case R.id.rl_UserFriendRing:
+	
+			break;
+		case R.id.rl_Sign:
+			openActivity(UpdateSignActivity.class);
+			break;
+		}
+	}
+}

@@ -1,0 +1,134 @@
+package com.llkj.newbjia.shoppingcart;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.adpater.AceeGoodAdressAdapter;
+import com.llkj.newbjia.adpater.AceeGoodAdressAdapter.Onclick;
+import com.llkj.newbjia.bean.ResponseBean;
+import com.llkj.newbjia.bean.UserInfoBean;
+import com.llkj.newbjia.http.PoCRequestManager;
+import com.llkj.newbjia.http.PoCService;
+import com.llkj.newbjia.utils.StringUtil;
+import com.llkj.newbjia.utils.ToastUtil;
+/**
+ * 收货地址页页
+ * @author John
+ *
+ */
+public class AceeGoodAdressActivity extends BaseActivity implements Onclick,OnClickListener{
+	
+	private ListView lv_content;
+	private ArrayList arrayList;
+	private AceeGoodAdressAdapter adapter;
+	private TextView tvRight;
+	private int mShopCartAdd;
+	private String uid;
+	private String id;
+	private String consignee;
+	private String phone;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.acee_good_adress);
+		setTitle(R.string.aaceegoodadress, true, R.string.kong, true, R.string.newaceegood);
+		initView();
+		initData();
+		initListener();
+	}
+
+	private void initView() {
+		lv_content = (ListView) findViewById(R.id.lv_content);
+		tvRight = (TextView) findViewById(R.id.tv_title_right);
+	}
+
+	private void initData() {
+		uid = UserInfoBean.getUserInfo(this).getUid();
+		if(StringUtil.isNetworkConnected(this)){
+			if(null != uid){
+				mShopCartAdd = mRequestManager.getShopAddRessList(uid, true);
+			}
+		}else{
+			ToastUtil.makeShortText(this, R.string.no_wangluo);
+		}
+		adapter = new AceeGoodAdressAdapter(AceeGoodAdressActivity.this, arrayList,this);
+		lv_content.setAdapter(adapter);
+		
+	}
+
+	private void initListener() {
+		tvRight.setOnClickListener(this);
+	}
+
+	@Override
+	public void myClick(View v, int type) {
+		HashMap map  = (HashMap) v.getTag();
+		switch (type) {
+		case 1:
+			if(map.containsKey(ResponseBean.RESPONSE_ID)){
+				id = (String) map.get(ResponseBean.RESPONSE_ID);
+			}
+			if(map.containsKey(ResponseBean.RESPONSE_CONSIGNEE)){
+				consignee = (String) map.get(ResponseBean.RESPONSE_CONSIGNEE);
+			}
+			if(map.containsKey(ResponseBean.RESPONSE_PHONE)){
+				phone = (String) map.get(ResponseBean.RESPONSE_PHONE);
+			}
+			break;
+		}
+		Bundle bundle = new Bundle();
+		bundle.putString(ResponseBean.RESPONSE_ID, id);
+		bundle.putString(ResponseBean.RESPONSE_CONSIGNEE, consignee);
+		bundle.putString(ResponseBean.RESPONSE_PHONE, phone);
+		openActivity(EditAdressActivity.class,bundle);
+	}
+
+	@Override
+	public void myLongClick(View v, int type) {
+		
+	}
+
+	@Override
+	public void onClick(View v) {
+		openActivity(AddAceeAdressActivity.class);
+	}
+	
+	@Override
+	public void onRequestFinished(int requestId, int resultCode, Bundle payload) {
+		// TODO Auto-generated method stub
+		super.onRequestFinished(requestId, resultCode, payload);
+		if(resultCode == PoCService.SUCCESS_CODE){
+			if(mShopCartAdd == requestId){
+				int result = payload.getInt(ResponseBean.RESPONSE_STATE);
+				if(result == 1){
+					arrayList = payload.getParcelableArrayList(ResponseBean.RESPONSE_LIST);
+					if(null != arrayList && arrayList.size() > 0){
+						adapter.notifyDataSetChanged(arrayList);
+					}else{
+					    ToastUtil.makeShortText(this, R.string.no_data);	
+					}
+					
+				}else{
+					String msg = payload.getString(ResponseBean.RESPONSE_MESSAGE);
+					ToastUtil.makeShortText(this, msg);
+				}
+			}
+		}
+	}
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+		mShopCartAdd = mRequestManager.getShopAddRessList(uid, true);
+		adapter.notifyDataSetChanged();
+	}
+}

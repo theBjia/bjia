@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eeeeee" >
+
+    <include
+        android:id="@+id/relativeLayout1"
+        layout="@layout/stub_title" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/relativeLayout1"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="16dp"
+        android:text="您当前的积分是:"
+        android:textColor="#444444"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/tv_Balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textView1"
+        android:layout_marginLeft="14dp"
+        android:layout_toRightOf="@+id/textView1"
+        android:text="100"
+        android:textColor="#444444"
+        android:textSize="17sp" />
+
+    <LinearLayout
+        android:id="@+id/ll_01"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView1"
+        android:background="@drawable/biaogebeijing" 
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
+        <TextView
+            android:id="@+id/tv_OrderTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="22dp"
+            android:layout_weight="1.2"
+            android:text="时间"
+            android:textColor="#444444"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/tv_OrderId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.9"
+            android:text="单号"
+            android:textColor="#444444"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/tv_OrderAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.3"
+            android:text="积分增加"
+            android:textColor="#444444"
+            android:textSize="17sp"
+             />
+
+        <TextView
+            android:id="@+id/tv_OrderDel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.2"
+            android:text="积分减少"
+            android:textColor="#444444"
+            android:textSize="17sp" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/lv_Form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ll_01"
+        android:layout_alignRight="@+id/ll_01"
+        android:layout_below="@+id/ll_01"
+        android:divider="@android:color/transparent" >
+
+    </ListView>
+
+</RelativeLayout>

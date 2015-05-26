@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/qian_gray" >
+
+    <include
+        android:id="@+id/tiid"
+        android:layout_alignParentTop="true"
+        layout="@layout/stub_title" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/tiid" >
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:padding="10dp"
+                android:text="未添加好友" />
+
+            <com.llkj.newbjia.customview.MyListView
+                android:id="@+id/mlv_no_add"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textView1"
+                android:divider="@android:color/transparent"
+                android:listSelector="@android:color/transparent" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/mlv_no_add"
+                android:padding="10dp"
+                android:text="未开通好友" />
+
+            <com.llkj.newbjia.customview.MyListView
+                android:id="@+id/mlv_no_kaitong"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textView2"
+                android:divider="@android:color/transparent"
+                android:listSelector="@android:color/transparent" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/mlv_no_kaitong"
+                android:padding="10dp"
+                android:text="已添加好友" />
+
+            <com.llkj.newbjia.customview.MyListView
+                android:id="@+id/mlv_add"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textView3"
+                android:divider="@android:color/transparent"
+                android:listSelector="@android:color/transparent" />
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

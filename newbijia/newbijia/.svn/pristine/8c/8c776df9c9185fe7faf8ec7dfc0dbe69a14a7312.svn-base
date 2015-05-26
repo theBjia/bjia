@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eeeeee" >
+
+    <include
+        android:id="@+id/relativeLayout1"
+        layout="@layout/stub_title" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/relativeLayout1"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="16dp"
+        android:text="您当前的彼佳余额是:"
+        android:textColor="#444444"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/tv_Money_Balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textView1"
+        android:layout_marginLeft="14dp"
+        android:layout_toRightOf="@+id/textView1"
+        android:textColor="#444444"
+        android:textSize="20sp" />
+
+    <ListView
+        android:id="@+id/lv_Money"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView1"
+        android:divider="@android:color/transparent" >
+
+    </ListView>
+
+</RelativeLayout>

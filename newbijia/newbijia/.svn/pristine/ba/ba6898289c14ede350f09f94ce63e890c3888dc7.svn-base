@@ -1,0 +1,152 @@
+package com.llkj.newbjia.quanzi;
+
+import java.util.ArrayList;
+
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
+
+import com.llkj.newbjia.BaseFragment;
+import com.llkj.newbjia.MainActivity;
+import com.llkj.newbjia.MyApplication;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.adpater.QuanzhiAdapter;
+import com.llkj.newbjia.adpater.QuanzhiAdapter.MyClicker;
+import com.llkj.newbjia.customview.XListView;
+import com.llkj.newbjia.customview.XListView.IXListViewListener;
+import com.llkj.newbjia.utils.StringUtil;
+
+public class QuanzhiFragment extends BaseFragment implements OnClickListener,
+		IXListViewListener, MyClicker {
+
+	private XListView listview;
+	private ArrayList arrayList;
+	private RelativeLayout rl_title_back;
+	private QuanzhiAdapter adapter;
+	private PopupWindow pw;
+	private View view;
+	private RelativeLayout rl_pinglun, rl_zan;
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		if (rootView == null) {
+			rootView = inflater.inflate(R.layout.layout_quanzhi, null);
+			initView();
+			initListener();
+			intData();
+		} else {
+			ViewGroup parent = (ViewGroup) rootView.getParent();
+			if (parent != null) {
+				parent.removeView(rootView);
+			}
+		}
+		return rootView;
+	}
+
+	private void intData() {
+		arrayList = new ArrayList();
+		for (int i = 0; i < 10; i++) {
+			arrayList.add("测试" + i);
+		}
+		adapter = new QuanzhiAdapter(getActivity(), arrayList, this);
+		listview.setAdapter(adapter);
+	}
+
+	private void initListener() {
+		rl_title_back.setOnClickListener(this);
+		listview.setXListViewListener(this);
+		listview.setPullLoadEnable(true);
+		listview.setPullRefreshEnable(true);
+		rl_pinglun.setOnClickListener(this);
+		rl_zan.setOnClickListener(this);
+
+	}
+
+	public void stopXlistview() {
+		listview.stopLoadMore();
+		listview.stopRefresh();
+
+	}
+
+	private void initView() {
+
+		listview = (XListView) rootView.findViewById(R.id.xlv_content);
+		rl_title_back = (RelativeLayout) rootView
+				.findViewById(R.id.rl_title_back);
+		view = LayoutInflater.from(getActivity()).inflate(
+				R.layout.item_quanzhi_popwindow, null);
+		rl_pinglun = (RelativeLayout) view.findViewById(R.id.rl_pinglun);
+		rl_zan = (RelativeLayout) view.findViewById(R.id.rl_zan);
+		pw = new PopupWindow(view);
+		pw.setWidth(LayoutParams.WRAP_CONTENT);
+		pw.setHeight(LayoutParams.WRAP_CONTENT);
+		pw.setBackgroundDrawable(new BitmapDrawable());
+		pw.setOutsideTouchable(true);
+		pw.setFocusable(true);
+		//pw.setAnimationStyle(R.style.PopupAnimation);
+
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.rl_title_back:
+			if ((MainActivity) getActivity() != null) {
+				((MainActivity) getActivity()).switchContent(0);
+			}
+			break;
+		case R.id.rl_zan:
+			StringUtil.dismiss(pw);
+			break;
+		case R.id.rl_pinglun:
+			StringUtil.dismiss(pw);
+			break;
+		default:
+			break;
+		}
+
+	}
+
+	class MyTask implements Runnable {
+
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			stopXlistview();
+		}
+
+	}
+
+	@Override
+	public void onRefresh() {
+		// TODO Auto-generated method stub
+		MyApplication.hanlder.postDelayed(new MyTask(), 3000);
+	}
+
+	@Override
+	public void onLoadMore() {
+		// TODO Auto-generated method stub
+		MyApplication.hanlder.postDelayed(new MyTask(), 3000);
+	}
+
+	@Override
+	public void myClick(View v, int type) {
+		// TODO Auto-generated method stub
+		switch (type) {
+		case 0:
+			pw.showAsDropDown(v, StringUtil.dip2px(getActivity(), -200),
+					StringUtil.dip2px(getActivity(), -30));
+			break;
+
+		default:
+			break;
+		}
+	}
+}

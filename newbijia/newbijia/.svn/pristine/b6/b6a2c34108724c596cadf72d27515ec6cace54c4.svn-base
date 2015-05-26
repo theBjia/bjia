@@ -1,0 +1,46 @@
+package com.llkj.newbjia.bean;
+
+public class ResponseBean {
+	public static final String RESPONSE_STATE = "state";
+	public static final String RERSPONSE_URL = "url";
+	public static final String RESPONSE_PATH = "path";
+	public static final String RESPONSE_MESSAGE = "message";
+	public static final String RESPONSE_CODE = "code";
+	public static final String RESPONSE_UID = "uid";
+	public static final String RESPONSE_PHONE = "phone";
+	public static final String RESPONSE_MOBILE_PHONE = "mobile_phone";
+	public static final String RESPONSE_USERNAME = "user_name";
+	public static final String RESPONSE_LOGO = "logo";
+	public static final String RESPONSE_SIGNATURE = "signature";
+	public static final String RESPONSE_CITY = "city";
+	public static final String RESPONSE_COMMUNITY = "community";
+	public static final String RESPONSE_LIST = "list";
+	public static final String RESPONSE_ID = "id";
+	public static final String RESPONSE_TYPE = "type";
+	public static final String RESPONSE_ADD_TIME = "add_time";
+	public static final String RESPONSE_DESC = "desc";
+	public static final String RESPONSE_POINTS = "points";
+	public static final String RESPONSE_USER_MONEY = "user_money";
+	public static final String RESPONSE_URL = "url";
+
+	public static final String RESPONSE_GOODS_ID = "goods_id";
+	public static final String RESPONSE_GOODS_SN = "goods_sn";
+	public static final String RESPONSE_GOODS_NAME = "goods_name";
+	public static final String RESPONSE_GOODS_BRIEF = "goods_brief";
+	public static final String RESPONSE_SPF = "shop_price_formated";
+	public static final String RESPONSE_MARKET_PRICE = "market_price";
+	public static final String RESPONSE_ACT_ID = "act_id";
+	public static final String RESPONSE_ACT_DESC = "act_desc";
+	public static final String RESPONSE_GOODS_NUMBER = "goods_number";
+	public static final String RESPONSE_START_TIME = "start_time";
+	public static final String RESPONSE_END_TIME = "end_time";
+	public static final String RESPONSE_RESTRICT_AMOUNT = "restrict_amount";
+	public static final String RESPONSE_GIFT_INTEGRAL = "gift_integral";
+	public static final String RESPONSE_FORMATED_CUR_PRICE = "formated_cur_price";
+	public static final String RESPONSE_PRICE_LADDER = "price_ladder";
+	public static final String RESPONSE_GOODS_WEIGHT = "goods_weight";
+	public static final String RESPONSE_COMMODITY_PACKAGING = "commodity_packaging";
+
+	public static final String RESPONSE_IS_ATTENTION = "is_attention";
+
+}

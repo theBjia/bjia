@@ -1,0 +1,113 @@
+package com.llkj.newbjia.adpater;
+
+/**
+ * 文章详情页图片适配器
+ * 
+ */
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.llkj.newbjia.R;
+
+@SuppressLint("UseSparseArrays")
+public class MainAdapter extends BaseAdapter {
+
+	private LayoutInflater inflater;
+	protected Map<Integer, View> viewMap = new HashMap<Integer, View>();
+	@SuppressWarnings("rawtypes")
+	private ArrayList list;
+	private Context context;
+
+	@SuppressWarnings("rawtypes")
+	public MainAdapter(Context context, ArrayList list) {
+		this.inflater = LayoutInflater.from(context);
+		this.list = list;
+		this.context = context;
+	}
+
+	@SuppressWarnings("rawtypes")
+	public void notifyDataSetChanged(ArrayList arrayList) {
+		viewMap.clear();
+		this.notifyDataSetChanged();
+
+	}
+
+	@Override
+	public int getCount() {
+		// TODO Auto-generated method stub
+		return list.size();
+	}
+
+	@Override
+	public Object getItem(int position) {
+		// TODO Auto-generated method stub
+		return list.get(position);
+	}
+
+	@Override
+	public long getItemId(int position) {
+		// TODO Auto-generated method stub
+		return position;
+	}
+
+	@Override
+	public View getView(final int position, View convertView, ViewGroup parent) {
+		// TODO Auto-generated method stub
+		ViewHolder holder;
+		View pv;
+		if (viewMap.get(position) == null) {
+			pv = inflater.inflate(R.layout.item_main, null);
+			holder = new ViewHolder();
+			holder.tv_conent_two = (TextView) pv
+					.findViewById(R.id.tv_conent_two);
+			holder.tv_conent_one = (TextView) pv
+					.findViewById(R.id.tv_conent_one);
+			holder.iv_content = (ImageView) pv.findViewById(R.id.iv_content);
+			holder.iv_cart = (ImageView) pv.findViewById(R.id.iv_cart);
+			pv.setTag(holder);
+			viewMap.put(position, pv);
+
+		} else {
+			pv = viewMap.get(position);
+			holder = (ViewHolder) pv.getTag();
+		}
+
+		HashMap map = (HashMap) list.get(position);
+		if (map.containsKey("goods_name")) {
+
+		}
+		if (map.containsKey("goods_img")) {
+
+		}
+		if (map.containsKey("last_price")) {
+
+		}
+
+		if (map.containsKey("name")) {
+
+		}
+		if (map.containsKey("promote_price")) {
+
+		}
+
+		return pv;
+	}
+
+	class ViewHolder {
+		TextView tv_conent_one, tv_conent_two;
+		ImageView iv_content, iv_cart;
+
+	}
+
+}

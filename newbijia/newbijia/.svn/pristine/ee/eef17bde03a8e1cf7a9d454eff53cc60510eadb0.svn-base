@@ -1,0 +1,117 @@
+package com.llkj.newbjia.friend;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build.VERSION;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.provider.ContactsContract;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.LinearLayout;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.MyClicker;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.adpater.AddFriendShequAdpter;
+import com.llkj.newbjia.adpater.AddressBookAdpter;
+import com.llkj.newbjia.adpater.NewFriendAdapter;
+import com.llkj.newbjia.bean.UserInfoBean;
+import com.llkj.newbjia.customview.MyListView;
+import com.llkj.newbjia.sortlistview.CharacterParser;
+import com.llkj.newbjia.sortlistview.PinyinComparator;
+import com.llkj.newbjia.sortlistview.SortModel;
+import com.llkj.newbjia.utils.StringUtil;
+import com.llkj.newbjia.utils.ToastUtil;
+
+/**
+ * 关于我们页
+ * 
+ * @author John
+ * 
+ */
+public class AddFriendShequActivity extends BaseActivity implements
+		OnClickListener, MyClicker {
+
+	private AddFriendShequAdpter adapterone, adaptertwo;
+	private ArrayList arrayList;
+	private MyListView mlv_no_add, mlv_add;
+	private LinearLayout ll_title_back;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.layout_sheququan);
+
+		initView();
+		initData();
+		initListener();
+
+	}
+
+	private void initView() {
+		mlv_no_add = (MyListView) findViewById(R.id.mlv_no_add);
+
+		mlv_add = (MyListView) findViewById(R.id.mlv_add);
+		ll_title_back = (LinearLayout) findViewById(R.id.ll_title_back);
+
+	}
+
+	private void initData() {
+
+		arrayList = new ArrayList();
+		for (int i = 0; i < 10; i++) {
+			arrayList.add("测试" + i);
+		}
+
+		adapterone = new AddFriendShequAdpter(this, arrayList, 0, this);
+		adaptertwo = new AddFriendShequAdpter(this, arrayList, 1, this);
+		mlv_no_add.setAdapter(adapterone);
+		mlv_add.setAdapter(adaptertwo);
+
+	}
+
+	private void initListener() {
+		ll_title_back.setOnClickListener(this);
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.ll_title_back:
+			finish();
+			break;
+
+		}
+	}
+
+	@Override
+	public void myClick(View view, int type) {
+		// TODO Auto-generated method stub
+
+		switch (type) {
+		case 0:
+
+			ToastUtil.makeShortText(this, "添加成功");
+
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public void myLongClick(View view, int type) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

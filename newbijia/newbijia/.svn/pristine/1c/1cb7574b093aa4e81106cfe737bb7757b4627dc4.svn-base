@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView 
+        android:layout_width="69dp"
+        android:layout_height="69dp"
+        android:id="@+id/slidImgId"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/accbtn"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        />
+    
+    <View
+            android:id="@+id/ImageView08"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/slidImgId"
+            android:layout_marginLeft="10dp"
+            android:background="#cccccc" />
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="果蔬类"
+        android:layout_toRightOf="@id/slidImgId"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="19dp"
+        android:id="@+id/slid_ty_item_textId"
+        android:textColor="#2a2a2a"
+        />
+    
+    <ImageView 
+        android:layout_marginRight="19dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/to_right_back_img"
+        android:id="@+id/toRigteId"
+        />
+
+</RelativeLayout>

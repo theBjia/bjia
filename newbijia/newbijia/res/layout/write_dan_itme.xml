@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAFAFA" >
+
+    <RelativeLayout
+        android:id="@+id/rl_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp" >
+
+        <RelativeLayout
+            android:id="@+id/RelativeLayout03"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/good_img"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/shangpinkuang" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/RelativeLayout04"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/RelativeLayout03" >
+
+            <TextView
+                android:id="@+id/tv_goods_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:text="海南柠檬"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_toRightOf="@id/tv_goods_name"
+                android:text="¥9.00元"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/tv_money"
+                android:layout_toRightOf="@id/tv_money"
+                android:text="x1"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_w"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_goods_name"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center_horizontal"
+                android:text="规        格："
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_weight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tv_w"
+                android:layout_below="@id/tv_money"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@id/tv_w"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_p"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_w"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="5dp"
+                android:text="包        装："
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_pakge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tv_p"
+                android:layout_below="@id/tv_weight"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@id/tv_p"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:src="@drawable/torriyte" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="5dp"
+        android:background="#dbdbdb" />
+
+</RelativeLayout>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <include
+        android:id="@+id/tiid"
+        android:layout_alignParentTop="true"
+        layout="@layout/stub_title" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/tiid" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/iv_xiangji"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/quanzi_xiangji" />
+
+            <ImageView
+                android:id="@+id/iv_xiangce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/iv_xiangji"
+                android:layout_marginLeft="30dp"
+                android:layout_toRightOf="@+id/iv_xiangji"
+                android:src="@drawable/quanzi_xiangce" />
+
+            <com.llkj.newbjia.customview.MyGridView
+                android:id="@+id/mgv_content"
+                android:layout_width="fill_parent"
+                android:layout_height="100dp"
+                android:layout_below="@+id/iv_xiangji"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:horizontalSpacing="10dp"
+                android:numColumns="3"
+                android:verticalSpacing="10dp" >
+            </com.llkj.newbjia.customview.MyGridView>
+
+            <EditText
+                android:id="@+id/editText1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/mgv_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/publish_bg"
+                android:gravity="top|left"
+                android:hint="请输入内容"
+                android:maxLines="5"
+                android:minHeight="100dp"
+                android:padding="5dp"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/button1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/editText1"
+                android:layout_below="@+id/editText1"
+                android:layout_marginTop="31dp"
+                android:background="@drawable/publishcomplete"
+                android:text="完成"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/button1"
+                android:layout_alignRight="@+id/editText1"
+                android:background="@drawable/publiscancel"
+                android:text="取消"
+                android:textColor="@android:color/white" />
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

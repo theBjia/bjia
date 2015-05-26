@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eeeeee" >
+
+    <include
+        android:id="@+id/relativeLayout1"
+        layout="@layout/stub_title" />
+    
+    <LinearLayout
+        android:id="@+id/ll_Show"
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:layout_below="@+id/relativeLayout1"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/t1"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        >
+        <TextView 
+            android:id="@+id/tv_Yes"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="可用"
+            android:gravity="center"
+            android:textColor="#eaf7f2"/>
+        
+        <TextView 
+            android:id="@+id/tv_No"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="不可用"
+            android:gravity="center"
+            android:textColor="#3ab483"/>
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/lv_Coupon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ll_Show"
+        android:layout_alignRight="@+id/ll_Show"
+        android:layout_below="@+id/ll_Show" >
+
+    </ListView>
+
+</RelativeLayout>

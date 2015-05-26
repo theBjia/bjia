@@ -1,0 +1,316 @@
+package com.llkj.newbjia.quanzi;
+
+import java.io.IOException;
+import java.security.PublicKey;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.MyApplication;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.adpater.FenLeiAdapter;
+import com.llkj.newbjia.adpater.PublishPicAdpter;
+import com.llkj.newbjia.bean.ResponseBean;
+import com.llkj.newbjia.bean.UserInfoBean;
+import com.llkj.newbjia.customview.MyGridView;
+import com.llkj.newbjia.http.PoCService;
+import com.llkj.newbjia.utils.ImageOperate;
+import com.llkj.newbjia.utils.StringUtil;
+import com.llkj.newbjia.utils.ToastUtil;
+import com.llkj.newbjia.utils.UploadFile;
+import com.llkj.newbjia.utils.UploadFile.OnUploadFileForResultListener;
+import com.llkj.newbjia.utils.Utils;
+
+public class PublishActivity extends BaseActivity implements
+		OnUploadFileForResultListener, OnClickListener {
+
+	private MyGridView mGridView;
+	@SuppressWarnings("rawtypes")
+	private ArrayList arrayList;
+	private PublishPicAdpter adapter;
+	private UploadFile uploadfile;
+	private ArrayList<String> picids;
+	private static final int REQUEST_CODE_CAMERA = 0;
+	private static final int REQUEST_CODE_GALLERY = 1;
+	private Bitmap bum;
+	private ImageView iv_xiangji, iv_xiangce;
+	private int mRequestId;
+	private Button bt_ok, bt_no;
+	private Intent bigIntent;
+	private String type, uid, id, content;
+	private EditText et_content;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.layout_publish);
+		setTitle(R.string.publish, true, R.string.kongzifuchuan, false,
+				R.string.kongzifuchuan);
+
+		initView();
+		initListener();
+		initData();
+
+	}
+
+	private void initView() {
+		// TODO Auto-generated method stub
+
+		mGridView = (MyGridView) findViewById(R.id.mgv_content);
+		iv_xiangji = (ImageView) findViewById(R.id.iv_xiangji);
+		iv_xiangce = (ImageView) findViewById(R.id.iv_xiangce);
+		bt_ok = (Button) findViewById(R.id.bt_ok);
+		bt_no = (Button) findViewById(R.id.bt_no);
+		et_content = (EditText) findViewById(R.id.et_content);
+
+	}
+
+	private void initData() {
+		bigIntent = getIntent();
+		uid = UserInfoBean.getUserInfo(this).getUid();
+		if (bigIntent.hasExtra("id")) {
+			id = bigIntent.getStringExtra("id");
+
+		}
+		if (bigIntent.hasExtra("type")) {
+			type = bigIntent.getStringExtra("type");
+		}
+		// TODO Auto-generated method stub
+		uploadfile = new UploadFile();
+		uploadfile.setListener(this);
+		picids = new ArrayList<String>();
+		arrayList = new ArrayList();
+		adapter = new PublishPicAdpter(this, arrayList);
+		mGridView.setAdapter(adapter);
+	}
+
+	private void initListener() {
+		// TODO Auto-generated method stub
+		mGridView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				arrayList.remove(position);
+				picids.remove(position);
+				adapter.notifyDataSetChanged();
+
+			}
+		});
+		iv_xiangji.setOnClickListener(this);
+		iv_xiangce.setOnClickListener(this);
+		bt_ok.setOnClickListener(this);
+		bt_no.setOnClickListener(this);
+	}
+
+	/**
+	 * 通过相册获取头像
+	 */
+	private void getAvatarFromGallery() {
+		Intent intent = new Intent();
+		intent.setType("image/*");
+		intent.setAction(Intent.ACTION_GET_CONTENT);
+		startActivityForResult(intent, REQUEST_CODE_GALLERY);
+	}
+
+	/**
+	 * 通过拍照获取头像
+	 */
+	private void getAvatarFromCamera() {
+		Intent intent = Utils.photo(this);
+		startActivityForResult(intent, REQUEST_CODE_CAMERA);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == Activity.RESULT_OK) {
+
+			switch (requestCode) {
+			case REQUEST_CODE_CAMERA:
+				String path1;
+				try {
+					path1 = ImageOperate.revitionImageSize(Utils.path, this);
+
+					BitmapFactory.Options option = new BitmapFactory.Options();
+					option.inSampleSize = 2;
+
+					if (!StringUtil.isEmpty(path1)) {
+						bum = BitmapFactory.decodeFile(path1, option);
+						showWaitDialog();
+						uploadfile.uploadImg(this, bum);
+					} else {
+						dismissDialog();
+						ToastUtil.makeShortText(this, "文件错误");
+					}
+
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+				break;
+			case REQUEST_CODE_GALLERY:
+				if (data != null) {
+					Uri selectedImage = data.getData();
+					String[] filePathColumns = { MediaStore.Images.Media.DATA };
+					Cursor c = this.getContentResolver().query(selectedImage,
+							filePathColumns, null, null, null);
+					c.moveToFirst();
+					int columnIndex = c.getColumnIndex(filePathColumns[0]);
+					String picturePath = c.getString(columnIndex);
+					try {
+						picturePath = ImageOperate.revitionImageSize(
+								picturePath, this);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					BitmapFactory.Options option = new BitmapFactory.Options();
+					option.inSampleSize = 2;
+					Bitmap bm = BitmapFactory.decodeFile(picturePath, option);
+					if (bm != null) {
+						showWaitDialog();
+						uploadfile.uploadImg(this, bm);
+					}
+
+				} else {
+					dismissDialog();
+					ToastUtil.makeShortText(this, "文件错误");
+				}
+				break;
+
+			default:
+				break;
+			}
+		}
+	}
+
+	@SuppressWarnings({ "unchecked" })
+	@Override
+	public void onResultListener(boolean isUploadSuccess, int state,
+			final String pic_id, final String message, final String url,
+			String path) {
+		// TODO Auto-generated method stub
+		if (isUploadSuccess) {
+			dismissDialog();
+			if (state == 1) {
+				MyApplication.handler.post(new Runnable() {
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						picids.add(pic_id);
+						arrayList.add(getMap(pic_id, url));
+						adapter.notifyDataSetChanged();
+						ToastUtil.makeLongText(PublishActivity.this, "上传成功");
+					}
+				});
+
+			} else {
+				MyApplication.handler.post(new Runnable() {
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						ToastUtil.makeLongText(PublishActivity.this, message);
+					}
+				});
+			}
+
+		}
+
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public HashMap getMap(String pic_id, String url) {
+		HashMap map = new HashMap();
+		map.put("url", url);
+		map.put("pic_id", pic_id);
+		return map;
+	}
+
+	@Override
+	public void onClick(View arg0) {
+		// TODO Auto-generated method stub
+		switch (arg0.getId()) {
+		case R.id.iv_xiangji:
+			// 拍照
+			if (arrayList.size() < 9) {
+				getAvatarFromCamera();
+			} else {
+				ToastUtil.makeShortText(this, "最多可以添加9张图片");
+			}
+			break;
+		case R.id.iv_xiangce:
+			if (arrayList.size() < 9) {
+				getAvatarFromGallery();
+			} else {
+				ToastUtil.makeShortText(this, "最多可以添加9张图片");
+			}
+			break;
+		case R.id.bt_ok:
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i < picids.size(); i++) {
+				sb.append(picids.get(i) + ",");
+			}
+			content = et_content.getText() + "";
+			if (StringUtil.isEmpty(content)) {
+				ToastUtil.makeShortText(this, R.string.contentnotisnull);
+				return;
+			}
+			if (sb.length() > 0)
+				sb.substring(0, sb.length() - 1);
+			mRequestId = mRequestManager.penAdd(sb.toString(), uid, content,
+					type, id, true);
+
+			break;
+		case R.id.bt_no:
+			this.finish();
+			break;
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public void onRequestFinished(int requestId, int resultCode, Bundle payload) {
+		super.onRequestFinished(requestId, resultCode, payload);
+		if (resultCode == PoCService.SUCCESS_CODE) {
+			if (mRequestId == requestId) {
+				int result = payload.getInt(ResponseBean.RESPONSE_STATE);
+				if (result == 1) {
+					ToastUtil.makeShortText(this, "发送成功");
+					et_content.setText("");
+					arrayList.clear();
+					picids.clear();
+					adapter.notifyDataSetChanged();
+					Intent data = new Intent();
+					data.putExtra("Refresh", true);
+					setResult(100, data);
+				} else {
+					String msg = payload
+							.getString(ResponseBean.RESPONSE_MESSAGE);
+					ToastUtil.makeShortText(this, msg);
+				}
+
+			}
+
+		}
+	}
+}

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:background="#dcdcdc"
+    >
+<include 
+    layout="@layout/title_bar"
+    android:id="@+id/CattId"
+    
+    />
+
+<ScrollView 
+       android:layout_below="@+id/CattId"
+      android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    >
+<RelativeLayout 
+     android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    
+    
+    >
+<ListView 
+ 
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/My_carnTId"
+    android:background="#ffffff"
+    
+    ></ListView>
+
+</RelativeLayout>
+</ScrollView>
+
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="50dp"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentLeft="true"
+    android:background="#7f7f7f" >
+
+    <Button
+        android:id="@+id/jiesuanID"
+        android:layout_width="75dp"
+        android:layout_height="31dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:background="#3ab485"
+        android:text="结算"
+        android:textColor="#ffffff"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="19dp"
+        android:text="总额："
+        android:textSize="16sp"
+        android:layout_marginTop="3dp" />
+
+    <TextView
+        android:id="@+id/tv_rental"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView1"
+        android:layout_below="@+id/textView1"
+        android:text="¥300.00元" 
+        />
+
+</RelativeLayout>
+
+</RelativeLayout>

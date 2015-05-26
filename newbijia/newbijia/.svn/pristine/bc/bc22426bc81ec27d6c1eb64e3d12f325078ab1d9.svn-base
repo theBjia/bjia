@@ -1,0 +1,104 @@
+package com.llkj.newbjia.adpater;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.utils.FinalBitmapUtil;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+public class AceeGoodAdressAdapter extends BaseAdapter{
+	private LayoutInflater inflater;
+	private ArrayList arrayList;
+	private Map<Integer, View>map = new HashMap<Integer, View>();
+	private Context context;
+	private FinalBitmapUtil bitmapUtil;
+	private Onclick onclick; 
+	
+	public AceeGoodAdressAdapter(Context context,ArrayList list,Onclick onclick){
+		this.inflater = LayoutInflater.from(context);
+		this.context = context;
+		this.onclick = onclick;
+		setData(list);
+		this.bitmapUtil = FinalBitmapUtil.create(context);
+	}
+	private void setData(ArrayList list) {
+		if(null != list){
+			this.arrayList = list;
+		}else{
+			this.arrayList = new ArrayList();
+		}
+	}
+	
+	public void notifyDataSetChanged(ArrayList list) {
+		setData(list);
+		map.clear();
+		this.notifyDataSetChanged();
+	}
+	@Override
+	public int getCount() {
+		return arrayList.size();
+	}
+
+	@Override
+	public Object getItem(int position) {
+		return arrayList.get(position);
+	}
+
+	@Override
+	public long getItemId(int position) {
+		return position;
+	}
+
+	@Override
+	public View getView(final int position, View convertView, ViewGroup parent) {
+		HoldView holdView;
+		View pv;
+		if(null == map.get(position)){
+			pv = inflater.inflate(R.layout.acee_good_adress_item, null);
+			holdView = new HoldView();
+			holdView.im_penselId = (ImageView) pv.findViewById(R.id.im_penselId);
+			holdView.tv_uname_goodsId = (TextView) pv.findViewById(R.id.tv_uname_goodsId);
+			holdView.tv_phonGoodsId = (TextView) pv.findViewById(R.id.tv_phonGoodsId);
+			holdView.tv_adres_goodsId = (TextView) pv.findViewById(R.id.tv_adres_goodsId);
+			
+			holdView.im_penselId.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					onclick.myClick(v, 1);
+				}
+			});
+			HashMap item = (HashMap) arrayList.get(position);
+			if(item.containsKey("name")){
+				String name = (String) item.get("name");
+				holdView.tv_uname_goodsId.setText(name);
+			}
+			pv.setTag(holdView);
+			map.put(position, pv);
+		}else{
+			pv= map.get(position);
+			holdView = (HoldView) pv.getTag();
+		}
+		return pv;
+	}
+	
+	class HoldView{
+		ImageView im_penselId;
+		TextView tv_uname_goodsId,tv_phonGoodsId,tv_adres_goodsId;
+	}
+	
+	public interface Onclick{
+		void myClick(View v,int type);//type 为1 点击
+		void myLongClick(View v,int type);
+	}
+}

@@ -1,0 +1,251 @@
+package com.llkj.newbjia.quanzi;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.BaseFragment;
+import com.llkj.newbjia.MainActivity;
+import com.llkj.newbjia.MyApplication;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.adpater.QuanzhiAdapter;
+import com.llkj.newbjia.adpater.QuanzhiAdapter.MyClicker;
+import com.llkj.newbjia.customview.XListView;
+import com.llkj.newbjia.customview.XListView.IXListViewListener;
+import com.llkj.newbjia.utils.LogUtil;
+import com.llkj.newbjia.utils.StringUtil;
+import com.llkj.newbjia.utils.ToastUtil;
+
+public class QuanzhiActivity extends BaseActivity implements OnClickListener,
+		IXListViewListener, MyClicker {
+
+	private XListView listview;
+	private ArrayList arrayList;
+	private RelativeLayout rl_title_back;
+	private QuanzhiAdapter adapter;
+	private PopupWindow pw, reply_pw;
+	private View view;
+	private RelativeLayout rl_pinglun, rl_zan;
+	private HashMap map;
+	private ImageView iv_xiangji;
+	protected static final int ACTION_HIDE_IMM = 300;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.layout_quanzhi);
+		initView();
+		initListener();
+		initData();
+	}
+
+	private void initData() {
+		arrayList = new ArrayList();
+		for (int i = 0; i < 10; i++) {
+			arrayList.add("测试" + i);
+		}
+		adapter = new QuanzhiAdapter(this, arrayList, this);
+		listview.setAdapter(adapter);
+	}
+
+	private void initListener() {
+		rl_title_back.setOnClickListener(this);
+		listview.setXListViewListener(this);
+		listview.setPullLoadEnable(true);
+		listview.setPullRefreshEnable(true);
+		rl_pinglun.setOnClickListener(this);
+		rl_zan.setOnClickListener(this);
+		iv_xiangji.setOnClickListener(this);
+
+	}
+
+	public void stopXlistview() {
+		listview.stopLoadMore();
+		listview.stopRefresh();
+
+	}
+
+	private void initView() {
+
+		listview = (XListView) findViewById(R.id.xlv_content);
+		rl_title_back = (RelativeLayout) findViewById(R.id.rl_title_back);
+		view = LayoutInflater.from(this).inflate(
+				R.layout.item_quanzhi_popwindow, null);
+		rl_pinglun = (RelativeLayout) view.findViewById(R.id.rl_pinglun);
+		rl_zan = (RelativeLayout) view.findViewById(R.id.rl_zan);
+		pw = new PopupWindow(view);
+		pw.setWidth(LayoutParams.WRAP_CONTENT);
+		pw.setHeight(LayoutParams.WRAP_CONTENT);
+		pw.setBackgroundDrawable(new BitmapDrawable());
+		pw.setOutsideTouchable(true);
+		pw.setFocusable(true);
+		iv_xiangji = (ImageView) findViewById(R.id.iv_xiangji);
+		// pw.setAnimationStyle(R.style.PopupAnimation);
+
+	}
+
+	@Override
+	public void onClick(View v) {
+		Intent intent;
+		switch (v.getId()) {
+		case R.id.rl_title_back:
+			this.finish();
+			break;
+		case R.id.rl_zan:
+			StringUtil.dismiss(pw);
+			break;
+		case R.id.rl_pinglun:
+			sendCommentDialog("111", "张三", "10");
+			StringUtil.dismiss(pw);
+			break;
+		case R.id.iv_xiangji:
+			intent = new Intent(this, PublishActivity.class);
+			startActivity(intent);
+		default:
+			break;
+		}
+
+	}
+
+	class MyTask implements Runnable {
+
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			stopXlistview();
+		}
+
+	}
+
+	@Override
+	public void onRefresh() {
+		// TODO Auto-generated method stub
+		MyApplication.hanlder.postDelayed(new MyTask(), 3000);
+	}
+
+	@Override
+	public void onLoadMore() {
+		// TODO Auto-generated method stub
+		MyApplication.hanlder.postDelayed(new MyTask(), 3000);
+	}
+
+	@Override
+	public void myClick(View v, int type) {
+		// TODO Auto-generated method stub
+
+		switch (type) {
+		case 0:
+			if (pw != null && !pw.isShowing()) {
+				pw.showAsDropDown(v, StringUtil.dip2px(this, -200),
+						StringUtil.dip2px(this, -30));
+			}
+			break;
+		case 1:
+			sendCommentDialog("111", "张三", "10");
+			StringUtil.dismiss(pw);
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	private void sendCommentDialog(final String commentId,
+			final String to_name, final String fid) {
+		if (reply_pw != null && reply_pw.isShowing()) {
+			reply_pw.dismiss();
+		} else {
+			final View view = LayoutInflater.from(this).inflate(
+					R.layout.reply_pop_window, null);
+			reply_pw = new PopupWindow(view,
+					ViewGroup.LayoutParams.MATCH_PARENT,
+					ViewGroup.LayoutParams.MATCH_PARENT);
+			final EditText et_replyInput = (EditText) view
+					.findViewById(R.id.et_input);
+			InputMethodManager imm = (InputMethodManager) et_replyInput
+					.getContext()
+					.getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+			// 下面这行代码的作用:输入法在弹出的时候整个Layout就是重新编排布局，重新分配多余空间，输入法退出的时候同理。
+			reply_pw.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+			Button btn_send = (Button) view.findViewById(R.id.btn_send);
+			btn_send.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					String content = et_replyInput.getText().toString().trim();
+
+					if (StringUtil.isEmpty(content)) {
+						ToastUtil.makeLongText(QuanzhiActivity.this,
+								R.string.contentnotisnull);
+						return;
+					}
+					MyApplication.hanlder.post(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							hideSoft();
+						}
+					});
+					reply_pw.dismiss();
+				}
+			});
+			reply_pw.setOutsideTouchable(true);
+			reply_pw.setFocusable(true);
+			view.setOnTouchListener(new OnTouchListener() {
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					int height = view.findViewById(R.id.ll_reply_input)
+							.getTop();
+					int y = (int) event.getY();
+					if (y < height) {
+						MyApplication.hanlder.post(new Runnable() {
+
+							@Override
+							public void run() {
+								// TODO Auto-generated method stub
+								hideSoft();
+							}
+						});
+						reply_pw.dismiss();
+					}
+					return true;
+				}
+			});
+			// 此行代码可以在返回键按下的时候,使pw消失.
+			reply_pw.setBackgroundDrawable(new BitmapDrawable());
+			reply_pw.setAnimationStyle(R.style.PopupAnimation);
+			reply_pw.showAtLocation(this.getWindow().getDecorView(),
+					Gravity.BOTTOM, 0, 0);
+		}
+	}
+
+	public void hideSoft() {
+		LogUtil.e("hideSoft");
+		InputMethodManager imm = (InputMethodManager) this
+				.getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(this.getWindow().getDecorView()
+				.getWindowToken(), 0);
+	}
+}

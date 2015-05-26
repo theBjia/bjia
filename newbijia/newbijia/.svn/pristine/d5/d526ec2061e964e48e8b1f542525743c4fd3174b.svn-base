@@ -1,0 +1,51 @@
+package com.llkj.newbjia.mybijia;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import android.os.Bundle;
+import android.widget.ListView;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.adpater.MyMoneyAdapter;
+/**
+ * 我的彼佳币页
+ * @author John
+ *
+ */
+public class MyMoneyActivity extends BaseActivity{
+	private ListView lv_Money;
+	private ArrayList arrayList;
+	private MyMoneyAdapter adapter;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.my_bijia_money);
+		setTitle(R.string.mymoeny, true, R.string.kong, true, R.string.kong);
+		initView();
+		initData();
+		initListener();
+	}
+
+	private void initView() {
+		lv_Money = (ListView) findViewById(R.id.lv_Money);
+	}
+
+	private void initData() {
+		arrayList = new ArrayList();
+		for(int i = 0;i<3;i++){
+			HashMap hashMap = new HashMap();
+			hashMap.put("Time", "2014-06-20");
+			arrayList.add(hashMap);
+		}
+		adapter = new MyMoneyAdapter(MyMoneyActivity.this, arrayList);
+		lv_Money.setAdapter(adapter);
+	}
+
+	private void initListener() {
+		
+	}
+}

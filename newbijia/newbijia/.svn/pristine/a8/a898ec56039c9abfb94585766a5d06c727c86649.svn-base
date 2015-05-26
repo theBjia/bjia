@@ -1,0 +1,174 @@
+package com.llkj.newbjia.shoppingcart;
+
+import java.io.Serializable;
+import java.util.HashMap;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.bean.ResponseBean;
+import com.llkj.newbjia.bean.UserInfoBean;
+import com.llkj.newbjia.http.PoCService;
+import com.llkj.newbjia.utils.StringUtil;
+import com.llkj.newbjia.utils.ToastUtil;
+
+/**
+ * 编辑地址页
+ * 
+ * @author John
+ * 
+ */
+public class EditAdressActivity extends BaseActivity implements OnClickListener {
+	private EditText pnoheeId, aceeGoodsId;
+	private TextView self_ponteId, tvRight;
+	private int mAddressEdit;
+	private String id;
+	private String uid;
+	private String consignee;
+	private String Chphone;
+	private String name;
+	private String aceeGoods, content, otherId;
+	private Intent bigIntent;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.edit_adress);
+		setTitle(R.string.editadress, true, R.string.kong, true, R.string.over);
+		initView();
+		initData();
+		initListener();
+	}
+
+	private void initView() {
+		aceeGoodsId = (EditText) findViewById(R.id.aceeGoodsId);
+		pnoheeId = (EditText) findViewById(R.id.pnoheeId);
+		self_ponteId = (TextView) findViewById(R.id.self_ponteId);
+		tvRight = (TextView) findViewById(R.id.tv_title_right);
+	}
+
+	private void initData() {
+		bigIntent = getIntent();
+		if (bigIntent.hasExtra(ResponseBean.RESPONSE_NAME)) {
+			name = bigIntent.getStringExtra(ResponseBean.RESPONSE_NAME);
+		}
+		if (bigIntent.hasExtra(ResponseBean.RESPONSE_ID)) {
+			id = bigIntent.getStringExtra(ResponseBean.RESPONSE_ID);
+		}
+		if (bigIntent.hasExtra(ResponseBean.RESPONSE_CONSIGNEE)) {
+			consignee = bigIntent
+					.getStringExtra(ResponseBean.RESPONSE_CONSIGNEE);
+		}
+		if (bigIntent.hasExtra(ResponseBean.RESPONSE_PHONE)) {
+			Chphone = bigIntent.getStringExtra(ResponseBean.RESPONSE_PHONE);
+		}
+		uid = UserInfoBean.getUserInfo(this).getUid();
+
+		aceeGoodsId.setText(consignee);
+		pnoheeId.setText(Chphone);
+		self_ponteId.setText(name);
+	}
+
+	private void initListener() {
+		self_ponteId.setOnClickListener(this);
+		tvRight.setOnClickListener(this);
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.self_ponteId:
+			Intent intent = new Intent(this, SelfDesionActivity.class);
+			startActivityForResult(intent, 200);
+
+			break;
+
+		case R.id.tv_title_right:
+
+			if (TextUtils.isEmpty(consignee)) {
+				ToastUtil.makeShortText(this, "收货人不能为空");
+				return;
+			}
+			if (StringUtil.isEmpty(Chphone)
+					|| !StringUtil.isPhoneNumberValid(Chphone)) {
+				ToastUtil.makeShortText(this, "请输入正确手机号码");
+				return;
+			}
+			HashMap map = new HashMap();
+			map.put(ResponseBean.RESPONSE_CONSIGNEE, consignee);
+			map.put(ResponseBean.RESPONSE_PHONE, Chphone);
+			map.put(ResponseBean.RESPONSE_ZITI, otherId);
+			map.put(ResponseBean.RESPONSE_ID, id);
+			map.put(ResponseBean.RESPONSE_ZITI_NAME, content);
+			Intent data = new Intent();
+			Bundle bData = new Bundle();
+			bData.putSerializable("map", (Serializable) map);
+			data.putExtras(bData);
+			setResult(200, data);
+			this.finish();
+
+			// mAddressEdit = mRequestManager.getAddRessEdit(consignee, Chphone,
+			// otherId, uid, true);
+
+			break;
+		}
+
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		if (data != null) {
+			switch (requestCode) {
+			case 200:
+				if (data.hasExtra(ResponseBean.RESPONSE_NAME)) {
+					content = data.getStringExtra(ResponseBean.RESPONSE_NAME);
+					self_ponteId.setText(content);
+				}
+				if (data.hasExtra(ResponseBean.RESPONSE_ID)) {
+					otherId = data.getStringExtra(ResponseBean.RESPONSE_ID);
+
+				}
+				break;
+
+			default:
+				break;
+			}
+		}
+	}
+
+	@Override
+	public void onRequestFinished(int requestId, int resultCode, Bundle payload) {
+		super.onRequestFinished(requestId, resultCode, payload);
+		if (resultCode == PoCService.SUCCESS_CODE) {
+			if (mAddressEdit == requestId) {
+				int result = payload.getInt(ResponseBean.RESPONSE_STATE);
+				if (result == 1) {
+					ToastUtil.makeShortText(this, R.string.PWDok);
+					HashMap map = new HashMap();
+					map.put(ResponseBean.RESPONSE_CONSIGNEE, aceeGoods);
+					map.put(ResponseBean.RESPONSE_PHONE, Chphone);
+					map.put(ResponseBean.RESPONSE_ZITI, otherId);
+					map.put(ResponseBean.RESPONSE_ID, id);
+					Intent data = new Intent();
+					data.putExtra("map", map);
+					setResult(200, data);
+					this.finish();
+				} else {
+					String msg = payload
+							.getString(ResponseBean.RESPONSE_MESSAGE);
+					ToastUtil.makeShortText(this, msg);
+				}
+			}
+		}
+	}
+}

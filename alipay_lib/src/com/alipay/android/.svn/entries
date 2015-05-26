@@ -1,0 +1,19 @@
+8
+
+dir
+208
+svn://192.168.1.100/Android-yunshanghui/alipay_lib/src/com/alipay/android
+svn://192.168.1.100/Android-yunshanghui
+
+
+
+2014-06-10T08:41:22.746543Z
+208
+yu.jl
+
+
+svn:special svn:externals svn:needs-lock
+
+app
+dir
+

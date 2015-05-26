@@ -1,0 +1,52 @@
+package com.llkj.newbjia.mybijia;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import android.os.Bundle;
+import android.widget.ListView;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.adpater.FavoriteAdapter;
+/**
+ * 收藏夹页
+ * @author John
+ *
+ */
+public class FavoriteActivity extends BaseActivity{
+	
+	private ListView lv_History;
+	private ArrayList arrayList;
+	private FavoriteAdapter adapter;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.favorite);
+		setTitle(R.string.favorite, true,R.string.kong, true, R.string.kong);
+		initView();
+		initData();
+		initListener();
+	}
+
+	private void initView() {
+		lv_History = (ListView) findViewById(R.id.lv_History);
+	}
+
+	private void initData() {
+		arrayList = new ArrayList();
+		for(int i = 0;i<9;i++){
+			HashMap hashMap = new HashMap();
+			hashMap.put("name", "进口苹果");
+			arrayList.add(hashMap);
+		}
+		adapter = new FavoriteAdapter(FavoriteActivity.this, arrayList);
+		lv_History.setAdapter(adapter);
+	}
+
+	private void initListener() {
+		
+	}
+}

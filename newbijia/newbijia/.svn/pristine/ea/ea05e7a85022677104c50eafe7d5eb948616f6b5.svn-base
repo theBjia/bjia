@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+	
+
+            <RelativeLayout
+                android:id="@+id/rl_Address"
+                android:layout_width="fill_parent"
+                android:layout_height="100dp"
+                android:background="#3ab485" 
+                android:layout_marginTop="10dp">
+
+                <ImageView
+                    android:id="@+id/ImageView03"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="12dp"
+                    android:src="@drawable/witee" />
+
+
+                <ImageView
+                    android:id="@+id/ImageView02"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="12dp"
+                    android:src="@drawable/torriyte" />
+
+                <TextView
+                    android:id="@+id/tv_Adress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/TextView08"
+                    android:layout_alignTop="@+id/ImageView02"
+                    android:layout_marginTop="15dp"
+                    android:layout_toLeftOf="@+id/ImageView02"
+                    android:text="北京市朝阳区朝阳路67号财满街经贸中心1103自提点  "
+                    android:textColor="#ffffff"
+                    android:textSize="15sp" 
+                    android:layout_marginRight="10dp"/>
+
+                <TextView
+                    android:id="@+id/TextView08"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="24dp"
+                    android:layout_toRightOf="@+id/ImageView03"
+                    android:text="收货人:"
+                    android:textColor="#ffffff"
+                    android:textSize="20sp" 
+                    android:layout_marginTop="15dp"/>
+
+                <TextView
+                    android:id="@+id/TextView03"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/TextView06"
+                    android:layout_alignBottom="@+id/TextView06"
+                    android:layout_toRightOf="@+id/TextView06"
+                    android:text="1566666666"
+                    android:textColor="#ffffff"
+                    android:textSize="20sp" 
+                    android:layout_marginLeft="20dp"/>
+
+                <TextView
+                    android:id="@+id/TextView06"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/TextView08"
+                    android:layout_alignBottom="@+id/TextView08"
+                    android:layout_toRightOf="@+id/TextView08"
+                    android:text="王航"
+                    android:textColor="#ffffff"
+                    android:textSize="20sp"
+                    android:layout_marginLeft="10dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/RelativeLayout03"
+                android:layout_width="fill_parent"
+                android:layout_height="58dp"
+                android:layout_below="@+id/rl_Address"
+                android:layout_marginTop="15dp"
+                android:background="#ffffff" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:text="支付方式"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/TextView02"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="16dp"
+                    android:text="在线付款"
+                    android:textColor="#000000"
+                    android:textSize="12sp" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="#dbdbdb" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:background="#dbdbdb" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/RelativeLayout02"
+                android:layout_width="fill_parent"
+                android:layout_height="58dp"
+                android:layout_below="@+id/RelativeLayout03"
+                android:background="#ffffff" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:text="配送方式"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/TextView05"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="16dp"
+                    android:text="自提"
+                    android:textColor="#000000"
+                    android:textSize="12sp" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="#dbdbdb" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/RelativeLayout05"
+                android:layout_width="fill_parent"
+                android:layout_height="58dp"
+                android:layout_below="@+id/RelativeLayout02"
+                android:background="#ffffff" >
+
+                <TextView
+                    android:id="@+id/TextView04"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:text="自提时间"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/ImageView01"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="16dp"
+                    android:src="@drawable/to_right_back_img"
+                    android:text="2014.6.13 17:30:30 "
+                    android:textColor="#000000"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/TextView01"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="17dp"
+                    android:layout_toLeftOf="@+id/ImageView01"
+                    android:text="2014.6.13 17:30:30 "
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="#dbdbdb" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/RelativeLayout04"
+                android:layout_width="wrap_content"
+                android:layout_height="58dp"
+                android:layout_below="@+id/RelativeLayout05" >
+
+                <TextView
+                    android:id="@+id/TextView09"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginTop="22dp"
+                    android:text="订单明细"
+                    android:textColor="#4ab38b"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,108 @@
+package com.llkj.newbjia.login;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.MainActivity;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.bean.KeyBean;
+import com.llkj.newbjia.bean.ResponseBean;
+import com.llkj.newbjia.bean.UserInfoBean;
+import com.llkj.newbjia.http.PoCService;
+import com.llkj.newbjia.utils.LogUtil;
+import com.llkj.newbjia.utils.StringUtil;
+import com.llkj.newbjia.utils.ToastUtil;
+
+public class RegisterOneActivity extends BaseActivity implements
+		OnClickListener {
+	private EditText et_username, et_phone;
+
+	private Button btn_next;
+	private String username, phone;
+	private int mIsUserId;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.layout_rigester);
+		setTitle(R.string.register, true, R.string.kong, false,R.string.register);
+
+		initView();
+		initListener();
+		initData();
+	}
+
+	private void initData() {
+
+	}
+
+	private void initView() {
+
+		et_phone = (EditText) findViewById(R.id.et_phone);
+		et_username = (EditText) findViewById(R.id.et_username);
+		btn_next = (Button) findViewById(R.id.btn_next);
+	}
+
+	private void initListener() {
+
+		btn_next.setOnClickListener(this);
+	}
+
+	@Override
+	public void onClick(View arg0) {
+		switch (arg0.getId()) {
+		case R.id.btn_next:
+			username = et_username.getText().toString();
+			phone = et_phone.getText().toString();
+			if (StringUtil.isEmpty(username)) {
+				ToastUtil.makeLongText(this, "用户名不能为空");
+				return;
+			}
+			if (username.length() < 5 || username.length() > 10) {
+				ToastUtil.makeLongText(this, "用户名为5~10个字符");
+				return;
+			}
+			if (StringUtil.isEmpty(phone) || !StringUtil.isPhoneNumber(phone)) {
+				ToastUtil.makeLongText(this, R.string.phoneerr);
+				return;
+			}
+			if (StringUtil.isNetworkConnected(this)) {
+				mIsUserId = mRequestManager.isUser(phone, username, true);
+			} else {
+				ToastUtil.makeLongText(this, R.string.no_wangluo);
+			}
+
+			break;
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public void onRequestFinished(int requestId, int resultCode, Bundle payload) {
+		super.onRequestFinished(requestId, resultCode, payload);
+		if (resultCode == PoCService.SUCCESS_CODE) {
+			if (mIsUserId == requestId) {
+				int result = payload.getInt(ResponseBean.RESPONSE_STATE);
+				if (result == 1) {
+					Intent intent = new Intent(this, RegsterTwoActivity.class);
+					intent.putExtra(KeyBean.KEY_USERNAME, username);
+					intent.putExtra(KeyBean.KEY_PHONE, phone);
+					startActivity(intent);
+				} else {
+					String msg = payload
+							.getString(ResponseBean.RESPONSE_MESSAGE);
+					ToastUtil.makeShortText(this, msg);
+				}
+
+			}
+
+		}
+	}
+
+}

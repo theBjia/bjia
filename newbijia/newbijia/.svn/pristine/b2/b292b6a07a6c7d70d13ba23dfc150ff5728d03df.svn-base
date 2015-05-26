@@ -1,0 +1,9 @@
+package com.llkj.newbjia.bean;
+
+public class ResponseBean {
+	public static final String RESPONSE_STATE = "state";
+	public static final String RERSPONSE_URL = "url";
+	public static final String RESPONSE_PATH = "path";
+	public static final String RESPONSE_MESSAGE = "message";
+	public static final String RESPONSE_CODE = "code";
+}

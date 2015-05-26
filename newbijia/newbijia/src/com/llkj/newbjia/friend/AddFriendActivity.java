@@ -1,0 +1,168 @@
+package com.llkj.newbjia.friend;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.adpater.AddFriendAdapter;
+import com.llkj.newbjia.bean.ResponseBean;
+import com.llkj.newbjia.bean.UserInfoBean;
+import com.llkj.newbjia.http.PoCService;
+import com.llkj.newbjia.utils.StringUtil;
+import com.llkj.newbjia.utils.ToastUtil;
+
+/**
+ * 关于我们页
+ * 
+ * @author John
+ * 
+ */
+public class AddFriendActivity extends BaseActivity implements OnClickListener {
+	private ListView lv_content;
+	private AddFriendAdapter adapter;
+	private ArrayList arrayList;
+	private int mCommunityListId;
+	private String uid, xid, type, name;
+	private ImageView iv_seach;
+	private TextView tv_new_friend;
+	
+	private EditText et_content;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.layout_addfriend);
+		setTitle(R.string.addfriend, true, R.string.kong, true, R.string.newfriend);
+		initView();
+		initData();
+		initListener();
+
+		uid = UserInfoBean.getUserInfo(this).getUid();
+
+		if (StringUtil.isNetworkConnected(this)) {
+			if (!StringUtil.isEmpty(uid)) {
+				mCommunityListId = mRequestManager.communityList(uid, true);
+			} else {
+				ToastUtil.makeShortText(this, R.string.xiandenglu);
+			}
+
+		} else {
+			ToastUtil.makeShortText(this, R.string.no_wangluo);
+		}
+
+	}
+
+	private void initView() {
+		lv_content = (ListView) findViewById(R.id.lv_content);
+		iv_seach = (ImageView) findViewById(R.id.iv_seach);
+		et_content = (EditText) findViewById(R.id.et_content);
+		tv_new_friend = (TextView)findViewById(R.id.tv_title_right);
+		tv_new_friend.setClickable(true);
+	}
+
+	private void initData() {
+		arrayList = new ArrayList();
+		HashMap map = new HashMap();
+		map.put("id", "-1");
+		map.put("name", "从通讯录添加");
+		map.put("type", "-1");
+		arrayList.add(map);
+	}
+
+	private void initListener() {
+		iv_seach.setOnClickListener(this);
+		tv_new_friend.setOnClickListener(this);
+		lv_content.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				if (position == 0) {
+					startActivity(new Intent(getApplicationContext(),
+							AddressBookActivity.class));
+				} else {
+					HashMap map = (HashMap) arrayList.get(position);
+					if (map.containsKey("type")) {
+						type = map.get("type") + "";
+					}
+					if (map.containsKey("id")) {
+						xid = map.get("id") + "";
+					}
+					if (map.containsKey("name")) {
+						name = map.get("name") + "";
+					}
+					if (!StringUtil.isEmpty(xid)) {
+						Intent intent = new Intent(AddFriendActivity.this,
+								AddFriendShequActivity.class);
+						intent.putExtra("xid", xid);
+						intent.putExtra("type", type);
+						intent.putExtra("name", name);
+						startActivity(intent);
+					}
+
+				}
+			}
+		});
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.iv_seach:
+			String content = et_content.getText() + "";
+			if (!StringUtil.isEmpty(content)) {
+				Intent intent = new Intent(this, DetailInfoActivity.class);
+				intent.putExtra("key", content);
+				startActivity(intent);
+			} else {
+				ToastUtil.makeShortText(this, R.string.contentnotisnull);
+			}
+			break;
+		case R.id.tv_title_right:
+			Intent intent = new Intent(AddFriendActivity.this, NewFriendActivity.class);
+			startActivity(intent);
+			//startActivityForResult(intent, 100);
+			break;
+			
+			default:
+			break;
+
+		}
+	}
+
+	@Override
+	public void onRequestFinished(int requestId, int resultCode, Bundle payload) {
+		super.onRequestFinished(requestId, resultCode, payload);
+		if (resultCode == PoCService.SUCCESS_CODE) {
+			if (mCommunityListId == requestId) {
+				int result = payload.getInt(ResponseBean.RESPONSE_STATE);
+				if (result == 1) {
+					ArrayList newList = payload
+							.getParcelableArrayList(ResponseBean.RESPONSE_LIST);
+					arrayList.addAll(newList);
+					adapter = new AddFriendAdapter(this, arrayList);
+					lv_content.setAdapter(adapter);
+				} else {
+					String msg = payload
+							.getString(ResponseBean.RESPONSE_MESSAGE);
+					ToastUtil.makeShortText(this, msg);
+				}
+
+			}
+
+		}
+	}
+
+}

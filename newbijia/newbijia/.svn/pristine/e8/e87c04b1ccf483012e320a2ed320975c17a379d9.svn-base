@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eeeeee" >
+
+    <include
+        android:id="@+id/edta_titlId"
+        layout="@layout/stub_title" />
+
+    <RelativeLayout
+        android:id="@+id/acesRowid1"
+        android:layout_width="fill_parent"
+        android:layout_height="44dp"
+        android:layout_below="@id/edta_titlId"
+        android:layout_marginTop="10dp" 
+        android:background="#ffffff"
+        >
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#dadada" />
+
+        <EditText
+            android:id="@+id/aceeGoodsId"
+            android:layout_width="fill_parent"
+            android:layout_height="43dp"
+            android:layout_marginLeft="13dp"
+            android:background="@null"
+            android:hint="收货人" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/aceeGoodsId"
+            android:background="#dadada" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/acesRowid2"
+        android:layout_width="fill_parent"
+        android:layout_height="44dp"
+        android:layout_below="@id/acesRowid1"
+        android:layout_marginTop="10dp"
+        android:background="#ffffff"
+         >
+          <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#dadada" />
+
+        <EditText
+            android:id="@+id/pnoheeId"
+            android:layout_width="fill_parent"
+            android:layout_height="43dp"
+            android:layout_marginLeft="13dp"
+            android:background="@null"
+            android:hint="手机" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/pnoheeId"
+            android:background="#dadada" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/acesRowid3"
+        android:layout_width="fill_parent"
+        android:layout_height="44dp"
+        android:layout_below="@id/acesRowid2"
+        android:layout_marginTop="12dp" 
+        android:background="#ffffff"
+        >
+             <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#dadada" />
+             
+             
+        <TextView
+            android:id="@+id/self_ponteId"
+            android:layout_width="fill_parent"
+            android:layout_height="43dp"
+            android:layout_marginLeft="13dp"
+            android:background="@null"
+            android:hint="自提点" 
+            android:gravity="center_vertical"
+            android:textSize="18sp"
+            />
+        <ImageView 
+            android:layout_width="10dp"
+            android:layout_height="18dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="9dp"
+            android:src="@drawable/to_right_back_img"
+            android:layout_centerVertical="true"
+            />
+              <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/self_ponteId"
+            android:background="#dadada" />
+        
+    </RelativeLayout>
+
+</RelativeLayout>

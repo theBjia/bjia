@@ -1,0 +1,476 @@
+package com.llkj.newbjia.http;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.LinkedHashMap;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.json.JSONException;
+
+import android.content.Intent;
+import android.os.Bundle;
+
+import com.llkj.cm.restfull.exception.RestClientException;
+import com.llkj.cm.restfull.network.NetworkConnection;
+import com.llkj.cm.restfull.network.NetworkConnection.NetworkConnectionResult;
+import com.llkj.newbjia.bean.KeyBean;
+import com.llkj.newbjia.factory.AddressListFactory;
+import com.llkj.newbjia.factory.ClassListFactory;
+import com.llkj.newbjia.factory.CollectListFactory;
+import com.llkj.newbjia.factory.CommunityFriendFactory;
+import com.llkj.newbjia.factory.DefaultAddressFactory;
+import com.llkj.newbjia.factory.ForgetpasswordFactory;
+import com.llkj.newbjia.factory.FriendAddFactory;
+import com.llkj.newbjia.factory.FriendDescFactory;
+import com.llkj.newbjia.factory.FriendSearchFactory;
+import com.llkj.newbjia.factory.FriendsListFactory;
+import com.llkj.newbjia.factory.GetCodeFactory;
+import com.llkj.newbjia.factory.GetLogoFactory;
+import com.llkj.newbjia.factory.GoodAttentionFactory;
+import com.llkj.newbjia.factory.GoodDescFactory;
+import com.llkj.newbjia.factory.GoodListFactory;
+import com.llkj.newbjia.factory.IndexFactory;
+import com.llkj.newbjia.factory.IsUserFactory;
+import com.llkj.newbjia.factory.JudgeAvailableFactory;
+import com.llkj.newbjia.factory.LoginFactory;
+import com.llkj.newbjia.factory.MyCoinFactory;
+import com.llkj.newbjia.factory.MyIntegralFactory;
+import com.llkj.newbjia.factory.MyPrivilegeFactory;
+import com.llkj.newbjia.factory.NameEditFactory;
+import com.llkj.newbjia.factory.NewFriendFactory;
+import com.llkj.newbjia.factory.PassVerificationFactory;
+import com.llkj.newbjia.factory.PersonDescFactory;
+import com.llkj.newbjia.factory.PurchaseDescFactory;
+import com.llkj.newbjia.factory.RegisterFactory;
+import com.llkj.newbjia.factory.SearchGoodsFactory;
+import com.llkj.newbjia.factory.ShopCartAddFactory;
+import com.llkj.newbjia.factory.SignEditFactory;
+import com.llkj.newbjia.factory.ZitiListFactory;
+
+public class HTTPWorker {
+	// 获取验证码
+	public static Bundle startGetCode(Intent intent)
+			throws IllegalStateException, IOException, URISyntaxException,
+			RestClientException, ParserConfigurationException, JSONException {
+		LinkedHashMap<String, String> params = new LinkedHashMap<String, String>();
+		params.put(KeyBean.KEY_PHONE, intent.getStringExtra(KeyBean.KEY_PHONE));
+		params.put(KeyBean.KEY_TYPE, intent.getStringExtra(KeyBean.KEY_TYPE));
+		NetworkConnectionResult wsResult = NetworkConnection
+				.retrieveResponseFromService(UrlConfig.BJ_GETCODE_URL,
+						NetworkConnection.METHOD_GET, params);
+		return GetCodeFactory.parseResult(wsResult.wsResponse);
+	}
+
+	// 注册
+	public static Bundle startRegister(Intent intent)
+			throws IllegalStateException, IOException, URISyntaxException,
+			RestClientException, ParserConfigurationException, JSONException {
+		LinkedHashMap<String, String> params = new LinkedHashMap<String, String>();
+		params.put(KeyBean.KEY_PHONE, intent.getStringExtra(KeyBean.KEY_PHONE));
+		params.put(KeyBean.KEY_CODE, intent.getStringExtra(KeyBean.KEY_CODE));
+		params.put(KeyBean.KEY_PASSWORD,
+				intent.getStringExtra(KeyBean.KEY_PASSWORD));
+		params.put(KeyBean.KEY_NAME, intent.getStringExtra(KeyBean.KEY_NAME));
+		NetworkConnectionResult wsResult = NetworkConnection
+				.retrieveResponseFromService(UrlConfig.BJ_REGISTER_URL,
+						NetworkConnection.METHOD_POST, params);
+		return RegisterFactory.parseResult(wsResult.wsResponse);
+	}
+
+	// 登录
+	public static Bundle startLogin(Intent intent)
+			throws IllegalStateException, IOException, URISyntaxException,
+			RestClientException, ParserConfigurationException, JSONException {
+		LinkedHashMap<String, String> params = new LinkedHashMap<String, String>();
+		params.put(KeyBean.KEY_PHONE, intent.getStringExtra(KeyBean.KEY_PHONE));
+		params.put(KeyBean.KEY_PASSWORD,
+				intent.getStringExtra(KeyBean.KEY_PASSWORD));
+		NetworkConnectionResult wsResult = NetworkConnection
+				.retrieveResponseFromService(UrlConfig.BJ_LOGIN_URL,
+						NetworkConnection.METHOD_POST, params);
+		return LoginFactory.parseResult(wsResult.wsResponse);
+	}
+
+	// 找回密码
+	public static Bundle startForgetpassword(Intent intent)
+			throws IllegalStateException, IOException, URISyntaxException,
+			RestClientException, ParserConfigurationException, JSONException {
+		LinkedHashMap<String, String> params = new LinkedHashMap<String, String>();
+		params.put(KeyBean.KEY_PHONE, intent.getStringExtra(KeyBean.KEY_PHONE));
+		params.put(KeyBean.KEY_CODE, intent.getStringExtra(KeyBean.KEY_CODE));
+		params.put(KeyBean.KEY_PASSWORD,
+				intent.getStringExtra(KeyBean.KEY_PASSWORD));
+		NetworkConnectionResult wsResult = NetworkConnection
+				.retrieveResponseFromService(UrlConfig.BJ_FORGETPASSWORD_URL,
+						NetworkConnection.METHOD_POST, params);
+		return ForgetpasswordFactory.parseResult(wsResult.wsResponse);
+	}
+
+	// 个人信息
+	public static Bundle startPersonDesc(Intent intent)
+			throws IllegalStateException, IOException, URISyntaxException,
+			RestClientException, ParserConfigurationException, JSONException {
+		LinkedHashMap<String, String> params = new LinkedHashMap<String, String>();
+		params.put(KeyBean.KEY_UID, intent.getStringExtra(KeyBean.KEY_UID));
+		NetworkConnectionResult wsResult = NetworkConnection
+				.retrieveResponseFromService(UrlConfig.BJ_PERSONDESC_URL,
+						NetworkConnection.METHOD_GET, params);
+		return PersonDescFactory.parseResult(wsResult.wsResponse);
+	}
+
+	// 我的彼佳币
+	public static Bundle startMyCoin(Intent intent)
+			throws IllegalStateException, IOException, URISyntaxException,
+			RestClientException, ParserConfigurationException, JSONException {
+		LinkedHashMap<String, String> params = new LinkedHashMap<String, String>();
+		params.put(KeyBean.KEY_UID, intent.getStringExtra(KeyBean.KEY_UID));
+		NetworkConnectionResult wsResult = NetworkConnection
+				.retrieveResponseFromService(UrlConfig.BJ_MYCOIN_URL,
+						NetworkConnection.METHOD_GET, params);
+		return MyCoinFactory.parseResult(wsResult.wsResponse);
+	}
+
+	// 修改个性签名
+	public static Bundle startSignEdit(Intent intent)
+			throws IllegalStateException, IOException, URISyntaxException,
+			RestClientException, ParserConfigurationException, JSONException {
+		LinkedHashMap<String, String> params = new LinkedHashMap<String, String>();
+		params.put(KeyBean.KEY_UID, intent.getStringExtra(KeyBean.KEY_UID));
+		params.put(KeyBean.KEY_SIGNATURE,
+				intent.getStringExtra(KeyBean.KEY_SIGNATURE));
+		NetworkConnectionResult wsResult = NetworkConnection
+				.retrieveResponseFromService(UrlConfig.BJ_SIGNEDIT_URL,
+						NetworkConnection.METHOD_GET, params);
+		return SignEditFactory.parseResult(wsResult.wsResponse);
+	}
+
+	// 修改用户名
+	public static Bundle startNameEdit(Intent intent)
+			throws IllegalStateException, IOException, URISyntaxException,
+			RestClientException, ParserConfigurationException, JSONException {
+		LinkedHashMap<String, String> params = new LinkedHashMap<String, String>();
+		params.put(KeyBean.KEY_UID, intent.getStringExtra(KeyBean.KEY_UID));
+		params.put(KeyBean.KEY_NAME, intent.getStringExtra(KeyBean.KEY_NAME));
+		NetworkConnectionResult wsResult = NetworkConnection
+				.retrieveResponseFromService(UrlConfig.BJ_NAMEEDIT_URL,
+						NetworkConnection.METHOD_GET, params);
+		return NameEditFactory.parseResult(wsResult.wsResponse);
+	}
+
+	// 我的积分
+	public static Bundle startMyIntegral(Intent intent)
+			throws IllegalStateException, IOException, URISyntaxException,
+			RestClientException, ParserConfigurationException, JSONException {
+		LinkedHashMap<String, String> params = new LinkedHashMap<String, String>();
+		params.put(KeyBean.KEY_UID, intent.getStringExtra(KeyBean.KEY_UID));
+		NetworkConnectionResult wsResult = NetworkConnection
+				.retrieveResponseFromService(UrlConfig.BJ_MYINTEGRAL_URL,
+						NetworkConnection.METHOD_GET, params);
+		return MyIntegralFactory.parseResult(wsResult.wsResponse);
+	}
+	
+	// 我的优惠券
+	public static Bundle startMyPrivilege(Intent intent)
+			throws IllegalStateException, IOException, URISyntaxException,
+			RestClientException, ParserConfigurationException, JSONException {
+		LinkedHashMap<String, String> params = new LinkedHashMap<String, String>();
+		params.put(KeyBean.KEY_UID, intent.getStringExtra(KeyBean.KEY_UID));
+		NetworkConnectionResult wsResult = NetworkConnection
+				.retrieveResponseFromService(UrlConfig.BJ_MYPRIVILEGE_URL,
+						NetworkConnection.METHOD_GET, params);
+		return MyPrivilegeFactory.parseResult(wsResult.wsResponse);
+		}
+		
+	// 收藏夹
+	public static Bundle startCollectList(Intent intent)
+			throws IllegalStateException, IOException, URISyntaxException,
+			RestClientException, ParserConfigurationException, JSONException {
+		LinkedHashMap<String, String> params = new LinkedHashMap<String, String>();
+		params.put(KeyBean.KEY_UID, intent.getStringExtra(KeyBean.KEY_UID));
+		NetworkConnectionResult wsResult = NetworkConnection
+				.retrieveResponseFromService(UrlConfig.BJ_COLLECTLIST_URL,
+						 NetworkConnection.METHOD_GET, params);
+				return CollectListFactory.parseResult(wsResult.wsResponse);
+		}
+	// 1.6判断用户是否注册
+	public static Bundle startIsUser(Intent intent)
+			throws IllegalStateException, IOException, URISyntaxException,
+			RestClientException, ParserConfigurationException, JSONException {
+		LinkedHashMap<String, String> params = new LinkedHashMap<String, String>();
+		params.put(KeyBean.KEY_PHONE, intent.getStringExtra(KeyBean.KEY_PHONE));
+		params.put(KeyBean.KEY_NAME, intent.getStringExtra(KeyBean.KEY_NAME));
+		NetworkConnectionResult wsResult = NetworkConnection
+				.retrieveResponseFromService(UrlConfig.BJ_ISUSERURL_URL,
+						NetworkConnection.METHOD_GET, params);
+		return IsUserFactory.parseResult(wsResult.wsResponse);
+	}
+
+	// 1.7根据用户手机号获取用户头像
+	public static Bundle startGetLogo(Intent intent)
+			throws IllegalStateException, IOException, URISyntaxException,
+			RestClientException, ParserConfigurationException, JSONException {
+		LinkedHashMap<String, String> params = new LinkedHashMap<String, String>();
+		params.put(KeyBean.KEY_PHONE, intent.getStringExtra(KeyBean.KEY_PHONE));
+		NetworkConnectionResult wsResult = NetworkConnection
+				.retrieveResponseFromService(UrlConfig.BJ_GETLOGO_URL,
+						NetworkConnection.METHOD_GET, params);
+		return GetLogoFactory.parseResult(wsResult.wsResponse);
+	}
+
+	// 2.1首页
+	public static Bundle startIndex(Intent intent)
+			throws IllegalStateException, IOException, URISyntaxException,
+			RestClientException, ParserConfigurationException, JSONException {
+		LinkedHashMap<String, String> params = new LinkedHashMap<String, String>();
+		NetworkConnectionResult wsResult = NetworkConnection
+				.retrieveResponseFromService(UrlConfig.BJ_INDEX_URL,
+						NetworkConnection.METHOD_GET, params);
+		return IndexFactory.parseResult(wsResult.wsResponse);
+	}
+
+	// 商品详情
+	public static Bundle startGooddesc(Intent intent)
+			throws IllegalStateException, IOException, URISyntaxException,
+			RestClientException, ParserConfigurationException, JSONException {
+		LinkedHashMap<String, String> params = new LinkedHashMap<String, String>();
+		params.put(KeyBean.KEY_ID, intent.getStringExtra(KeyBean.KEY_ID));
+		NetworkConnectionResult wsResult = NetworkConnection
+				.retrieveResponseFromService(UrlConfig.BJ_GOODDESC_URL,
+						NetworkConnection.METHOD_GET, params);
+		return GoodDescFactory.parseResult(wsResult.wsResponse);
+	}
+
+	// 商品详情 团
+	public static Bundle startPurchaseDesc(Intent intent)
+			throws IllegalStateException, IOException, URISyntaxException,
+			RestClientException, ParserConfigurationException, JSONException {
+		LinkedHashMap<String, String> params = new LinkedHashMap<String, String>();
+		params.put(KeyBean.KEY_ID, intent.getStringExtra(KeyBean.KEY_ID));
+		NetworkConnectionResult wsResult = NetworkConnection
+				.retrieveResponseFromService(UrlConfig.BJ_PURCHASEDESC_URL,
+						NetworkConnection.METHOD_GET, params);
+		return PurchaseDescFactory.parseResult(wsResult.wsResponse);
+	}
+
+	//
+	public static Bundle startGoodAttention(Intent intent)
+			throws IllegalStateException, IOException, URISyntaxException,
+			RestClientException, ParserConfigurationException, JSONException {
+		LinkedHashMap<String, String> params = new LinkedHashMap<String, String>();
+		params.put(KeyBean.KEY_ID, intent.getStringExtra(KeyBean.KEY_ID));
+		params.put(KeyBean.KEY_UID, intent.getStringExtra(KeyBean.KEY_UID));
+		params.put(KeyBean.KEY_TYPE, intent.getStringExtra(KeyBean.KEY_TYPE));
+		NetworkConnectionResult wsResult = NetworkConnection
+				.retrieveResponseFromService(UrlConfig.BJ_GOODATTENTION_URL,
+						NetworkConnection.METHOD_GET, params);
+		return GoodAttentionFactory.parseResult(wsResult.wsResponse);
+	}
+
+	//
+	public static Bundle startShopCartAdd(Intent intent)
+			throws IllegalStateException, IOException, URISyntaxException,
+			RestClientException, ParserConfigurationException, JSONException {
+		LinkedHashMap<String, String> params = new LinkedHashMap<String, String>();
+		params.put(KeyBean.KEY_NUMBER,
+				intent.getStringExtra(KeyBean.KEY_NUMBER));
+		params.put(KeyBean.KEY_GOODS_ID,
+				intent.getStringExtra(KeyBean.KEY_GOODS_ID));
+		params.put(KeyBean.KEY_SPEC, intent.getStringExtra(KeyBean.KEY_SPEC));
+		NetworkConnectionResult wsResult = NetworkConnection
+				.retrieveResponseFromService(UrlConfig.BJ_SHOPCARTADD_URL,
+						NetworkConnection.METHOD_GET, params);
+		return ShopCartAddFactory.parseResult(wsResult.wsResponse);
+	}
+
+	//
+	public static Bundle startClassList(Intent intent)
+			throws IllegalStateException, IOException, URISyntaxException,
+			RestClientException, ParserConfigurationException, JSONException {
+		LinkedHashMap<String, String> params = new LinkedHashMap<String, String>();
+
+		params.put(KeyBean.KEY_ID, intent.getStringExtra(KeyBean.KEY_ID));
+		NetworkConnectionResult wsResult = NetworkConnection
+				.retrieveResponseFromService(UrlConfig.BJ_CLASSLIST_URL,
+						NetworkConnection.METHOD_GET, params);
+		return ClassListFactory.parseResult(wsResult.wsResponse);
+	}
+
+	//
+	public static Bundle startGoodList(Intent intent)
+			throws IllegalStateException, IOException, URISyntaxException,
+			RestClientException, ParserConfigurationException, JSONException {
+		LinkedHashMap<String, String> params = new LinkedHashMap<String, String>();
+
+		params.put(KeyBean.KEY_ID, intent.getStringExtra(KeyBean.KEY_ID));
+		params.put(KeyBean.KEY_PAGE, intent.getStringExtra(KeyBean.KEY_PAGE));
+		NetworkConnectionResult wsResult = NetworkConnection
+				.retrieveResponseFromService(UrlConfig.BJ_GOODLIST_URL,
+						NetworkConnection.METHOD_GET, params);
+		return GoodListFactory.parseResult(wsResult.wsResponse);
+	}
+
+	// startZitiList
+	public static Bundle startZitiList(Intent intent)
+			throws IllegalStateException, IOException, URISyntaxException,
+			RestClientException, ParserConfigurationException, JSONException {
+		LinkedHashMap<String, String> params = new LinkedHashMap<String, String>();
+		NetworkConnectionResult wsResult = NetworkConnection
+				.retrieveResponseFromService(UrlConfig.BJ_ZITILIST_URL,
+						NetworkConnection.METHOD_GET, params);
+		return ZitiListFactory.parseResult(wsResult.wsResponse);
+	}
+
+	//
+	public static Bundle startJudgeAvailable(Intent intent)
+			throws IllegalStateException, IOException, URISyntaxException,
+			RestClientException, ParserConfigurationException, JSONException {
+		LinkedHashMap<String, String> params = new LinkedHashMap<String, String>();
+
+		params.put(KeyBean.KEY_ZITI_ID,
+				intent.getStringExtra(KeyBean.KEY_ZITI_ID));
+		params.put(KeyBean.KEY_GOODS_ID,
+				intent.getStringExtra(KeyBean.KEY_GOODS_ID));
+		NetworkConnectionResult wsResult = NetworkConnection
+				.retrieveResponseFromService(UrlConfig.BJ_JUDGEAVAILABLE_URL,
+						NetworkConnection.METHOD_GET, params);
+		return JudgeAvailableFactory.parseResult(wsResult.wsResponse);
+	}
+
+	//
+	public static Bundle startDefaultAddress(Intent intent)
+			throws IllegalStateException, IOException, URISyntaxException,
+			RestClientException, ParserConfigurationException, JSONException {
+		LinkedHashMap<String, String> params = new LinkedHashMap<String, String>();
+
+		params.put(KeyBean.KEY_UID, intent.getStringExtra(KeyBean.KEY_UID));
+
+		NetworkConnectionResult wsResult = NetworkConnection
+				.retrieveResponseFromService(UrlConfig.BJ_DEFAULTADDRESS_URL,
+						NetworkConnection.METHOD_GET, params);
+		return DefaultAddressFactory.parseResult(wsResult.wsResponse);
+	}
+
+	//
+	public static Bundle startSearchGoods(Intent intent)
+			throws IllegalStateException, IOException, URISyntaxException,
+			RestClientException, ParserConfigurationException, JSONException {
+		LinkedHashMap<String, String> params = new LinkedHashMap<String, String>();
+
+		params.put(KeyBean.KEY_NAME, intent.getStringExtra(KeyBean.KEY_NAME));
+		params.put(KeyBean.KEY_PAGE, intent.getStringExtra(KeyBean.KEY_PAGE));
+		NetworkConnectionResult wsResult = NetworkConnection
+				.retrieveResponseFromService(UrlConfig.BJ_SEARCHGOODS_URL,
+						NetworkConnection.METHOD_GET, params);
+		return SearchGoodsFactory.parseResult(wsResult.wsResponse);
+	}
+
+	// startFriendsList
+	public static Bundle startFriendsList(Intent intent)
+			throws IllegalStateException, IOException, URISyntaxException,
+			RestClientException, ParserConfigurationException, JSONException {
+		LinkedHashMap<String, String> params = new LinkedHashMap<String, String>();
+
+		params.put(KeyBean.KEY_UID, intent.getStringExtra(KeyBean.KEY_UID));
+
+		NetworkConnectionResult wsResult = NetworkConnection
+				.retrieveResponseFromService(UrlConfig.BJ_FRIENDSLIST_URL,
+						NetworkConnection.METHOD_GET, params);
+		return FriendsListFactory.parseResult(wsResult.wsResponse);
+	}
+
+	//
+	public static Bundle startNewFriend(Intent intent)
+			throws IllegalStateException, IOException, URISyntaxException,
+			RestClientException, ParserConfigurationException, JSONException {
+		LinkedHashMap<String, String> params = new LinkedHashMap<String, String>();
+
+		params.put(KeyBean.KEY_UID, intent.getStringExtra(KeyBean.KEY_UID));
+
+		NetworkConnectionResult wsResult = NetworkConnection
+				.retrieveResponseFromService(UrlConfig.BJ_NEWFRIEND_URL,
+						NetworkConnection.METHOD_GET, params);
+		return NewFriendFactory.parseResult(wsResult.wsResponse);
+	}
+
+	//
+	public static Bundle startFriendSearch(Intent intent)
+			throws IllegalStateException, IOException, URISyntaxException,
+			RestClientException, ParserConfigurationException, JSONException {
+		LinkedHashMap<String, String> params = new LinkedHashMap<String, String>();
+
+		params.put(KeyBean.KEY_UID, intent.getStringExtra(KeyBean.KEY_UID));
+		params.put(KeyBean.KEY_NAME, intent.getStringExtra(KeyBean.KEY_NAME));
+		NetworkConnectionResult wsResult = NetworkConnection
+				.retrieveResponseFromService(UrlConfig.BJ_FRIENDSEARCH_URL,
+						NetworkConnection.METHOD_GET, params);
+		return FriendSearchFactory.parseResult(wsResult.wsResponse);
+	}
+
+	//
+	public static Bundle startAddressList(Intent intent)
+			throws IllegalStateException, IOException, URISyntaxException,
+			RestClientException, ParserConfigurationException, JSONException {
+		LinkedHashMap<String, String> params = new LinkedHashMap<String, String>();
+
+		params.put(KeyBean.KEY_UID, intent.getStringExtra(KeyBean.KEY_UID));
+		params.put(KeyBean.KEY_USERS, intent.getStringExtra(KeyBean.KEY_USERS));
+		NetworkConnectionResult wsResult = NetworkConnection
+				.retrieveResponseFromService(UrlConfig.BJ_ADDRESSLIST_URL,
+						NetworkConnection.METHOD_POST, params);
+		return AddressListFactory.parseResult(wsResult.wsResponse);
+	}
+
+	//
+	public static Bundle startCommunityFriend(Intent intent)
+			throws IllegalStateException, IOException, URISyntaxException,
+			RestClientException, ParserConfigurationException, JSONException {
+		LinkedHashMap<String, String> params = new LinkedHashMap<String, String>();
+		params.put(KeyBean.KEY_UID, intent.getStringExtra(KeyBean.KEY_UID));
+		params.put(KeyBean.KEY_ID, intent.getStringExtra(KeyBean.KEY_ID));
+		NetworkConnectionResult wsResult = NetworkConnection
+				.retrieveResponseFromService(UrlConfig.BJ_COMMUNITYFRIEND_URL,
+						NetworkConnection.METHOD_GET, params);
+		return CommunityFriendFactory.parseResult(wsResult.wsResponse);
+	}
+
+	//
+	public static Bundle startFriendDesc(Intent intent)
+			throws IllegalStateException, IOException, URISyntaxException,
+			RestClientException, ParserConfigurationException, JSONException {
+		LinkedHashMap<String, String> params = new LinkedHashMap<String, String>();
+		params.put(KeyBean.KEY_UID, intent.getStringExtra(KeyBean.KEY_UID));
+		params.put(KeyBean.KEY_ID, intent.getStringExtra(KeyBean.KEY_ID));
+		NetworkConnectionResult wsResult = NetworkConnection
+				.retrieveResponseFromService(UrlConfig.BJ_FRIENDDESC_URL,
+						NetworkConnection.METHOD_GET, params);
+		return FriendDescFactory.parseResult(wsResult.wsResponse);
+	}
+
+	//
+	public static Bundle startFriendAdd(Intent intent)
+			throws IllegalStateException, IOException, URISyntaxException,
+			RestClientException, ParserConfigurationException, JSONException {
+		LinkedHashMap<String, String> params = new LinkedHashMap<String, String>();
+		params.put(KeyBean.KEY_UID, intent.getStringExtra(KeyBean.KEY_UID));
+		params.put(KeyBean.KEY_ID, intent.getStringExtra(KeyBean.KEY_ID));
+		NetworkConnectionResult wsResult = NetworkConnection
+				.retrieveResponseFromService(UrlConfig.BJ_FRIENDADD_URL,
+						NetworkConnection.METHOD_GET, params);
+		return FriendAddFactory.parseResult(wsResult.wsResponse);
+	}
+
+	//
+	public static Bundle startPassVerification(Intent intent)
+			throws IllegalStateException, IOException, URISyntaxException,
+			RestClientException, ParserConfigurationException, JSONException {
+		LinkedHashMap<String, String> params = new LinkedHashMap<String, String>();
+		params.put(KeyBean.KEY_UID, intent.getStringExtra(KeyBean.KEY_UID));
+		params.put(KeyBean.KEY_ID, intent.getStringExtra(KeyBean.KEY_ID));
+		NetworkConnectionResult wsResult = NetworkConnection
+				.retrieveResponseFromService(UrlConfig.BJ_PASSVERIFICATION_URL,
+						NetworkConnection.METHOD_GET, params);
+		return PassVerificationFactory.parseResult(wsResult.wsResponse);
+	}
+
+}

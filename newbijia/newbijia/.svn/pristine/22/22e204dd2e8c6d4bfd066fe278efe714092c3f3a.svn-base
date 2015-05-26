@@ -1,0 +1,28 @@
+package com.llkj.newbjia.http;
+
+/**
+ * Url 配置类,包含所有的接口访问地址
+ * 
+ * @author zhang.zk
+ * 
+ */
+public class UrlConfig {
+	/************************************************************************************
+	 * =====================ROOT URL====================
+	 * 
+	 *************************************************************************************/
+	public static final String ROOT_URL = "http://baifahui.bloveambition.com/api/";
+	/**
+	 * 据说是版本号,但是后台的人说没有版本号,总之,就这样吧.
+	 */
+
+	public static final String BJ_UPLOAD_URL = ROOT_URL + "?r=default/publish/setUpload";
+	public static final String BJ_GETCODE_URL = ROOT_URL + "appLogin.php?action=getCode";
+	public static final String BJ_REGISTER_URL = ROOT_URL + "appLogin.php?action=register";
+	public static final String BJ_LOGIN_URL = ROOT_URL + "appLogin.php?action=login";
+	public static final String BJ_FORGETPASSWORD_URL = ROOT_URL + "appLogin.php?action=forgetPassword";
+	public static final String BJ_PERSONDESC_URL = ROOT_URL + "appPerson.php?action=personDesc";
+	public static final String BJ_MYCOIN_URL = ROOT_URL + "appPerson.php?action=myCoin";
+	public static final String BJ_SIGNEDIT_URL = ROOT_URL + "appPerson.php?action=signEdit";
+	public static final String BJ_NAMEEDIT_URL = ROOT_URL + "appPerson.php?action=nameEdit";
+}

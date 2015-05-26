@@ -1,0 +1,119 @@
+package com.llkj.newbjia.shoppingcart;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import android.app.AlertDialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+
+import com.llkj.newbjia.BaseFragment;
+import com.llkj.newbjia.MainActivity;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.adpater.MyCartAdapter;
+import com.llkj.newbjia.adpater.MyCartAdapter.Myclick;
+import com.llkj.newbjia.mybijia.AboutActivity;
+import com.llkj.newbjia.mybijia.FeedbackActivity;
+import com.llkj.newbjia.mybijia.MyScoreActivity;
+import com.llkj.newbjia.mybijia.UpdatePassword;
+import com.llkj.newbjia.utils.ToastUtil;
+/**
+ * 我的购物车页
+ * @author John
+ *
+ */
+public class MyCartFragment extends BaseFragment implements Myclick,
+		OnClickListener {
+	private ArrayList arrayList;
+	private MyCartAdapter adapter;
+	private ListView My_carnTId;
+
+	private LinearLayout ll_title_back;
+	private Button btn_jiesuanID;
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		if (rootView == null) {
+			rootView = inflater.inflate(R.layout.my_cart, null);
+			initView();
+			initListener();
+			initData();
+		} else {
+			ViewGroup parent = (ViewGroup) rootView.getParent();
+			if (parent != null) {
+				parent.removeView(rootView);
+			}
+		}
+		return rootView;
+	}
+
+	private void initView() {
+		My_carnTId = (ListView) rootView.findViewById(R.id.My_carnTId);
+		ll_title_back = (LinearLayout) rootView
+				.findViewById(R.id.ll_title_back);
+		btn_jiesuanID = (Button) rootView.findViewById(R.id.btn_jiesuanID);
+	}
+
+	private void initData() {
+		arrayList = new ArrayList();
+		for (int i = 0; i < 4; i++) {
+			HashMap hashMap = new HashMap();
+			hashMap.put("Money", "¥100.00元" + i);
+			arrayList.add(hashMap);
+		}
+		adapter = new MyCartAdapter(getActivity(), arrayList, this);
+		My_carnTId.setAdapter(adapter);
+	}
+
+	private void initListener() {
+		ll_title_back.setOnClickListener(this);
+		btn_jiesuanID.setOnClickListener(this);
+	}
+
+	@Override
+	public void myClick(View v, int type) {
+		HashMap hashMap;
+		switch (type) {
+		case 1:
+			ToastUtil.makeShortText(getActivity(), "弹出对话框");
+			break;
+
+		case 2:
+
+			break;
+		case 3:
+			final AlertDialog dlg = new AlertDialog.Builder(getActivity()).create();
+			dlg.show();
+			break;
+		}
+	}
+
+	@Override
+	public void myLongClick(View v, int type) {
+
+	}
+
+	@Override
+	public void onClick(View v) {
+		Intent intent;
+		switch (v.getId()) {
+		case R.id.ll_title_back:
+			if ((MainActivity) getActivity() != null) {
+				((MainActivity) getActivity()).switchContent(0);
+			}
+			break;
+		case R.id.btn_jiesuanID:
+			intent = new Intent(getActivity(),WriteOrderActivity.class);
+			getActivity().startActivity(intent);
+			break;
+		}
+	}
+}

@@ -1,0 +1,61 @@
+package com.llkj.newbjia.factory;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.llkj.newbjia.bean.ResponseBean;
+
+import android.os.Bundle;
+
+public class MyIntegralFactory {
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static Bundle parseResult(String wsResponse) throws JSONException {
+		JSONObject jsonObject = new JSONObject(wsResponse);
+		Bundle bundle = new Bundle();
+		if (jsonObject.has(ResponseBean.RESPONSE_STATE)) {
+			bundle.putInt(ResponseBean.RESPONSE_STATE, jsonObject.getInt(ResponseBean.RESPONSE_STATE));
+		}
+
+		if (jsonObject.has(ResponseBean.RESPONSE_MESSAGE)) {
+			bundle.putString(ResponseBean.RESPONSE_MESSAGE, jsonObject.getString(ResponseBean.RESPONSE_MESSAGE));
+		}
+		
+		if (jsonObject.has(ResponseBean.RESPONSE_POINTS)) {
+			bundle.putString(ResponseBean.RESPONSE_POINTS, jsonObject.getString(ResponseBean.RESPONSE_POINTS));
+		}
+
+		if (jsonObject.has(ResponseBean.RESPONSE_LIST)) {
+			JSONArray array = jsonObject.getJSONArray(ResponseBean.RESPONSE_LIST);
+			ArrayList list = new ArrayList();
+			HashMap map;
+			for (int i = 0; i < array.length(); i++) {
+				JSONObject item = array.getJSONObject(i);
+				map = new HashMap();
+				if (item.has(ResponseBean.RESPONSE_ID)) {
+					map.put(ResponseBean.RESPONSE_ID, item.getString(ResponseBean.RESPONSE_ID));
+				}
+				if (item.has(ResponseBean.RESPONSE_TYPE)) {
+					map.put(ResponseBean.RESPONSE_TYPE, item.getString(ResponseBean.RESPONSE_TYPE));
+				}
+				if (item.has(ResponseBean.RESPONSE_ADD_TIME)) {
+					map.put(ResponseBean.RESPONSE_ADD_TIME, item.getString(ResponseBean.RESPONSE_ADD_TIME));
+				}
+				if (item.has(ResponseBean.RESPONSE_DESC)) {
+					map.put(ResponseBean.RESPONSE_DESC, item.getString(ResponseBean.RESPONSE_DESC));
+				}
+				if (item.has(ResponseBean.RESPONSE_POINTS)) {
+					map.put(ResponseBean.RESPONSE_POINTS, item.getString(ResponseBean.RESPONSE_POINTS));
+				}
+				list.add(map);
+			}
+			bundle.putParcelableArrayList(ResponseBean.RESPONSE_LIST, list);
+		}
+
+		return bundle;
+	}
+
+}

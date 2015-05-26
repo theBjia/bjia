@@ -1,0 +1,88 @@
+package com.llkj.newbjia.shoppingcart;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.MyApplication;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.adpater.SelfDesionAdapter;
+/**
+ * 自提点页
+ * @author John
+ *
+ */
+public class SelfDesionActivity extends BaseActivity implements OnClickListener{
+	private ImageView self_back_imgId,self_tv_head_title_finish;
+	TextView leftId,ritId;
+	RelativeLayout bg_id;
+	private ArrayList arrayList;
+	private SelfDesionAdapter adapter;
+	private ListView lv_show;
+	
+//	protected MyApplication application;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.self_selef_desion_point);
+		initView();
+		initData();
+		initListener();
+	}
+	private void initView() {
+		self_back_imgId = (ImageView) findViewById(R.id.self_back_imgId);
+		self_tv_head_title_finish = (ImageView) findViewById(R.id.self_tv_head_title_finish);
+		leftId = (TextView) findViewById(R.id.leftId);
+		ritId = (TextView) findViewById(R.id.ritId);
+		bg_id = (RelativeLayout) findViewById(R.id.bg_id);
+		lv_show = (ListView) findViewById(R.id.lv_show);
+	}
+	private void initData() {
+		arrayList = new ArrayList();
+		for(int i = 0;i<3;i++){
+			HashMap hashMap = new HashMap();
+			hashMap.put("name", "XXX自提点");
+			arrayList.add(hashMap);
+		}
+		adapter = new SelfDesionAdapter(SelfDesionActivity.this, arrayList);
+		lv_show.setAdapter(adapter);
+	}
+	private void initListener() {
+		self_back_imgId.setOnClickListener(this);
+		self_tv_head_title_finish.setOnClickListener(this);
+		leftId.setOnClickListener(this);
+		ritId.setOnClickListener(this);
+		
+	}
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.self_back_imgId:
+			MyApplication.getInstance().returnBack(SelfDesionActivity.this);
+			break;
+
+		case R.id.leftId:
+			bg_id.setBackgroundResource(R.drawable.t2);
+			leftId.setTextColor(0xff3ab485);
+			ritId.setTextColor(0xffffffff);
+			break;
+		case R.id.ritId:
+			bg_id.setBackgroundResource(R.drawable.t1);
+			leftId.setTextColor(0xffffffff);
+			ritId.setTextColor(0xff3ab485);
+			break;
+		case R.id.self_tv_head_title_finish:
+			openActivity(SearchSelfPointActivity.class);
+			break;
+		}
+	}
+}

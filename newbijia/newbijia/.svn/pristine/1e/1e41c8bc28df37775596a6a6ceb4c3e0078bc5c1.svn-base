@@ -1,0 +1,76 @@
+package com.llkj.newbjia.mybijia;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.adpater.MyOrderAdapter;
+import com.llkj.newbjia.adpater.MyOrderAdapter.MyClicker;
+import com.llkj.newbjia.utils.ToastUtil;
+/**
+ * 订单查询页
+ * @author John
+ *
+ */
+public class OrderCheckActivity extends BaseActivity implements MyClicker{
+	private ListView lv_Order;
+	private ArrayList arrayList;
+	private MyOrderAdapter adapter;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.order_check);
+		setTitle(R.string.myorder, true, R.string.kong, false, R.string.kong);
+		initView();
+		initData();
+		initListener();
+	}
+
+	private void initView() {
+		lv_Order = (ListView) findViewById(R.id.lv_Order);
+	}
+
+	private void initData() {
+		arrayList = new ArrayList();
+		for(int i = 0;i<4;i++){
+			HashMap item = new HashMap();
+			item.put("orderNumber","78945612"+i);
+			arrayList.add(item);
+		}
+		adapter = new MyOrderAdapter(OrderCheckActivity.this,arrayList,this);
+		lv_Order.setAdapter(adapter);
+	}
+
+	private void initListener() {
+		
+	}
+	
+	@Override
+	public void myClick(View v, int type) {
+		// TODO Auto-generated method stub
+		HashMap map;
+		switch (type) {
+		case 1:
+			map = (HashMap) v.getTag();
+			openActivity(OrderDetailsActivity.class);
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public void myLongClick(View v, int type) {
+		// TODO Auto-generated method stub
+		
+	}
+}

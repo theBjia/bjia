@@ -1,0 +1,32 @@
+package com.llkj.newbjia.http;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.LinkedHashMap;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.json.JSONException;
+
+import android.content.Intent;
+import android.os.Bundle;
+
+import com.llkj.cm.restfull.exception.RestClientException;
+import com.llkj.cm.restfull.network.NetworkConnection;
+import com.llkj.cm.restfull.network.NetworkConnection.NetworkConnectionResult;
+import com.llkj.newbjia.bean.KeyBean;
+
+public class HTTPWorker {
+	public static Bundle startGetCode(Intent intent)
+			throws IllegalStateException, IOException, URISyntaxException,
+			RestClientException, ParserConfigurationException, JSONException {
+		LinkedHashMap<String, String> params = new LinkedHashMap<String, String>();
+		params.put(KeyBean.KEY_CITY, intent.getStringExtra(KeyBean.KEY_CITY));
+
+		NetworkConnectionResult wsResult = NetworkConnection
+				.retrieveResponseFromService(UrlConfig.ZJ_UPLOAD_URL,
+						NetworkConnection.METHOD_GET, params);
+
+		return GetCodeFactory.parseResult(wsResult.wsResponse);
+	}
+}

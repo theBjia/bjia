@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+	<RelativeLayout
+	    android:id="@+id/RelativeLayout03"
+	    android:layout_width="fill_parent"
+	    android:layout_height="58dp"
+	    android:layout_below="@+id/RelativeLayout01"
+	    android:background="#ffffff" 
+	    android:layout_marginTop="10dp"
+	    >
+
+	    <TextView
+	        android:id="@+id/tv_ShoppingName"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerVertical="true"
+	        android:layout_marginLeft="16dp"
+	        android:text="进口苹果"
+	        android:textColor="#000000"
+	        android:textSize="16sp" />
+
+	    <View
+	        android:layout_width="fill_parent"
+	        android:layout_height="1dp"
+	        android:layout_alignParentBottom="true"
+	        android:layout_marginLeft="15dp"
+	        android:background="#dbdbdb" />
+
+	    <View
+	        android:layout_width="fill_parent"
+	        android:layout_height="1dp"
+	        android:layout_alignParentLeft="true"
+	        android:layout_alignParentTop="true"
+	        android:background="#dbdbdb" />
+
+	    <TextView
+	        android:id="@+id/tv_money"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignBaseline="@+id/tv_number"
+	        android:layout_alignBottom="@+id/tv_number"
+	        android:layout_alignParentRight="true"
+	        android:text="¥200.00元" 
+	        android:textColor="#dc231e"
+	        android:layout_marginRight="20dp"/>
+
+	    <TextView
+	        android:id="@+id/tv_number"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignBaseline="@+id/tv_ShoppingName"
+	        android:layout_alignBottom="@+id/tv_ShoppingName"
+	        android:layout_toLeftOf="@+id/tv_money"
+	        android:text="X1"
+	        android:textColor="#dc231e" 
+	        android:layout_marginRight="10dp"/>
+
+	</RelativeLayout>
+
+			<RelativeLayout
+			    android:id="@+id/RelativeLayout04"
+			    android:layout_width="fill_parent"
+			    android:layout_height="58dp"
+			    android:layout_alignParentLeft="true"
+			    android:layout_below="@+id/RelativeLayout03"
+			    android:background="#ffffff" >
+
+			    <TextView
+			        android:id="@+id/tv_type"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_centerVertical="true"
+			        android:layout_marginLeft="16dp"
+			        android:text="山东烟台栖霞果"
+			        android:textColor="#000000"
+			        android:textSize="16sp" />
+
+			    <View
+			        android:layout_width="fill_parent"
+			        android:layout_height="1dp"
+			        android:layout_alignParentBottom="true"
+			        android:background="#dbdbdb" />
+
+			    <TextView
+			        android:id="@+id/TextView02"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_centerVertical="true"
+			        android:layout_marginLeft="24dp"
+			        android:layout_toRightOf="@+id/tv_type"
+			        android:text="重量："
+			        android:textSize="12sp" 
+			        android:textColor="#cccccc"/>
+
+			    <TextView
+			        android:id="@+id/tv_weight"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_alignBottom="@+id/TextView02"
+			        android:layout_toRightOf="@+id/TextView02"
+			        android:text="500g" 
+			        android:textColor="#cccccc"/>
+
+			    <TextView
+			        android:id="@+id/textView3"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_alignBottom="@+id/tv_weight"
+			        android:layout_toRightOf="@+id/tv_weight"
+			        android:text="包装：" 
+			        android:textColor="#cccccc"/>
+
+			    <TextView
+			        android:id="@+id/tv_style"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_alignBaseline="@+id/textView3"
+			        android:layout_alignBottom="@+id/textView3"
+			        android:layout_toRightOf="@+id/textView3"
+			        android:text="托盘加保鲜膜" 
+			        android:textColor="#cccccc"/>
+			</RelativeLayout>
+            
+</RelativeLayout>

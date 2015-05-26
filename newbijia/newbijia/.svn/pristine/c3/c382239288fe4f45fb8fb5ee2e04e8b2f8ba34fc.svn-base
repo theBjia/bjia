@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:background="#eeeeee" >
+    
+	<include
+        android:id="@+id/relativeLayout1"
+        layout="@layout/title_bar" />
+
+	<RelativeLayout
+	    android:id="@+id/rl_01"
+	    android:layout_width="match_parent"
+	    android:layout_height="150dp"
+	    android:layout_alignParentLeft="true"
+	    android:layout_below="@+id/relativeLayout1"
+	    android:background="#ffffff" 
+	    android:layout_marginTop="10dp">
+
+	    <View
+	        android:id="@+id/View01"
+	        android:layout_width="match_parent"
+	        android:layout_height="1dp"
+	        android:layout_alignParentLeft="true"
+	        android:background="#cccccc" />
+
+	    <View
+	        android:id="@+id/ImageView08"
+	        android:layout_width="match_parent"
+	        android:layout_height="1dp"
+	        android:layout_alignParentBottom="true"
+	        android:layout_alignParentLeft="true"
+	        android:background="#cccccc" />
+
+	    <EditText
+	        android:id="@+id/et_sign"
+	        android:layout_width="fill_parent"
+	        android:layout_height="44dp"
+	        android:layout_below="@+id/View01"
+	        android:layout_centerHorizontal="true"
+	        android:background="@null"
+	        android:ems="10"
+	        android:hint="请填写您的宝贵意见，我们将及时更改！"
+	        android:numeric="integer"
+	        android:singleLine="true"
+	        android:textSize="16sp" 
+	        android:layout_marginLeft="30dp">
+
+	        <requestFocus />
+	    </EditText>
+
+	</RelativeLayout>
+</RelativeLayout>

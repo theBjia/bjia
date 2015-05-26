@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/login_theme_bean_green" >
+
+    <include
+        android:id="@+id/tiid"
+        android:layout_alignParentTop="true"
+        layout="@layout/stub_title" />
+
+    <RelativeLayout
+        android:id="@+id/rl_two"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/tiid"
+        android:layout_marginTop="40dp" >
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="@color/login_theme_bean_green" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:background="@color/login_theme_bean_green" />
+
+        <EditText
+            android:id="@+id/et_username"
+            style="@style/loginViewBasic"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_above="@+id/imageView4"
+            android:layout_below="@+id/imageView3"
+            android:background="@drawable/frame_white"
+            android:gravity="center_vertical"
+            android:hint="请输入用户名"
+            android:inputType="text"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:singleLine="true"
+            android:textColorHint="@color/white" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/rl_two"
+        style="@style/loginViewBasic"
+        android:layout_marginTop="20dp"
+        android:text="5-10个字符，推荐使用汉字，可作为网站登录账号"
+        android:textColor="@color/white"
+        android:textSize="12sp" />
+
+    <RelativeLayout
+        android:id="@+id/rl_three"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView1"
+        android:layout_marginTop="10dp" >
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="@color/login_theme_bean_green" />
+
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:background="@color/login_theme_bean_green" />
+
+        <EditText
+            android:id="@+id/et_phone"
+            style="@style/loginViewBasic"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_above="@+id/imageView6"
+            android:layout_below="@+id/imageView5"
+            android:background="@drawable/frame_white"
+            android:gravity="center_vertical"
+            android:hint="请输入手机号"
+            android:inputType="phone"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:singleLine="true"
+            android:textColorHint="@color/white" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_next"
+        style="@style/loginViewBasic"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/rl_three"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:background="#B1DBC3"
+        android:text="下一步"
+        android:textColor="@color/login_theme_bean_green"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        style="@style/loginViewBasic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_next"
+        android:layout_marginTop="50dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="提示 "
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="1、使用手机号码注册免费 "
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="2、此手机号码为彼佳登录账号"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+</RelativeLayout>

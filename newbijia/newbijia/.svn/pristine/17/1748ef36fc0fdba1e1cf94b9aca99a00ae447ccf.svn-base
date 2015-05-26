@@ -1,0 +1,23 @@
+package com.llkj.newbjia.http;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.os.Bundle;
+
+public class GetCodeFactory {
+	public static Bundle parseResult(String wsResponse) throws JSONException {
+
+		JSONObject jsonObject = new JSONObject(wsResponse);
+		Bundle bundle = new Bundle();
+		if (jsonObject.has("code")) {
+			bundle.putInt("code", jsonObject.getInt("code"));
+		}
+
+		if (jsonObject.has("msg")) {
+			bundle.putString("msg", jsonObject.getString("msg"));
+		}
+
+		return bundle;
+	}
+}

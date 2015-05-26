@@ -1,0 +1,73 @@
+package com.llkj.newbjia.mybijia;
+
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.bean.ResponseBean;
+import com.llkj.newbjia.bean.UserInfoBean;
+import com.llkj.newbjia.http.PoCService;
+import com.llkj.newbjia.utils.ToastUtil;
+/**
+ * 修改个性签名页
+ * @author John
+ *
+ */
+public class UpdateSignActivity extends BaseActivity implements OnClickListener{
+	private EditText et_sign_update;
+	private TextView tvRight;
+	private String signEdit;
+	private String uid;
+	private int mSignEdit;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.update_sign);
+		setTitle(R.string.updatesign,true, R.string.kong, true, R.string.save);
+		initView();
+		initData();
+		initListener();
+	}
+	private void initView() {
+		et_sign_update = (EditText) findViewById(R.id.et_sign_update);
+		tvRight = (TextView) findViewById(R.id.tv_title_right);
+	}
+	private void initData() {
+		
+	}
+	private void initListener() {
+		tvRight.setOnClickListener(this);
+	}
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.tv_title_right:
+			uid = UserInfoBean.getUserInfo(UpdateSignActivity.this).getUid();
+			signEdit = et_sign_update.getText().toString();
+			mSignEdit = mRequestManager.getSignEdit(uid,signEdit,true);
+			break;
+		}
+	}
+	@Override
+	public void onRequestFinished(int requestId, int resultCode, Bundle payload) {
+		super.onRequestFinished(requestId, resultCode, payload);
+		if (resultCode == PoCService.SUCCESS_CODE) {
+			if(mSignEdit == requestId){
+				int result = payload.getInt(ResponseBean.RESPONSE_STATE);
+				if (result == 1) {
+					openActivity(MyCenterActivity.class);
+					this.finish();
+				} else {
+					String msg = payload.getString(ResponseBean.RESPONSE_MESSAGE);
+					ToastUtil.makeShortText(UpdateSignActivity.this, msg);
+				}
+
+			}
+		}
+	}
+}

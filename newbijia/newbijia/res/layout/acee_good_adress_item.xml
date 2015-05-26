@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="fill_parent" >
+
+    <!-- 姓名和电话   下面这个  below  id   acesGoodId -->
+
+    <RelativeLayout
+        android:id="@+id/rl_bg"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <RelativeLayout
+            android:id="@+id/firstGoodsId"
+            android:layout_width="match_parent"
+            android:layout_height="37dp" >
+
+            <TextView
+                android:id="@+id/tv_uname_goodsId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="13dp"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_phonGoodsId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@id/tv_uname_goodsId"
+                android:textSize="18sp" >
+            </TextView>
+
+            <ImageView
+                android:id="@+id/im_penselId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="13dp"
+                android:padding="5dp"
+                android:src="@drawable/pencel" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.5dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:background="#dbdbdb" />
+        </RelativeLayout>
+        <!-- 地址 -->
+
+        <RelativeLayout
+            android:id="@+id/firstGoodsId2"
+            android:layout_width="fill_parent"
+            android:layout_height="37dp"
+            android:layout_below="@id/firstGoodsId" >
+
+            <TextView
+                android:id="@+id/tv_adres_goodsId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="13dp"
+                android:textSize="18sp" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:background="#dbdbdb" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

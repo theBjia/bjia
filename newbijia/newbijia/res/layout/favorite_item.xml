@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/rl_Favorite_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="#ffffff" >
+
+
+
+        <ImageView
+            android:id="@+id/im_Favorite_Photo"
+            android:layout_width="99dp"
+            android:layout_height="99dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/t13" />
+
+        <TextView
+            android:id="@+id/tv_Favorite_Weight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView1"
+            android:layout_alignBottom="@+id/textView1"
+            android:layout_marginLeft="2dp"
+            android:layout_toRightOf="@+id/textView1"
+            android:text="500g"
+            android:textColor="#cccccc" />
+
+        <ImageView
+            android:id="@+id/iv_favor_delete"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/dustbin" />
+
+        <View
+            android:id="@+id/View06"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/tv_Favorite_money"
+            android:layout_marginTop="22dp"
+            android:background="#cccccc" />
+
+        <TextView
+            android:id="@+id/tv_Favorite_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/im_Favorite_Photo"
+            android:layout_alignLeft="@+id/textView1"
+            android:text="￥ 100.0元"
+            android:textColor="#ff0000" />
+
+        <TextView
+            android:id="@+id/tv_Favorite_Pack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView3"
+            android:layout_alignBottom="@+id/textView3"
+            android:layout_toRightOf="@+id/textView3"
+            android:text="托盘加保鲜膜"
+            android:textColor="#cccccc" />
+
+        <TextView
+            android:id="@+id/tv_Favorite_Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/tv_Favorite_Pack"
+            android:layout_alignLeft="@+id/textView3"
+            android:text="进口苹果"
+            android:textColor="#444444"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/tv_Favorite_money"
+            android:layout_marginLeft="14dp"
+            android:layout_toRightOf="@+id/im_Favorite_Photo"
+            android:text="重量：" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/tv_Favorite_Weight"
+            android:layout_toLeftOf="@+id/tv_Favorite_Weight"
+            android:text="规格：" />
+    </RelativeLayout>
+
+</RelativeLayout>

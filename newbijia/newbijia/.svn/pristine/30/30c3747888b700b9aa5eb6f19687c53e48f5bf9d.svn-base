@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/wwethers"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/rl_user"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp" >
+
+        <ImageView
+            android:id="@+id/imUserHead"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/dog" />
+
+        <TextView
+            android:id="@+id/tv_qianming"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/imUserHead"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/imUserHead"
+            android:text="你好"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tv_UserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tv_qianming"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/tv_qianming"
+            android:text="王小小"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/wether"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_below="@+id/rl_user"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/wether" >
+
+        <RelativeLayout
+            android:id="@+id/wether_id"
+            android:layout_width="160dp"
+            android:layout_height="fill_parent" >
+
+            <TextView
+                android:id="@+id/tv_wether_time"
+                android:layout_width="71dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="17dp"
+                android:layout_marginTop="5dp"
+                android:text="10:31"
+                android:textColor="#ffffff"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_wether_adres"
+                android:layout_width="71dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="17dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@id/tv_wether_time"
+                android:text="北京"
+                android:textColor="#ffffff"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_temperater"
+                android:layout_width="71dp"
+                android:layout_height="20dp"
+                android:layout_below="@id/tv_wether_time"
+                android:layout_marginLeft="17dp"
+                android:layout_marginTop="5dp"
+                android:gravity="left"
+                android:text="10℃"
+                android:textColor="#ffffff"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_wetherson"
+                android:layout_width="71dp"
+                android:layout_height="20dp"
+                android:layout_below="@id/tv_wether_adres"
+                android:layout_marginLeft="17dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@id/tv_temperater"
+                android:text="多云"
+                android:textColor="#ffffff"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_wether_date"
+                android:layout_width="142dp"
+                android:layout_height="20dp"
+                android:layout_below="@id/tv_wetherson"
+                android:layout_marginLeft="17dp"
+                android:layout_marginTop="10dp"
+                android:text="2014/10/31"
+                android:textColor="#ffffff"
+                android:textSize="18sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="160dp"
+            android:layout_height="fill_parent"
+            android:layout_alignTop="@id/wether_id"
+            android:layout_toRightOf="@id/wether_id" >
+
+            <ImageView
+                android:id="@+id/iv_wether_iMg"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/cloud" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

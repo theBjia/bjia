@@ -1,0 +1,43 @@
+package com.llkj.newbjia.mybijia;
+
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.R;
+/**
+ * 修改用户名
+ * @author John
+ *
+ */
+public class UpdateUserNameActivity extends BaseActivity implements OnClickListener{
+	EditText et_sign;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.update_name);
+		setTitle(R.string.updateusername, true,R.string.kong,true,R.string.save);
+		initView();
+		initDate();
+		initListener();
+	}
+	private void initView() {
+		et_sign = (EditText) findViewById(R.id.et_sign);
+	}
+	private void initDate() {
+		// TODO Auto-generated method stub
+		
+	}
+	private void initListener() {
+		
+	}
+	@Override
+	public void onClick(View v) {
+		et_sign.getText().toString();
+	}
+
+}

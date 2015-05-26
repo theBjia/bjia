@@ -1,0 +1,90 @@
+package com.llkj.newbjia.adpater;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.zip.Inflater;
+
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.utils.FinalBitmapUtil;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+public class OrderDetailsAdapter extends BaseAdapter{
+	private LayoutInflater inflater;
+	private Map<Integer, View>map = new HashMap<Integer, View>();
+	private ArrayList arrayList;
+	private FinalBitmapUtil bitmapUtil;
+	private Context context;
+	
+	public OrderDetailsAdapter(Context context,ArrayList list){
+		this.inflater = LayoutInflater.from(context);
+		this.context = context;
+		setData(list);
+		bitmapUtil = FinalBitmapUtil.create(context);
+	}
+	
+	private void setData(ArrayList list) {
+		if(null != list){
+			this.arrayList = list;
+		}else{
+			this.arrayList = new ArrayList();
+		}
+	}
+	
+	public void notifyDataSetChanged(ArrayList list) {
+		setData(list);
+		map.clear();
+		this.notifyDataSetChanged();
+	}
+	@Override
+	public int getCount() {
+		return arrayList.size();
+	}
+
+	@Override
+	public Object getItem(int position) {
+		return arrayList.get(position);
+	}
+
+	@Override
+	public long getItemId(int position) {
+		return position;
+	}
+
+	@Override
+	public View getView(final int position, View convertView, ViewGroup parent) {
+		HoldView holdView;
+		View pv;
+		if(null == map.get(position)){
+			pv = inflater.inflate(R.layout.order_details_item,null);
+			holdView = new HoldView();
+			holdView.im_Photo = (ImageView) pv.findViewById(R.id.im_Photo);
+			holdView.tv_CommodityName = (TextView) pv.findViewById(R.id.tv_CommodityName);
+			holdView.tv_Weight = (TextView) pv.findViewById(R.id.tv_Weight);
+			holdView.tv_Number = (TextView) pv.findViewById(R.id.tv_Number);
+			HashMap item = (HashMap) arrayList.get(position);
+			if(item.containsKey("name")){
+				String name =  item.get("name").toString();
+				holdView.tv_CommodityName.setText(name);
+			}
+			pv.setTag(holdView);
+			map.put(position, pv);
+		}else{
+			pv = map.get(position);
+			holdView = (HoldView) pv.getTag();
+		}
+		return pv;
+	}
+	
+	class HoldView{
+		ImageView im_Photo;
+		TextView tv_CommodityName,tv_Weight,tv_Pack,tv_Number;
+	}
+}

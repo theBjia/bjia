@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eeeeee"
+     >
+    
+    
+        <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:background="#3AB485" 
+        android:id="@+id/seefl_id"
+        >
+
+        <TextView
+            android:id="@+id/self_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="自提点选择"
+            android:textColor="#ffffff"
+            android:textSize="22dp" />
+
+        <ImageView
+            android:id="@+id/self_back_imgId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:padding="10dp"
+            android:src="@drawable/back_img" 
+        
+            />
+
+        <ImageView
+            android:id="@+id/self_tv_head_title_finish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:padding="10dp"
+            android:src="@drawable/fangda_jing"
+            />
+    </RelativeLayout>
+    
+        <RelativeLayout 
+            android:layout_below="@id/seefl_id"
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/chang_tiao_bg"
+            android:id="@+id/bg_id"
+             
+            
+            >
+            
+            <LinearLayout 
+                android:layout_width="fill_parent"
+               android:layout_height="fill_parent"
+               android:orientation="horizontal"                
+                
+                >
+                <TextView 
+                   android:layout_width="0dp"
+                   android:layout_height="wrap_content"
+                   android:layout_weight="1"
+                    android:text="附近自提点"
+                    android:textColor="#ffffff"
+                   android:gravity="center"
+                   android:layout_marginTop="7dp"
+                    android:id="@+id/leftId"
+                    />
+                
+                <TextView 
+                   android:layout_width="0dp"
+                   android:layout_height="wrap_content"
+                   android:layout_weight="1"
+                    android:text="全部自提点"
+                    android:textColor="#ffffff"
+                  android:layout_marginTop="7dp"
+                    android:gravity="center"
+                    android:id="@+id/ritId"
+                    />
+                
+                
+                
+            </LinearLayout>
+            
+        </RelativeLayout>
+    
+    <ListView 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bg_id"
+        android:layout_marginTop="10dp"
+        ></ListView>
+
+</RelativeLayout>

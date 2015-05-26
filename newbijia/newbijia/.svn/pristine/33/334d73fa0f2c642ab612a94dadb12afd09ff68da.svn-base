@@ -1,0 +1,81 @@
+package com.llkj.newbjia.chat;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.TextView;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.R;
+
+/**
+ * 关于我们页
+ * 
+ * @author John
+ * 
+ */
+public class ChatSettingActivity extends BaseActivity implements
+		OnClickListener {
+	private TextView tv_setchatbg, tv_clear_chatcontent;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.layout_chatsetting);
+		setTitle(R.string.chat_setting, true, R.string.kong, false,
+				R.string.kong);
+		initView();
+		initData();
+		initListener();
+	}
+
+	private void initView() {
+		tv_setchatbg = (TextView) findViewById(R.id.tv_setchatbg);
+		tv_clear_chatcontent = (TextView) findViewById(R.id.tv_clear_chatcontent);
+	}
+
+	private void initData() {
+
+	}
+
+	private void initListener() {
+		tv_setchatbg.setOnClickListener(this);
+		tv_clear_chatcontent.setOnClickListener(this);
+	}
+
+	@Override
+	public void onClick(View v) {
+		Intent intent;
+		switch (v.getId()) {
+		case R.id.tv_setchatbg:
+
+			break;
+		case R.id.tv_clear_chatcontent:
+			new AlertDialog.Builder(this)
+			.setTitle("警告")
+			.setMessage("删除聊天记录将无法恢复，请谨慎操作")
+			.setNegativeButton("取消",
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog,
+								int which) {
+						}
+					})
+
+			.setPositiveButton("确定",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog,
+								int whichButton) {
+							
+						}
+					}).show();
+			break;
+
+		}
+	}
+
+}

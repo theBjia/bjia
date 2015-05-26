@@ -1,0 +1,72 @@
+package com.llkj.newbjia.factory;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.os.Bundle;
+
+import com.llkj.newbjia.bean.ResponseBean;
+
+public class ShopCartListFactory {
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static Bundle parseResult(String wsResponse) throws JSONException {
+		JSONObject jsonObject = new JSONObject(wsResponse);
+		Bundle bundle = new Bundle();
+		if (jsonObject.has(ResponseBean.RESPONSE_STATE)) {
+			bundle.putInt(ResponseBean.RESPONSE_STATE, jsonObject.getInt(ResponseBean.RESPONSE_STATE));
+		}
+
+		if (jsonObject.has(ResponseBean.RESPONSE_MESSAGE)) {
+			bundle.putString(ResponseBean.RESPONSE_MESSAGE, jsonObject.getString(ResponseBean.RESPONSE_MESSAGE));
+		}
+		if (jsonObject.has(ResponseBean.RESPONSE_TOTAL_PRICE)) {
+			bundle.putString(ResponseBean.RESPONSE_TOTAL_PRICE, jsonObject.getString(ResponseBean.RESPONSE_TOTAL_PRICE));
+		}
+		if (jsonObject.has(ResponseBean.RESPONSE_GOODS_LIST)) {
+			JSONArray array = jsonObject.getJSONArray(ResponseBean.RESPONSE_GOODS_LIST);
+			ArrayList list = new ArrayList();
+			HashMap map;
+			for (int i = 0; i < array.length(); i++) {
+				JSONObject item = array.getJSONObject(i);
+				map = new HashMap();
+				
+				if (item.has(ResponseBean.RESPONSE_ID)) {
+					map.put(ResponseBean.RESPONSE_ID, item.getString(ResponseBean.RESPONSE_ID));
+				}
+				if (item.has(ResponseBean.RESPONSE_GOODS_PRICE)) {
+					map.put(ResponseBean.RESPONSE_GOODS_PRICE, item.getString(ResponseBean.RESPONSE_GOODS_PRICE));
+				}
+				if (item.has(ResponseBean.RESPONSE_GOODS_NAME)) {
+					map.put(ResponseBean.RESPONSE_GOODS_NAME, item.getString(ResponseBean.RESPONSE_GOODS_NAME));
+				}
+				if (item.has(ResponseBean.RESPONSE_GOODS_NUMBER)) {
+					map.put(ResponseBean.RESPONSE_GOODS_NUMBER, item.getString(ResponseBean.RESPONSE_GOODS_NUMBER));
+				}
+				if (item.has(ResponseBean.RESPONSE_COMMODITY_PACKAGING)) {
+					map.put(ResponseBean.RESPONSE_COMMODITY_PACKAGING, item.getString(ResponseBean.RESPONSE_COMMODITY_PACKAGING));
+				}
+				if (item.has(ResponseBean.RESPONSE_GOODS_WEIGHT)) {
+					map.put(ResponseBean.RESPONSE_GOODS_WEIGHT, item.getString(ResponseBean.RESPONSE_GOODS_WEIGHT));
+				}
+				if (item.has(ResponseBean.RESPONSE_GOODS_IMG)) {
+					map.put(ResponseBean.RESPONSE_GOODS_IMG, item.getString(ResponseBean.RESPONSE_GOODS_IMG));
+				}
+				if (item.has(ResponseBean.RESPONSE_GOODS_ID)) {
+					map.put(ResponseBean.RESPONSE_GOODS_ID, item.getString(ResponseBean.RESPONSE_GOODS_ID));
+				}
+				
+				list.add(map);
+			}
+			bundle.putParcelableArrayList(ResponseBean.RESPONSE_GOODS_LIST, list);
+		}
+		if (jsonObject.has(ResponseBean.RESPONSE_NUMBER)) {
+			bundle.putString(ResponseBean.RESPONSE_NUMBER, jsonObject.getString(ResponseBean.RESPONSE_NUMBER));
+		}
+
+		return bundle;
+	}
+}

@@ -1,0 +1,80 @@
+package com.llkj.newbjia.main;
+
+import java.util.ArrayList;
+
+import android.os.Bundle;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.MyApplication;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.adpater.GoodsInfoAdapter;
+import com.llkj.newbjia.customview.XListView;
+import com.llkj.newbjia.customview.XListView.IXListViewListener;
+
+public class GoodsInfoActivity extends BaseActivity implements
+		IXListViewListener {
+	private XListView listview;
+	private GoodsInfoAdapter adapter;
+	private ArrayList arrayList;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.layout_goods_info);
+		setTitle(R.string.goodsinfo, true, R.string.kongzifuchuan, false,
+				R.string.kongzifuchuan);
+
+		initView();
+		initListener();
+		initData();
+	}
+
+	private void initView() {
+		// TODO Auto-generated method stub
+		listview = (XListView) findViewById(R.id.xlv_content);
+	}
+
+	private void initListener() {
+		// TODO Auto-generated method stub
+		listview.setXListViewListener(this);
+		listview.setPullLoadEnable(true);
+		listview.setPullRefreshEnable(true);
+	}
+
+	public void stopXlistview() {
+		listview.stopLoadMore();
+		listview.stopRefresh();
+
+	}
+	private void initData() {
+		// TODO Auto-generated method stub
+		arrayList = new ArrayList();
+		for(int i=0;i<10;i++){
+			arrayList.add("测试"+i);
+		}
+		adapter= new GoodsInfoAdapter(this, arrayList);
+		listview.setAdapter(adapter);
+	}
+	
+	class MyTask implements Runnable{
+
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			stopXlistview();
+		}
+		
+	}
+
+	@Override
+	public void onRefresh() {
+		// TODO Auto-generated method stub
+		MyApplication.handler.postDelayed(new MyTask(), 3000);
+	}
+
+	@Override
+	public void onLoadMore() {
+		// TODO Auto-generated method stub
+		MyApplication.handler.postDelayed(new MyTask(), 3000);
+	}
+}

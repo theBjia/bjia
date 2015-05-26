@@ -1,0 +1,69 @@
+package com.llkj.newbjia.shoppingcart;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ListView;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.adpater.MyCartAdapter;
+import com.llkj.newbjia.adpater.MyCartAdapter.Myclick;
+import com.llkj.newbjia.utils.ToastUtil;
+
+public class MyCartActivity extends BaseActivity implements Myclick{
+	private ArrayList arrayList;
+	private MyCartAdapter adapter;
+	private ListView My_carnTId;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.my_cart);
+		setTitle(R.string.mycart, true, R.string.kong, true, R.string.kong);
+		initView();
+		initData();
+		initListener();
+	}
+
+	private void initView() {
+		My_carnTId = (ListView) findViewById(R.id.My_carnTId);
+	}
+
+	private void initData() {
+		arrayList = new ArrayList();
+		for(int i = 0;i<2;i++){
+			HashMap hashMap = new HashMap();
+			hashMap.put("Money","¥100.00元"+i);
+			arrayList.add(hashMap);
+		}
+		adapter = new MyCartAdapter(MyCartActivity.this, arrayList,this);
+		My_carnTId.setAdapter(adapter);
+	}
+
+	private void initListener() {
+		
+	}
+
+	@Override
+	public void myClick(View v, int type) {
+		HashMap hashMap;
+		switch (type) {
+		case 1:
+			ToastUtil.makeShortText(MyCartActivity.this, "弹出对话框");
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public void myLongClick(View v, int type) {
+		// TODO Auto-generated method stub
+		
+	}
+}

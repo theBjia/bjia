@@ -1,0 +1,120 @@
+package com.llkj.newbjia.mybijia;
+
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.R.string;
+import com.llkj.newbjia.bean.ResponseBean;
+import com.llkj.newbjia.bean.UserInfoBean;
+import com.llkj.newbjia.http.PoCService;
+import com.llkj.newbjia.utils.StringUtil;
+import com.llkj.newbjia.utils.ToastUtil;
+/**
+ * 修改密码页
+ * @author John
+ *
+ */
+public class UpdatePassword extends BaseActivity implements OnClickListener{
+			 //原密码                          新密码                      确认新密码
+	EditText et_RawPassword,et_Password,et_NewPassword;
+	TextView tvRight;
+	private String uid;
+	private int mPasswordEdit;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.password_update);
+		setTitle(R.string.updatepassword,true,R.string.kong,true,R.string.send);
+		initView();
+		initData();
+		initListener();
+	}
+
+	private void initView() {
+		et_RawPassword = (EditText) findViewById(R.id.et_RawPassword);
+		et_Password = (EditText) findViewById(R.id.et_Password);
+		et_NewPassword = (EditText) findViewById(R.id.et_NewPassword);
+		tvRight = (TextView) findViewById(R.id.tv_title_right);
+	}
+
+	private void initData() {
+		uid = UserInfoBean.getUserInfo(this).getUid();
+	}
+
+	private void initListener() {
+		tvRight.setOnClickListener(this);
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+
+		case R.id.tv_title_right:
+			String RawPassword = et_RawPassword.getText().toString();
+			String Password = et_Password.getText().toString();
+			String NewPassword = et_NewPassword.getText().toString();
+			
+			if(TextUtils.isEmpty(RawPassword)){
+				ToastUtil.makeShortText(UpdatePassword.this, "原密码不能为空");
+				return;
+			}
+			if(RawPassword.length()<6){
+				ToastUtil.makeShortText(UpdatePassword.this, "原密码不能小于6位");
+				return;
+			}
+			if(TextUtils.isEmpty(Password)){
+				ToastUtil.makeShortText(UpdatePassword.this, "新密码不能为空");
+				return;
+			}
+			if(Password.length()<6){
+				ToastUtil.makeShortText(UpdatePassword.this, "新密码不能小于6位");
+				return;
+			}
+			if(TextUtils.isEmpty(NewPassword)){
+				ToastUtil.makeShortText(UpdatePassword.this, "确认密码不能为空");
+				return;
+			}
+			if(NewPassword.length()<6){
+				ToastUtil.makeShortText(UpdatePassword.this, "确认密码不能小于6位");
+				return;
+			}
+			if(!NewPassword.equals(Password)){
+				ToastUtil.makeLongText(UpdatePassword.this,"两次密码不一致！");
+				return;
+			}
+			
+			if(StringUtil.isNetworkConnected(this)){
+				if(null != uid){
+					mPasswordEdit = mRequestManager.getPasswordEdit(uid, RawPassword, Password, true);
+				}
+			}else{
+				ToastUtil.makeShortText(this, R.string.no_wangluo);
+			}
+			break;
+		}
+	}
+	
+	@Override
+	public void onRequestFinished(int requestId, int resultCode, Bundle payload) {
+		super.onRequestFinished(requestId, resultCode, payload);
+		if (resultCode == PoCService.SUCCESS_CODE) {
+			if(mPasswordEdit == requestId){
+				int result = payload.getInt(ResponseBean.RESPONSE_STATE);
+				if (result == 1) {
+					ToastUtil.makeShortText(this, R.string.PWDok);
+				} else {
+					String msg = payload.getString(ResponseBean.RESPONSE_MESSAGE);
+					ToastUtil.makeShortText(this, msg);
+				}
+
+			}
+		}
+	}
+}

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/shopcart_editnumberbg" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:text="是否确认收货" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/textView1"
+            android:layout_marginTop="15dp"
+            android:background="@color/fengeline_gray" />
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_below="@+id/imageView3"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/input_number"
+            android:visibility="invisible" />
+
+        <Button
+            android:id="@+id/bt_constantkefu"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_below="@+id/tv_content"
+            android:layout_marginTop="10dp"
+            android:layout_toLeftOf="@+id/tv_content"
+            android:background="@drawable/shopcart_red_bg"
+            android:text="联系客服"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/bt_sure_shouhuo"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignBaseline="@+id/bt_constantkefu"
+            android:layout_alignBottom="@+id/bt_constantkefu"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/tv_content"
+            android:background="@drawable/shopcart_green"
+            android:text="确认收货"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:id="@+id/tv_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+           android:layout_alignParentRight="true"
+            android:padding="2dp"
+            android:text="关闭"
+            android:layout_marginRight="5dp" />
+    </RelativeLayout>
+
+</RelativeLayout>

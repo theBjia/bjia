@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAFAFA" >
+
+    <RelativeLayout
+        android:id="@+id/rl_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FAFAFA" >
+
+        <RelativeLayout
+            android:id="@+id/rl_one"
+            android:layout_width="fill_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="10dp" >
+
+            <ImageView
+                android:id="@+id/iv_goods_img"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/shangpinkuang" />
+
+            <TextView
+                android:id="@+id/tv_goods_name"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/iv_goods_img"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/iv_jian"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@id/iv_goods_img"
+                android:src="@drawable/jian_number" />
+
+            <TextView
+                android:id="@+id/tv_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@+id/iv_jian"
+                android:background="@drawable/kuang_kuang"
+                android:ellipsize="end"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:gravity="center"
+                android:singleLine="true" />
+
+            <ImageView
+                android:id="@+id/iv_add"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@+id/tv_number"
+                android:src="@drawable/add_number" />
+
+            <TextView
+                android:id="@+id/tv_goods_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignBaseline="@+id/tv_goods_name"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="10dp"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/tv_delete"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="30dp"
+                android:src="@drawable/lajixiang" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/rl_one"
+            android:layout_marginTop="10dp"
+            android:background="@color/fengeline_gray" />
+    </RelativeLayout>
+
+</RelativeLayout>

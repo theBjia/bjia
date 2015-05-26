@@ -1,0 +1,72 @@
+package com.llkj.newbjia.mybijia;
+
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.utils.ToastUtil;
+/**
+ * 修改密码页
+ * @author John
+ *
+ */
+public class UpdatePassword extends BaseActivity implements OnClickListener{
+			 //原密码                          新密码                      确认新密码
+	EditText et_RawPassword,et_Password,et_NewPassword;
+	TextView tvRight;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.password_update);
+		setTitle(R.string.updatepassword,true,R.string.kong,true,R.string.send);
+		initView();
+		initData();
+		initListener();
+	}
+
+	private void initView() {
+		et_RawPassword = (EditText) findViewById(R.id.et_RawPassword);
+		et_Password = (EditText) findViewById(R.id.et_Password);
+		et_NewPassword = (EditText) findViewById(R.id.et_NewPassword);
+		tvRight = (TextView) findViewById(R.id.tv_title_right);
+	}
+
+	private void initData() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void initListener() {
+		et_RawPassword.setOnClickListener(this);
+		tvRight.setOnClickListener(this);
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.et_RawPassword:
+			
+			break;
+		case R.id.et_Password:
+			
+			break;
+		case R.id.et_NewPassword:
+			
+			break;
+		case R.id.tv_title_right:
+			String Password = et_Password.getText().toString();
+			String NewPassword = et_NewPassword.getText().toString();
+			if(Password.equals(NewPassword)){
+				ToastUtil.makeLongText(UpdatePassword.this,"成功");
+			}else{
+				ToastUtil.makeLongText(UpdatePassword.this,"两次密码不一致！");
+			}
+			break;
+		}
+	}
+}

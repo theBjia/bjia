@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+	<RelativeLayout
+            android:id="@+id/rl_tt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/relativeLayout5" 
+            android:background="#ffffff">
+
+           
+
+                <Button
+                    android:id="@+id/button1"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_alignRight="@+id/imageView1"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/t13" />
+
+                <ImageView
+                    android:id="@+id/imageView1"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/t14" />
+
+                <TextView
+                    android:id="@+id/tv_CommodityName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/button1"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_toRightOf="@+id/button1"
+                    android:text="精品小苹果  山东烟台栖霞苹果"
+                    android:textColor="#333333"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/tv_Weight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/textView11"
+                    android:layout_toRightOf="@+id/textView11"
+                    android:text="500g"
+                    android:textColor="#cccccc"
+                    android:textSize="13sp" />
+
+                <Button
+                    android:id="@+id/button2"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_alignRight="@+id/imageView1"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/t13" />
+
+                <ImageView
+                    android:id="@+id/im_Photo"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/t14" />
+
+                <TextView
+                    android:id="@+id/textView12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/tv_Weight"
+                    android:layout_alignBottom="@+id/tv_Weight"
+                    android:layout_toRightOf="@+id/tv_Weight"
+                    android:layout_marginLeft="5dp"
+                    android:text="包装:"
+                    android:textColor="#cccccc"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/tv_Pack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/textView12"
+                    android:layout_alignBottom="@+id/textView12"
+                    android:layout_toRightOf="@+id/textView12"
+                    android:text="托盘加保鲜膜"
+                    android:textColor="#cccccc"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/textView13"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/tv_Pack"
+                    android:layout_alignBottom="@+id/tv_Pack"
+                    android:layout_marginRight="2dp"
+                    android:layout_toLeftOf="@+id/tv_Number"
+                    android:text="数量:"
+                    android:textColor="#333333"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/tv_Number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/textView13"
+                    android:layout_alignBottom="@+id/textView13"
+                    android:layout_alignParentRight="true"
+                    android:text="1个"
+                    android:layout_marginRight="5dp"
+                    android:textColor="#333333"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/textView11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/tv_CommodityName"
+                    android:layout_below="@+id/tv_CommodityName"
+                    android:text="重量:"
+                    android:textColor="#cccccc"
+                    android:textSize="13sp" 
+                    android:layout_marginTop="15dp"/>
+
+        </RelativeLayout>
+</RelativeLayout>

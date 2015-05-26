@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <TextView
+            android:id="@+id/tv_chat_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="12-1-3 15:00" />
+
+        <ImageView
+            android:id="@+id/chat_photo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/tv_chat_time"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:scaleType="fitXY"
+            android:src="@android:color/darker_gray" />
+
+        <TextView
+            android:id="@+id/tv_chat_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/chat_photo"
+            android:layout_alignRight="@+id/chat_photo"
+            android:layout_below="@+id/chat_photo"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="张三"
+            android:textSize="14sp" />
+
+        <RelativeLayout
+            android:id="@+id/rl_chat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/chat_photo"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_toRightOf="@+id/chat_photo"
+            android:background="@drawable/chat_left_bg" >
+
+            <ImageView
+                android:id="@+id/iv_chat_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:maxHeight="150dp"
+                android:maxWidth="100dp"
+                android:minHeight="35dp"
+                android:minWidth="35dp"
+                android:padding="2dp"
+                android:scaleType="fitXY" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

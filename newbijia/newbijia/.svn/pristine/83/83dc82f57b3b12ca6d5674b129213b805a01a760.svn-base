@@ -1,0 +1,65 @@
+package com.llkj.newbjia.mybijia;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ListView;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.adpater.OrderDetailsAdapter;
+/**
+ * 订单详情页
+ * @author John
+ *
+ */
+public class OrderDetailsActivity extends BaseActivity implements OnClickListener{
+	private ListView lv_goods;
+	private OrderDetailsAdapter adapter;
+	private ArrayList arrayList;
+	private View vHeader,vFooter;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.order_details);
+		setTitle(R.string.orderdetails,true,R.string.kong,false,R.string.kong);
+		initView();
+		initData();
+		initListener();
+	}
+
+	private void initView() {
+		lv_goods = (ListView) findViewById(R.id.lv_goods);
+		vHeader = LayoutInflater.from(this).inflate(R.layout.order_details_herad,null);
+		vFooter = LayoutInflater.from(this).inflate(R.layout.order_details_found,null);
+		lv_goods.addHeaderView(vHeader);
+		lv_goods.addFooterView(vFooter);
+		
+	}
+
+	private void initData() {
+		arrayList = new ArrayList();
+		for(int i = 0;i<2;i++){
+			HashMap hashMap = new HashMap();
+			hashMap.put("name","精品小苹果  山东烟台栖霞苹果");
+			arrayList.add(hashMap);
+		}
+		adapter = new OrderDetailsAdapter(OrderDetailsActivity.this, arrayList);
+		lv_goods.setAdapter(adapter);
+	}
+
+	private void initListener() {
+		
+	}
+
+	@Override
+	public void onClick(View v) {
+		
+	}
+}

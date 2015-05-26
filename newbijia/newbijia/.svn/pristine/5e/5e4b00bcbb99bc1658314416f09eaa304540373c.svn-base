@@ -1,0 +1,55 @@
+package com.llkj.newbjia.mybijia;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ListView;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.adpater.CityAdapter;
+/**
+ * 城市圈
+ * @author John
+ *
+ */
+public class CityActivity extends BaseActivity implements OnClickListener{
+	private ListView lv_city;
+	private CityAdapter adapter;
+	private ArrayList arrayList;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.city_ring);
+		setTitle(R.string.cityring, true,R.string.kong,false,R.string.kong);
+		initView();
+		initData();
+		initListener();
+	}
+	private void initView() {
+		lv_city = (ListView) findViewById(R.id.lv_city);
+	}
+	private void initData() {
+		arrayList = new ArrayList();
+		for(int i = 0;i<3;i++){
+			HashMap hashMap = new HashMap();
+			hashMap.put("name","北京圈");
+			arrayList.add(hashMap);
+		}
+		adapter = new CityAdapter(CityActivity.this, arrayList);
+		lv_city.setAdapter(adapter);
+	}
+	private void initListener() {
+		
+	}
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

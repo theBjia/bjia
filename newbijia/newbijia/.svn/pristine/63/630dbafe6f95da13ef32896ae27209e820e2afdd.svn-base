@@ -1,0 +1,219 @@
+package com.llkj.newbjia.quanzi;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
+
+import com.handmark.pulltorefresh.library.PullToRefreshGridView;
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.adpater.PublishPicAdpter;
+import com.llkj.newbjia.customview.MyGridView;
+import com.llkj.newbjia.utils.ImageOperate;
+import com.llkj.newbjia.utils.StringUtil;
+import com.llkj.newbjia.utils.ToastUtil;
+import com.llkj.newbjia.utils.UploadImageUtil;
+import com.llkj.newbjia.utils.UploadImageUtil.OnUploadFileForResultListener;
+import com.llkj.newbjia.utils.Utils;
+
+public class PublishActivity extends BaseActivity implements
+		OnUploadFileForResultListener, OnClickListener {
+
+	private MyGridView mGridView;
+	private ArrayList arrayList;
+	private PublishPicAdpter adapter;
+	private UploadImageUtil uploadImageUtil;
+	private ArrayList<String> imagePathList;
+	private static final int REQUEST_CODE_CAMERA = 0;
+	private static final int REQUEST_CODE_GALLERY = 1;
+	public List<String> bumList = new ArrayList<String>();
+	private Bitmap bum;
+	private ImageView iv_xiangji, iv_xiangce;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.layout_publish);
+		setTitle(R.string.publish, true, R.string.kongzifuchuan, false,
+				R.string.kongzifuchuan);
+
+		initView();
+		initListener();
+		initData();
+	}
+
+	private void initView() {
+		// TODO Auto-generated method stub
+
+		mGridView = (MyGridView) findViewById(R.id.mgv_content);
+		iv_xiangji = (ImageView) findViewById(R.id.iv_xiangji);
+		iv_xiangce = (ImageView) findViewById(R.id.iv_xiangce);
+
+	}
+
+	private void initData() {
+		// TODO Auto-generated method stub
+		uploadImageUtil = new UploadImageUtil();
+		// uploadImageUtil.setListener(this);
+		imagePathList = new ArrayList<String>();
+		arrayList = new ArrayList();
+		adapter = new PublishPicAdpter(this, arrayList);
+		mGridView.setAdapter(adapter);
+	}
+
+	private void initListener() {
+		// TODO Auto-generated method stub
+		mGridView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				arrayList.remove(position);
+				if (imagePathList != null && imagePathList.size() != 0) {
+					imagePathList.remove(position - 1);
+				}
+				adapter.notifyDataSetChanged();
+
+			}
+		});
+		iv_xiangji.setOnClickListener(this);
+		iv_xiangce.setOnClickListener(this);
+	}
+
+	/**
+	 * 通过相册获取头像
+	 */
+	private void getAvatarFromGallery() {
+		Intent intent = new Intent();
+		intent.setType("image/*");
+		intent.setAction(Intent.ACTION_GET_CONTENT);
+		startActivityForResult(intent, REQUEST_CODE_GALLERY);
+	}
+
+	/**
+	 * 通过拍照获取头像
+	 */
+	private void getAvatarFromCamera() {
+		Intent intent = Utils.photo(this);
+		startActivityForResult(intent, REQUEST_CODE_CAMERA);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == Activity.RESULT_OK) {
+
+			switch (requestCode) {
+			case REQUEST_CODE_CAMERA:
+				String path1;
+				try {
+					path1 = ImageOperate.revitionImageSize(Utils.path, this);
+					// showWaitDialog();
+					BitmapFactory.Options option = new BitmapFactory.Options();
+					option.inSampleSize = 2;
+					bum = BitmapFactory.decodeFile(path1, option);
+					HashMap map = new HashMap();
+					map.put("bitmap", bum);
+					arrayList.add(map);
+					adapter.notifyDataSetChanged();
+					if (!StringUtil.isEmpty(path1)) {
+						// 上传图片
+						File file = new File(path1);
+						// uploadImageUtil.uploadBg(this, file,
+						// UploadImageUtil.TYPE_PUBLISH, path1);
+					} else {
+						dismissDialog();
+						ToastUtil.makeShortText(this, "文件错误");
+					}
+
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+				break;
+			case REQUEST_CODE_GALLERY:
+				if (data != null) {
+					Uri selectedImage = data.getData();
+					String[] filePathColumns = { MediaStore.Images.Media.DATA };
+					Cursor c = this.getContentResolver().query(selectedImage,
+							filePathColumns, null, null, null);
+					c.moveToFirst();
+					int columnIndex = c.getColumnIndex(filePathColumns[0]);
+					String picturePath = c.getString(columnIndex);
+					// showWaitDialog();
+					try {
+						picturePath = ImageOperate.revitionImageSize(
+								picturePath, this);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					BitmapFactory.Options option = new BitmapFactory.Options();
+					option.inSampleSize = 2;
+					Bitmap bm = BitmapFactory.decodeFile(picturePath, null);
+					HashMap map = new HashMap();
+					map.put("bitmap", bm);
+					arrayList.add(map);
+					adapter.notifyDataSetChanged();
+					File file = new File(picturePath);
+					// uploadImageUtil.uploadBg(this, file,
+					// UploadImageUtil.TYPE_PUBLISH, picturePath);
+				} else {
+					dismissDialog();
+					ToastUtil.makeShortText(this, "文件错误");
+				}
+				break;
+
+			default:
+				break;
+			}
+		}
+	}
+
+	@Override
+	public void onResultListener(boolean isUploadSuccess, int result_code,
+			String path, String url, String message, String imagePath) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onClick(View arg0) {
+		// TODO Auto-generated method stub
+		switch (arg0.getId()) {
+		case R.id.iv_xiangji:
+			// 拍照
+			if (arrayList.size() < 9) {
+				getAvatarFromCamera();
+			} else {
+				ToastUtil.makeShortText(this, "最多可以添加9张图片");
+			}
+			break;
+		case R.id.iv_xiangce:
+			if (arrayList.size() < 9) {
+				getAvatarFromGallery();
+			} else {
+				ToastUtil.makeShortText(this, "最多可以添加9张图片");
+			}
+			break;
+		default:
+			break;
+		}
+	}
+}

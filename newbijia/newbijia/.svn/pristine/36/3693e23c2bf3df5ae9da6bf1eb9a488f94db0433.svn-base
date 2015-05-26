@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/carParId1"
+        android:layout_width="fill_parent"
+        android:layout_height="43dp"
+        android:layout_marginTop="10dp"
+        android:background="#ffffff" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="14dp"
+            android:text="¥100.00元"
+            android:textColor="#e30600" />
+
+        <TextView
+            android:id="@+id/catDleteId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="14dp"
+            android:text="删除"
+            android:textColor="#e30600" />
+
+        <View
+            android:id="@+id/blewId"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="#dcdcdc"
+            android:layout_marginLeft="10dp" />
+
+        <View
+            android:id="@+id/View01"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="#cfcfcf" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/bianKId"
+        android:layout_width="82dp"
+        android:layout_height="82dp"
+        android:layout_below="@id/carParId1"
+        android:layout_marginLeft="13dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/app_cone" >
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/apple_img" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/jinKisd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/bianKId"
+        android:layout_marginLeft="7dp"
+        android:layout_toRightOf="@id/bianKId"
+        android:text="进口水果  山东烟台栖霞果"
+        android:textColor="#000000"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/heigthId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/jinKisd"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@id/bianKId"
+        android:text="重量500g 包装：托盘加保鲜膜" />
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_below="@id/jinKisd"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@id/heigthId"
+        android:src="@drawable/grenn_gou" 
+        android:layout_alignParentRight = "true"/>
+
+    <TextView
+        android:id="@+id/numtId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/heigthId"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/bianKId"
+        android:text="数量："
+        android:textColor="#000000"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/num2SId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/heigthId"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/numtId"
+        android:background="@drawable/kuang_kuang"
+        android:gravity="center"
+        android:text="1"
+        android:textColor="#000000"
+        android:textSize="18sp" />
+
+    <View
+        android:id="@+id/vieId"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/num2SId"
+        android:layout_marginTop="10dp"
+        android:background="#cfcfcf" 
+        android:layout_marginLeft="10dp"/>
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/vieId"
+        android:layout_marginLeft="13dp"
+        android:layout_marginTop="20dp"
+        android:text="小计： ¥100.00元"
+        android:textColor="#e30600"
+        android:textSize="18sp" />
+
+    <View
+        android:id="@+id/View02"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView1"
+        android:layout_marginTop="14dp"
+        android:background="#cfcfcf" />
+
+</RelativeLayout>

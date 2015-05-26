@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eeeeee" >
+
+    <include
+        android:id="@+id/relativeLayout1"
+        layout="@layout/title_bar" />
+	
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeLayout1"
+        android:layout_centerHorizontal="true"
+        android:background="#FFFFFF" >
+
+        <View
+            android:id="@+id/ImageView06"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/LinearLayout05"
+            android:background="#cccccc" />
+
+        <LinearLayout
+            android:id="@+id/LinearLayout06"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true" >
+
+            <TextView
+                android:id="@+id/tvFriendRing1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="13dp"
+				android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="XX社交圈" 
+                android:textColor="#444444"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/ImageView08"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignLeft="@+id/ImageView06"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/LinearLayout06"
+            android:background="#cccccc" 
+            android:layout_marginLeft="15dp"/>
+
+        <LinearLayout
+            android:id="@+id/LinearLayout05"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/ImageView08" >
+
+            <TextView
+                android:id="@+id/tvFriendRing2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="13dp"
+                android:text="YY社交圈" 
+                android:textColor="#444444"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:textSize="20sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

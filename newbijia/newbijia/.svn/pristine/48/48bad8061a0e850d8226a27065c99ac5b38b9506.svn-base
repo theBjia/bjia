@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eeeeee" >
+
+    <include
+        android:id="@+id/relativeLayout1"
+        layout="@layout/stub_title" />
+    
+    <LinearLayout
+        android:id="@+id/ll_Show"
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:layout_below="@+id/relativeLayout1"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/t1"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        >
+        <TextView 
+            android:id="@+id/tv_Yes"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="可用"
+            android:gravity="center"
+            android:textColor="#eaf7f2"/>
+        
+        <TextView 
+            android:id="@+id/tv_No"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="不可用"
+            android:gravity="center"
+            android:textColor="#3ab483"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/ll_Show"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/t4" />
+
+    <View
+        android:id="@+id/ImageView06"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/imageView2"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:background="#ffffff" />
+
+    <View
+        android:id="@+id/View01"
+        android:layout_width="1dp"
+        android:layout_height="122dp"
+        android:layout_alignLeft="@+id/ImageView06"
+        android:layout_below="@+id/ImageView06"
+        android:background="#ffffff" />
+
+    <View
+        android:id="@+id/View02"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignBottom="@+id/imageView2"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="#ffffff" />
+
+    <View
+        android:id="@+id/View03"
+        android:layout_width="1dp"
+        android:layout_height="123dp"
+        android:layout_alignBottom="@+id/View02"
+        android:layout_alignRight="@+id/View02"
+        android:background="#ffffff" />
+
+    <View
+        android:id="@+id/View04"
+        android:layout_width="1dp"
+        android:layout_height="122dp"
+        android:layout_alignTop="@+id/View01"
+        android:layout_marginLeft="23dp"
+        android:layout_toRightOf="@+id/View01"
+        android:background="#ffffff" />
+
+    <View
+        android:id="@+id/View05"
+        android:layout_width="1dp"
+        android:layout_height="122dp"
+        android:layout_above="@+id/View02"
+        android:layout_marginRight="23dp"
+        android:layout_toLeftOf="@+id/View03"
+        android:background="#ffffff" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/View01"
+        android:layout_marginLeft="3dp"
+        android:layout_marginTop="14dp"
+        android:layout_toRightOf="@+id/View01"
+        android:text="彼"
+        android:textColor="#eaf7f2"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView3"
+        android:layout_below="@+id/textView3"
+        android:text="佳"
+        android:textColor="#eaf7f2"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView4"
+        android:layout_below="@+id/textView4"
+        android:text="商"
+        android:textColor="#eaf7f2"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView5"
+        android:layout_below="@+id/textView5"
+        android:text="城"
+        android:textColor="#eaf7f2"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/TextView01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView3"
+        android:layout_alignBottom="@+id/textView3"
+        android:layout_alignLeft="@+id/View05"
+        android:layout_marginLeft="3dp"
+        android:text="彼"
+        android:textColor="#eaf7f2"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/TextView02"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/TextView01"
+        android:layout_below="@+id/TextView01"
+        android:text="佳"
+        android:textColor="#eaf7f2"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/TextView03"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textView6"
+        android:layout_alignLeft="@+id/TextView02"
+        android:text="商"
+        android:textColor="#eaf7f2"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/TextView04"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/TextView03"
+        android:layout_below="@+id/TextView03"
+        android:text="城"
+        android:textColor="#eaf7f2"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/tvPrivilege"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/View04"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:text="店铺优惠券（满500）"
+        android:textColor="#eaf7f2"
+        android:textSize="22sp" />
+
+    <TextView
+        android:id="@+id/tvStartTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView7"
+        android:layout_marginTop="15dp"
+        android:layout_toRightOf="@+id/textView8"
+        android:text="2014.05.16--"
+        android:textColor="#eaf7f2"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/tvMoney"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textView4"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="100元"
+        android:textColor="#eaf7f2"
+        android:textSize="22sp" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvMoney"
+        android:layout_alignBottom="@+id/tvMoney"
+        android:layout_toRightOf="@+id/tvMoney"
+        android:text="劵"
+        android:textColor="#eaf7f2"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tvEndTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvStartTime"
+        android:layout_alignBottom="@+id/tvStartTime"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@+id/View05"
+        android:text="2014.06.16"
+        android:textColor="#eaf7f2"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvStartTime"
+        android:layout_alignBottom="@+id/tvStartTime"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/View04"
+        android:text="有效期："
+        android:textColor="#eaf7f2"
+        android:textSize="17sp" />
+
+</RelativeLayout>

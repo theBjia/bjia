@@ -1,0 +1,132 @@
+package com.llkj.newbjia.adpater;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.utils.FinalBitmapUtil;
+import com.llkj.newbjia.utils.ToastUtil;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+public class MyCartAdapter extends BaseAdapter{
+	
+	private LayoutInflater inflater;
+	private Map<Integer, View>map = new HashMap<Integer, View>();
+	private ArrayList arrayList;
+	private Context context;
+	private FinalBitmapUtil bitmapUtil;
+	private  Myclick myclick;
+	
+	public MyCartAdapter(Context context,ArrayList list,Myclick clicker){
+		this.inflater = LayoutInflater.from(context);
+		this.context = context;
+		setData(list);
+		bitmapUtil = FinalBitmapUtil.create(context);
+		this.myclick = clicker;
+	}
+	
+	private void setData(ArrayList list) {
+		if(null != list){
+			this.arrayList = list;
+		}else{
+			this.arrayList = new ArrayList();
+		}
+	}
+	
+	public void notifyDataSetChanged(ArrayList list) {
+		setData(list);
+		map.clear();
+		this.notifyDataSetChanged();
+	}
+	
+	@Override
+	public int getCount() {
+		// TODO Auto-generated method stub
+		return arrayList.size();
+	}
+
+	@Override
+	public Object getItem(int position) {
+		// TODO Auto-generated method stub
+		return arrayList.get(position);
+	}
+
+	@Override
+	public long getItemId(int position) {
+		// TODO Auto-generated method stub
+		return position;
+	}
+
+	@Override
+	public View getView(final int position, View convertView, ViewGroup parent) {
+		HoldView holdView;
+		View pv;
+		 if(null == map.get(position)){
+			 pv = inflater.inflate(R.layout.my_cart_item, null);
+			 holdView = new HoldView();
+			 holdView.tv_Money = (TextView) pv.findViewById(R.id.tv_Money);
+			 holdView.tv_catDleteId = (TextView) pv.findViewById(R.id.tv_catDleteId);
+			 holdView.tv_jinKisd = (TextView) pv.findViewById(R.id.tv_jinKisd);
+			 holdView.tv_Weight = (TextView) pv.findViewById(R.id.tv_Weight);
+			 holdView.tv_Pack = (TextView) pv.findViewById(R.id.tv_Pack);
+			 holdView.tv_Number = (TextView) pv.findViewById(R.id.tv_Number);
+			 
+			 holdView.btn_num2SId = (Button) pv.findViewById(R.id.btn_num2SId);
+			 holdView.btn_num2SId.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					myclick.myClick(v, 1);
+				}
+			});
+			 holdView.tv_catDleteId.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					myclick.myClick(v, 2);
+					arrayList.remove(position);
+					notifyDataSetChanged(arrayList);
+				}
+			});
+			 holdView.btn_num2SId.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					myclick.myClick(v, 3);
+				}
+			});
+			 HashMap item = (HashMap) arrayList.get(position);
+			 if(item.containsKey("Money")){
+				 String Money = item.get("Money").toString();
+				 holdView.tv_Money.setText(Money);
+			 }
+			 pv.setTag(holdView);
+			 map.put(position, pv);
+		 }else{
+			 pv = map.get(position);
+			 holdView = (HoldView) pv.getTag();
+		 }
+		return pv;
+	}
+	
+	class HoldView{
+		TextView tv_Money,tv_catDleteId,tv_jinKisd,tv_Weight,tv_Pack,tv_Number;
+		Button btn_num2SId;
+		ImageView im_Onclick;
+	}
+	
+	public interface Myclick{
+		void myClick(View v,int type);//type 为1 点击
+		void myLongClick(View v,int type);
+	}
+}

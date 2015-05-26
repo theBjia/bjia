@@ -1,0 +1,186 @@
+package com.llkj.newbjia.friend;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+
+import com.llkj.newbjia.BaseFragment;
+import com.llkj.newbjia.MainActivity;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.adpater.ContactsAdapter;
+import com.llkj.newbjia.adpater.ContactsAdapter.MyClicker;
+import com.llkj.newbjia.sortlistview.CharacterParser;
+import com.llkj.newbjia.sortlistview.PinyinComparator;
+import com.llkj.newbjia.sortlistview.SideBar;
+import com.llkj.newbjia.sortlistview.SideBar.OnTouchingLetterChangedListener;
+import com.llkj.newbjia.sortlistview.SortModel;
+
+/**
+ * 首页:说画界面
+ * 
+ * @author zhang.zk
+ * 
+ */
+public class FriendFragment extends BaseFragment implements OnClickListener,
+		MyClicker {
+	private Button bt_search;
+	private ListView lv_content;
+	private ArrayList arrayList;
+	private ContactsAdapter adapter;
+	private LinearLayout ll_title_back;
+	private CharacterParser characterParser;
+	private PinyinComparator pinyinComparator;
+	private List<SortModel> SourceDateList;
+	private SideBar sideBar;
+	private RelativeLayout rl_newfriend, rl_addfriend;
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		if (rootView == null) {
+			rootView = inflater.inflate(R.layout.layout_friend, null);
+			initView();
+			initListener();
+			intData();
+		} else {
+			ViewGroup parent = (ViewGroup) rootView.getParent();
+			if (parent != null) {
+				parent.removeView(rootView);
+			}
+		}
+		return rootView;
+	}
+
+	private void intData() {
+		characterParser = CharacterParser.getInstance();
+		pinyinComparator = new PinyinComparator();
+		arrayList = new ArrayList();
+		HashMap map = new HashMap();
+		map.put("user_name", "张三");
+		map.put("uid", "10");
+		map.put("logo",
+				"http://baifahui.bloveambition.com/data/logo20141107hacsro.png");
+		HashMap map1 = new HashMap();
+		map1.put("user_name", "李四");
+		map1.put("uid", "11");
+		map1.put("logo",
+				"http://baifahui.bloveambition.com/data/logo20141107hacsro.png");
+		HashMap map2 = new HashMap();
+		map2.put("user_name", "魏延");
+		map2.put("uid", "12");
+		map2.put("logo",
+				"http://baifahui.bloveambition.com/data/logo20141107hacsro.png");
+		arrayList.add(map);
+		arrayList.add(map1);
+		arrayList.add(map2);
+		SourceDateList = filledData(arrayList);
+		adapter = new ContactsAdapter(getActivity(), SourceDateList, this);
+		lv_content.setAdapter(adapter);
+	}
+
+	private void initListener() {
+		ll_title_back.setOnClickListener(this);
+		rl_addfriend.setOnClickListener(this);
+		rl_newfriend.setOnClickListener(this);
+		// 设置右侧触摸监听
+		sideBar.setOnTouchingLetterChangedListener(new OnTouchingLetterChangedListener() {
+
+			@Override
+			public void onTouchingLetterChanged(String s) {
+				// 该字母首次出现的位置
+				if (adapter == null)
+					return;
+				int position = adapter.getPositionForSection(s.charAt(0));
+				if (position != -1) {
+					lv_content.setSelection(position);
+				}
+
+			}
+		});
+	}
+
+	private void initView() {
+		sideBar = (SideBar) rootView.findViewById(R.id.sidrbar);
+		bt_search = (Button) rootView.findViewById(R.id.bt_search);
+		lv_content = (ListView) rootView.findViewById(R.id.lv_content);
+		ll_title_back = (LinearLayout) rootView
+				.findViewById(R.id.ll_title_back);
+		rl_newfriend = (RelativeLayout) rootView
+				.findViewById(R.id.rl_newfriend);
+		rl_addfriend = (RelativeLayout) rootView
+				.findViewById(R.id.rl_addfriend);
+		// sideBar.setTextView(dialog);
+	}
+
+	@Override
+	public void onClick(View v) {
+		Intent intent;
+		switch (v.getId()) {
+		case R.id.ll_title_back:
+			if ((MainActivity) getActivity() != null) {
+				((MainActivity) getActivity()).switchContent(0);
+			}
+			break;
+		case R.id.rl_newfriend:
+			intent = new Intent(getActivity(), NewFriendActivity.class);
+			startActivity(intent);
+			break;
+		case R.id.rl_addfriend:
+			intent = new Intent(getActivity(), AddFriendActivity.class);
+			startActivity(intent);
+			break;
+		default:
+			break;
+		}
+
+	}
+
+	// 把arrayList 封装成sortmodel对象
+	private List<SortModel> filledData(ArrayList arraylist) {
+		List<SortModel> mSortList = new ArrayList<SortModel>();
+		for (int i = 0; i < arraylist.size(); i++) {
+			if (((HashMap) arraylist.get(i)).containsKey("user_name")) {
+				SortModel sortModel = new SortModel();
+				HashMap map = (HashMap) arraylist.get(i);
+				sortModel.setName(map.get("user_name").toString());
+				sortModel.setPic(map.get("logo").toString());
+				sortModel.setUid(map.get("uid").toString());
+				// 汉字转换成拼音
+				String pinyin = characterParser.getSelling(map.get("user_name")
+						.toString());
+				String sortString = pinyin.substring(0, 1).toUpperCase();
+				// 正则表达式，判断首字母是否是英文字母
+				if (sortString.matches("[A-Z]")) {
+					sortModel.setSortLetters(sortString.toUpperCase());
+				} else {
+					sortModel.setSortLetters("#");
+				}
+
+				mSortList.add(sortModel);
+			}
+		}
+		Collections.sort(mSortList, pinyinComparator);
+		return mSortList;
+
+	}
+
+	@Override
+	public void myCLick(View v, int position) {
+		// TODO Auto-generated method stub
+			Intent intent = new Intent(getActivity(),DetailInfoActivity.class);
+			getActivity().startActivity(intent);
+	}
+
+}

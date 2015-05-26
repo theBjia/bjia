@@ -1,0 +1,86 @@
+package com.llkj.newbjia.mybijia;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.RelativeLayout;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.R;
+/**
+ * 我的彼佳页
+ * @author John
+ *
+ */
+public class MyBijiaActivity extends BaseActivity implements OnClickListener{
+					//0.用户信息     ，订单查询，                我的彼佳币，    我的积分，         我的优惠券，         收藏夹，                 浏览历史，       设置
+	RelativeLayout rl_UserInfo,rl_OrderCheck,rl_MyMoney,rl_MyScore,rl_MyCoupon,rl_Favorite,rl_History,rl_Setting;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.my_bijia);
+		setTitle(R.string.mybijia, true, R.string.kong, false, R.string.kong);
+		initView();
+		initData();
+		initListener();
+	}
+
+	private void initView() {
+		rl_UserInfo = (RelativeLayout) findViewById(R.id.rl_UserInfo);
+		rl_OrderCheck = (RelativeLayout) findViewById(R.id.rl_OrderCheck);
+		rl_MyMoney = (RelativeLayout) findViewById(R.id.rl_MyMoney);
+		rl_MyScore = (RelativeLayout) findViewById(R.id.rl_MyScore);
+		rl_MyCoupon = (RelativeLayout) findViewById(R.id.rl_MyCoupon);
+		rl_Favorite = (RelativeLayout) findViewById(R.id.rl_Favorite);
+		rl_History = (RelativeLayout) findViewById(R.id.rl_History);
+		rl_Setting = (RelativeLayout) findViewById(R.id.rl_Setting);
+		
+	}
+
+	private void initData() {
+		
+	}
+
+	private void initListener() {
+		rl_UserInfo.setOnClickListener(this);
+		rl_OrderCheck.setOnClickListener(this);
+		rl_MyMoney.setOnClickListener(this);
+		rl_MyScore.setOnClickListener(this);
+		rl_MyCoupon.setOnClickListener(this);
+		rl_Favorite.setOnClickListener(this);
+		rl_History.setOnClickListener(this);
+		rl_Setting.setOnClickListener(this);
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.rl_UserInfo:
+			openActivity(MyCenterActivity.class);
+			break;
+		case R.id.rl_OrderCheck:
+			openActivity(OrderCheckActivity.class);
+			break;
+		case R.id.rl_MyMoney:
+			openActivity(MyMoneyActivity.class);
+			break;
+		case R.id.rl_MyScore:
+			openActivity(MyScoreActivity.class);
+			break;
+		case R.id.rl_MyCoupon:
+			openActivity(CouponActivity.class);
+			break;
+		case R.id.rl_Favorite:
+			openActivity(FavoriteActivity.class);
+			break;
+		case R.id.rl_History:
+			openActivity(BrowsingActivity.class);
+			break;
+		case R.id.rl_Setting:
+			openActivity(MySettingActivity.class);
+			break;
+		}
+	}
+}

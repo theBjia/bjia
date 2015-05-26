@@ -1,0 +1,212 @@
+package com.llkj.newbjia.adpater;
+
+/**
+ * 文章详情页图片适配器
+ * 
+ */
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.text.Html;
+import android.text.Spanned;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.llkj.newbjia.R;
+
+@SuppressLint("UseSparseArrays")
+public class QuanzhiAdapter extends BaseAdapter {
+
+	private LayoutInflater inflater;
+	protected Map<Integer, View> viewMap = new HashMap<Integer, View>();
+	@SuppressWarnings("rawtypes")
+	private ArrayList list;
+	private Context context;
+	private MyClicker myCLicker;
+
+	@SuppressWarnings("rawtypes")
+	public QuanzhiAdapter(Context context, ArrayList list, MyClicker myCLicker) {
+		this.inflater = LayoutInflater.from(context);
+		this.list = list;
+		this.context = context;
+		this.myCLicker = myCLicker;
+	}
+
+	@SuppressWarnings("rawtypes")
+	public void notifyDataSetChanged(ArrayList arrayList) {
+		viewMap.clear();
+		this.notifyDataSetChanged();
+
+	}
+
+	@Override
+	public int getCount() {
+		// TODO Auto-generated method stub
+		return list.size();
+	}
+
+	@Override
+	public Object getItem(int position) {
+		// TODO Auto-generated method stub
+		return list.get(position);
+	}
+
+	@Override
+	public long getItemId(int position) {
+		// TODO Auto-generated method stub
+		return position;
+	}
+
+	@Override
+	public View getView(final int position, View convertView, ViewGroup parent) {
+		// TODO Auto-generated method stub
+		ViewHolder holder;
+		View pv;
+		if (viewMap.get(position) == null) {
+			pv = inflater.inflate(R.layout.item_sheququan, null);
+			holder = new ViewHolder();
+			holder.tv_name = (TextView) pv.findViewById(R.id.tv_name);
+			holder.iv_content = (ImageView) pv.findViewById(R.id.iv_content);
+			holder.tv_time = (TextView) pv.findViewById(R.id.tv_time);
+			holder.tv_zannames = (TextView) pv.findViewById(R.id.tv_zannames);
+			holder.tv_delete = (TextView) pv.findViewById(R.id.tv_delete);
+
+			holder.iv_content = (ImageView) pv.findViewById(R.id.iv_content);
+			holder.iv_pinglun = (ImageView) pv.findViewById(R.id.iv_pinglun);
+			holder.ll_images = (LinearLayout) pv.findViewById(R.id.ll_images);
+			holder.ll_comments = (LinearLayout) pv
+					.findViewById(R.id.ll_comments);
+
+			holder.iv_pinglun.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					myCLicker.myClick(v, 0);
+				}
+			});
+
+			if (position % 3 == 0) {
+				View view_one = (View) inflater.inflate(
+						R.layout.item_quanzi_iv_one, null);
+				ImageView iv_one = (ImageView) view_one
+						.findViewById(R.id.iv_one);
+				iv_one.setBackgroundDrawable(context.getResources()
+						.getDrawable(R.drawable.mipatch));
+				holder.ll_images.addView(view_one);
+			} else if (position % 3 == 1) {
+				View view_two = (View) inflater.inflate(
+						R.layout.item_quanzi_iv_two, null);
+				ImageView iv_one = (ImageView) view_two
+						.findViewById(R.id.iv_one);
+				ImageView iv_two = (ImageView) view_two
+						.findViewById(R.id.iv_two);
+				iv_one.setBackgroundDrawable(context.getResources()
+						.getDrawable(R.drawable.mipatch));
+				iv_two.setBackgroundDrawable(context.getResources()
+						.getDrawable(R.drawable.mipatch));
+				holder.ll_images.addView(view_two);
+			} else if (position % 3 == 2) {
+				View view_three = (View) inflater.inflate(
+						R.layout.item_quanzi_iv_three, null);
+				ImageView iv_one = (ImageView) view_three
+						.findViewById(R.id.iv_one);
+				ImageView iv_two = (ImageView) view_three
+						.findViewById(R.id.iv_two);
+				ImageView iv_three = (ImageView) view_three
+						.findViewById(R.id.iv_three);
+				iv_one.setBackgroundDrawable(context.getResources()
+						.getDrawable(R.drawable.mipatch));
+				iv_two.setBackgroundDrawable(context.getResources()
+						.getDrawable(R.drawable.mipatch));
+				iv_three.setBackgroundDrawable(context.getResources()
+						.getDrawable(R.drawable.mipatch));
+				holder.ll_images.addView(view_three);
+			}
+			if (position % 2 == 0) {
+				for (int i = 0; i < 5; i++) {
+					if (i % 2 == 0) {
+						View view_four = (View) inflater.inflate(
+								R.layout.item_quanzi_comment, null);
+						TextView tv = (TextView) view_four
+								.findViewById(R.id.tv_comment);
+						tv.setText(getSpanned("zhangsan" + i, "李四" + i, "可以了啊"
+								+ i));
+						view_four.setOnClickListener(new OnClickListener() {
+
+							@Override
+							public void onClick(View v) {
+								// TODO Auto-generated method stub
+								myCLicker.myClick(v, 1);
+							}
+						});
+						holder.ll_comments.addView(view_four);
+					} else {
+						View view_four = (View) inflater.inflate(
+								R.layout.item_quanzi_comment, null);
+						TextView tv = (TextView) view_four
+								.findViewById(R.id.tv_comment);
+						tv.setText(getSpanned("zhangsan" + i, "zhangsan" + i,
+								"可以了啊" + i));
+						holder.ll_comments.addView(view_four);
+						view_four.setOnClickListener(new OnClickListener() {
+
+							@Override
+							public void onClick(View v) {
+								// TODO Auto-generated method stub
+								myCLicker.myClick(v, 1);
+							}
+						});
+					}
+
+				}
+
+			}
+			pv.setTag(holder);
+			viewMap.put(position, pv);
+
+		} else {
+			pv = viewMap.get(position);
+			holder = (ViewHolder) pv.getTag();
+		}
+
+		return pv;
+	}
+
+	class ViewHolder {
+		TextView tv_name, tv_time, tv_delete, tv_content, tv_zannames;
+		ImageView iv_content, iv_pinglun;
+		LinearLayout ll_images, ll_comments;
+
+	}
+
+	public Spanned getSpanned(String user_name, String to_name, String content) {
+		Spanned htmlstr;
+		if (user_name.equals(to_name)) {
+			htmlstr = Html.fromHtml("<font color=#02A5E6>" + user_name + ":"
+					+ "</font> " + "<i><font color=#343432>" + content
+					+ "</font></i>");
+		} else {
+			htmlstr = Html.fromHtml("<font color=#02A5E6>" + user_name
+					+ "</font> " + "<i><font color=#343432>回复</font></i>"
+					+ "<i><font color=#02A5E6>" + to_name + ":" + "</font></i>"
+					+ "<i><font color=#343432>" + content + "</font></i>");
+		}
+		return htmlstr;
+
+	}
+
+	public interface MyClicker {
+		void myClick(View v, int type);//0点赞和评论，1回复
+	}
+}

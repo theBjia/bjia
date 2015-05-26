@@ -1,0 +1,49 @@
+package com.llkj.newbjia.mybijia;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import android.os.Bundle;
+import android.widget.ListView;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.adpater.BrowsingAdapter;
+/**
+ * 浏览历史页
+ * @author John
+ *
+ */
+public class BrowsingActivity extends BaseActivity{
+	private BrowsingAdapter adapter;
+	private ArrayList arrayList;
+	private ListView listView;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.browsing_history);
+		setTitle(R.string.browsing, true, R.string.kong, true, R.string.clear);
+		initView();
+		initData();
+		initListener();
+	}
+
+	private void initView() {
+		listView = (ListView) findViewById(R.id.lv_History);
+	}
+
+	private void initData() {
+		arrayList = new ArrayList();
+		for(int i = 0;i<2;i++){
+			HashMap hashMap = new HashMap();
+			hashMap.put("name", "进口苹果");
+			arrayList.add(hashMap);
+		}
+		adapter = new BrowsingAdapter(BrowsingActivity.this,arrayList);
+		listView.setAdapter(adapter);
+	}
+
+	private void initListener() {
+		
+	}
+}

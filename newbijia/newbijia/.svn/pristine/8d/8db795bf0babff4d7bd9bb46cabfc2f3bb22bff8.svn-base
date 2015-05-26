@@ -1,0 +1,121 @@
+package com.llkj.newbjia.shoppingcart;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.adpater.WriteOrderAdapter;
+import com.llkj.newbjia.bean.ResponseBean;
+import com.llkj.newbjia.bean.UserInfoBean;
+import com.llkj.newbjia.http.PoCService;
+import com.llkj.newbjia.utils.LogUtil;
+import com.llkj.newbjia.utils.StringUtil;
+import com.llkj.newbjia.utils.ToastUtil;
+/**
+ * 填写订单页
+ * @author John
+ *
+ */
+
+public class WriteOrderActivity extends BaseActivity implements OnClickListener{
+	private ArrayList arrayList;
+	private WriteOrderAdapter adapter;
+	private ListView lv_show;
+	private View vHeader,vFooter;
+	private RelativeLayout rl_Address;
+	private TextView tv_writeOrderName,Tv_writeOrderPhone,Tv_writeOrderAdress;
+	private String uid;
+	private int mDefaultAddress;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.write_dan_info);
+		setTitle(R.string.write, true, R.string.kong, true, R.string.kong);
+		initView();
+		initData();
+		initListener();
+	}
+
+	private void initView() {
+		
+		lv_show = (ListView) findViewById(R.id.lv_show);
+		vHeader = LayoutInflater.from(this).inflate(R.layout.write_dan_heard, null);
+		rl_Address = (RelativeLayout) vHeader.findViewById(R.id.rl_Address);
+		vFooter = LayoutInflater.from(this).inflate(R.layout.write_dan_found, null);
+		
+		tv_writeOrderName = (TextView) vHeader.findViewById(R.id.tv_writeOrderName);
+		Tv_writeOrderPhone = (TextView) vHeader.findViewById(R.id.Tv_writeOrderPhone);
+		Tv_writeOrderAdress = (TextView) vHeader.findViewById(R.id.Tv_writeOrderAdress);
+		
+		lv_show.addHeaderView(vHeader);
+		lv_show.addFooterView(vFooter);
+	}
+
+	private void initData() {
+		arrayList = new ArrayList();
+		for(int i = 0;i<3;i++){
+			HashMap hashMap = new HashMap();
+			hashMap.put("ShoppingName", "进口苹果");
+			arrayList.add(hashMap);
+		}
+		uid = UserInfoBean.getUserInfo(this).getUid();
+		if(StringUtil.isNetworkConnected(this)){
+			if(null != uid){
+				mDefaultAddress = mRequestManager.defaultAddress(uid, true);
+			}
+		}else{
+			ToastUtil.makeShortText(this, R.string.no_wangluo);
+		}
+		adapter = new WriteOrderAdapter(WriteOrderActivity.this, arrayList);
+		lv_show.setAdapter(adapter);
+	}
+
+	private void initListener() {
+		rl_Address.setOnClickListener(this);
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.rl_Address:
+			openActivity(AceeGoodAdressActivity.class);
+			break;
+		}
+	}
+	
+	@Override
+	public void onRequestFinished(int requestId, int resultCode, Bundle payload) {
+		super.onRequestFinished(requestId, resultCode, payload);
+		if(resultCode == PoCService.SUCCESS_CODE){
+			if(mDefaultAddress == requestId){
+				int result = payload.getInt(ResponseBean.RESPONSE_STATE);
+				if(result == 1){
+					String name = payload.getString(ResponseBean.RESPONSE_CONSIGNEE);
+					tv_writeOrderName.setText(name);
+					String phone = payload.getString(ResponseBean.RESPONSE_PHONE);
+					Tv_writeOrderPhone.setText(phone);
+					String address = payload.getString(ResponseBean.RESPONSE_ADDRESS);
+					Tv_writeOrderAdress.setText(address);
+				}else{
+					String msg = payload.getString(ResponseBean.RESPONSE_MESSAGE);
+					ToastUtil.makeShortText(this, msg);
+				}
+			}
+		}
+	}
+	
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+		mDefaultAddress = mRequestManager.defaultAddress(uid, true);
+	}
+}

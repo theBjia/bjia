@@ -1,0 +1,38 @@
+package com.llkj.newbjia.http;
+
+/**
+ * Url 配置类,包含所有的接口访问地址
+ * 
+ * @author zhang.zk
+ * 
+ */
+public class UrlConfig {
+	/************************************************************************************
+	 * =====================ROOT URL====================
+	 * 
+	 *************************************************************************************/
+	public static final String ROOT_URL = "http://baifahui.bloveambition.com/api/";
+	/**
+	 * 据说是版本号,但是后台的人说没有版本号,总之,就这样吧.
+	 */
+
+	public static final String BJ_UPLOAD_URL = ROOT_URL + "?r=default/publish/setUpload";
+	//获取验证码
+	public static final String BJ_GETCODE_URL = ROOT_URL + "appLogin.php?action=getCode";
+	//注册
+	public static final String BJ_REGISTER_URL = ROOT_URL + "appLogin.php?action=register";
+	//登录
+	public static final String BJ_LOGIN_URL = ROOT_URL + "appLogin.php?action=login";
+	//找回密码
+	public static final String BJ_FORGETPASSWORD_URL = ROOT_URL + "appLogin.php?action=forgetPassword";
+	//个人资料
+	public static final String BJ_PERSONDESC_URL = ROOT_URL + "appPerson.php?action=personDesc";
+	//我的彼佳币
+	public static final String BJ_MYCOIN_URL = ROOT_URL + "appPerson.php?action=myCoin";
+	//修改个性签名
+	public static final String BJ_SIGNEDIT_URL = ROOT_URL + "appPerson.php?action=signEdit";
+	//修改用户名
+	public static final String BJ_NAMEEDIT_URL = ROOT_URL + "appPerson.php?action=nameEdit";
+	//我的积分
+	public static final String BJ_MYINTEGRAL_URL = ROOT_URL + "appPerson.php?action=myIntegral";
+}

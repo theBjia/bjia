@@ -1,0 +1,1150 @@
+package com.llkj.db;
+
+
+
+import java.io.File;
+import java.util.ArrayList;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.text.TextUtils;
+
+import com.llkj.newbjia.bean.UserInfoBean;
+import com.llkj.newbjia.utils.LogUtil;
+import com.llkj.newbjia.utils.Utils;
+
+public class DBHelper extends SQLiteOpenHelper {
+	private static DBHelper mInstance = null;
+	/** 数据库名称 ,以当前登录用户id为数据库名 **/
+	public static String DATABASE_NAME;
+
+	/** 数据库版本号 **/
+	private static final int DATABASE_VERSION = 1;
+
+	private static final String TABLE_CHAT_PERSONAL = "TABLE_CHAT_PERSONAL";
+	private static final String TABLE_CHAT_GROUP = "TABLE_CHAT_GROUP";
+	private static final String TABLE_NOTICE_CONTACTS = "TABLE_NOTICE_CONTACTS";
+	private static final String TABLE_RECENTLY_CONTACTS = "TABLE_RECENTLY_CONTACTS";
+	private Context context;
+
+	private DBHelper(Context context) {
+		super(context, DATABASE_NAME, null, DATABASE_VERSION);
+		this.context = context;
+	}
+
+	/** 单例模式 **/
+
+	public static synchronized DBHelper getInstance(Context context) {
+		if (mInstance == null) {
+			// DATABASE_NAME =
+			// Environment.getExternalStorageDirectory().getAbsolutePath() +
+			// File.separator + "huayou/db"
+			// + File.separator + UserInfoBean.getUserInfo(context).getUid() +
+			// ".db";
+
+			DATABASE_NAME = Utils.getAppDir(context) + File.separator + "db"
+					+ File.separator
+					+ UserInfoBean.getUserInfo(context).getUid() + ".db";
+			File file = new File(DATABASE_NAME).getParentFile();
+			if (!file.exists()) {
+				LogUtil.e("file path" + file.getAbsolutePath());
+				boolean b = file.mkdirs();
+				LogUtil.e("mkdirs 是否成功 " + b);
+			}
+			mInstance = new DBHelper(context);
+			DatabaseManager.initializeInstance(mInstance);
+		}
+		return mInstance;
+	}
+
+	@Override
+	public void onCreate(SQLiteDatabase db) {
+
+		/** 向数据中添加表 **/
+		db.execSQL(getCreatePersonChatSql());
+		db.execSQL(getCreateGroupChatSql());
+		db.execSQL(getCreateNoticeContactsSql());
+		db.execSQL(getCreateRecentlyContactsSql());
+
+	}
+
+	@Override
+	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		/** 可以拿到当前数据库的版本信息 与之前数据库的版本信息 用来更新数据库 **/
+		db.execSQL("DROP TABLE IF EXISTS " + DATABASE_NAME);
+		onCreate(db);
+	}
+
+	// =====================================创建表==============================================
+	/**
+	 * 最近联系人
+	 * 
+	 * @return
+	 */
+	private String getCreateRecentlyContactsSql() {
+		StringBuffer buff = new StringBuffer();
+		buff.append("CREATE TABLE if not exists ")
+				.append(TABLE_RECENTLY_CONTACTS)
+				.append(" (receiveId TEXT PRIMARY KEY ,")
+				.append("userId TEXT,").append("messageChatType TEXT,")
+				.append("receiveName TEXT,").append("receiveLogo TEXT,")
+				.append("messageContent TEXT,").append("messageDate TEXT,")
+				.append("messageType TEXT,").append("unReadNumber TEXT)");
+		return buff.toString();
+	}
+
+	/**
+	 * 通知消息
+	 * 
+	 * @return
+	 */
+	private String getCreateNoticeContactsSql() {
+		StringBuffer buff = new StringBuffer();
+		buff.append("CREATE TABLE if not exists ")
+				.append(TABLE_NOTICE_CONTACTS).append("(Gid TEXT PRIMARY KEY,")
+				.append("N_newMsgRemind TEXT,").append("showNikeName TEXT,")
+				.append("userId TEXT,").append("isMember TEXT)");
+		return buff.toString();
+	}
+
+	/**
+	 * 创建单人聊天表的SQL语句
+	 * 
+	 * @return
+	 */
+	private String getCreatePersonChatSql() {
+		StringBuffer buff = new StringBuffer();
+		buff.append("CREATE TABLE if not exists ").append(TABLE_CHAT_PERSONAL)
+				.append(" (cmid TEXT PRIMARY KEY ,").append("userId TEXT,")
+				.append("receiveId TEXT,").append("receiveName TEXT,")
+				.append("receiveLogo TEXT,").append("sendedId TEXT,")
+				.append("sendedName TEXT,").append("sendedLogo TEXT,")
+				.append("messageContent TEXT,").append("messageDate TEXT,")
+				.append("messageType TEXT,").append("bubbleType TEXT,")
+				.append("voicelength TEXT,").append("isRead TEXT,")
+				.append("actionType TEXT,").append("otherId TEXT,")
+				.append("path TEXT)");
+		return buff.toString();
+	}
+
+	/**
+	 * 创建群聊天表的SQL语句
+	 * 
+	 * @return
+	 */
+	private String getCreateGroupChatSql() {
+		StringBuffer buff = new StringBuffer();
+		buff.append("CREATE TABLE if not exists ").append(TABLE_CHAT_GROUP)
+				.append(" (cmid TEXT PRIMARY KEY ,").append("userId TEXT,")
+				.append("groupId TEXT,").append("groupName TEXT,")
+				.append("groupLogo TEXT,").append("sendedId TEXT,")
+				.append("sendedName TEXT,").append("sendedLogo TEXT,")
+				.append("messageContent TEXT,").append("messageDate TEXT,")
+				.append("messageType TEXT,").append("bubbleType TEXT,")
+				.append("voicelength TEXT,").append("isRead TEXT,")
+				.append("actionType TEXT,").append("otherId TEXT,")
+				.append("creatorId TEXT,").append("creatorName TEXT,")
+				.append("otherType TEXT,").append("path TEXT)");
+		return buff.toString();
+	}
+
+	// =====================================删除操作==============================================
+	/**
+	 * 删除数据库
+	 * 
+	 * @param context
+	 * @return
+	 */
+	public boolean deleteDatabase(Context context) {
+		return context.deleteDatabase(DATABASE_NAME);
+	}
+
+	/**
+	 * 清除当前用户信息
+	 */
+	public void clearChatTable() {
+		SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+		if (null != db) {
+			try {
+				String sql = "DELETE FROM " + TABLE_CHAT_PERSONAL;
+				db.execSQL(sql);
+				sql = "DELETE FROM " + TABLE_CHAT_GROUP;
+				db.execSQL(sql);
+				sql = "DELETE FROM " + TABLE_RECENTLY_CONTACTS;
+				db.execSQL(sql);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				// db.close(); Don't close it directly!
+				DatabaseManager.getInstance().closeDatabase(); // correct way
+			}
+		}
+	}
+
+	// =====================================单聊==============================================
+	/**
+	 * 保存单聊
+	 * 
+	 * @param entity
+	 */
+	public void saveChatPerson(PrivateChatMessagesEntity entity) {
+		SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+		try {
+			db.beginTransaction();// 开始事务
+			// 执行数据库
+			db.execSQL(insertChatPerson(), getValue(entity));
+			db.setTransactionSuccessful();// 标记事务成功.
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			db.endTransaction();// 结束事务,如果没有标记成功,则数据库回滚.
+			// db.close(); Don't close it directly!
+			DatabaseManager.getInstance().closeDatabase(); // correct way
+		}
+	}
+
+	/**
+	 * 保存多条单聊
+	 * 
+	 * @param entity
+	 */
+	public void saveChatPerson(ArrayList<PrivateChatMessagesEntity> list) {
+		SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+		try {
+			db.beginTransaction();// 开始事务
+			for (int i = 0; i < list.size(); i++) {
+				PrivateChatMessagesEntity entity = list.get(i);
+				db.execSQL(insertChatPerson(), getValue(entity));
+			}
+			// 执行数据库
+			db.setTransactionSuccessful();// 标记事务成功.
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			db.endTransaction();// 结束事务,如果没有标记成功,则数据库回滚.
+			// db.close(); Don't close it directly!
+			DatabaseManager.getInstance().closeDatabase(); // correct way
+		}
+	}
+
+	private Object[] getValue(PrivateChatMessagesEntity entity) {
+		Object[] obj = new Object[] { entity.getUserId(),
+				entity.getReceiveId(), entity.getReceiveName(),
+				entity.getReceiveLogo(), entity.getSendedId(),
+				entity.getSendedName(), entity.getSendedLogo(),
+				entity.getMessageContent(), entity.getMessageDate(),
+				entity.getMessageType(), entity.getBubbleType(),
+				entity.getVoicelength(), entity.getIsRead(),
+				entity.getActionType(), entity.getCmid(), entity.getOtherId(),
+				entity.getPath() };
+		return obj;
+	}
+
+	private String insertChatPerson() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("INSERT OR REPLACE INTO ")
+				.append(TABLE_CHAT_PERSONAL)
+				.append(" (userId,receiveId,receiveName,receiveLogo,sendedId,sendedName,sendedLogo,messageContent,messageDate,messageType,bubbleType,voicelength,isRead,actionType,cmid,otherId,path) ")
+				.append("VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+		return sb.toString();
+	}
+
+	/**
+	 * 查找单聊聊天记录-根据发送者id\接收者id\本地用户id\mid键值用于分页\页数
+	 * <p>
+	 * 查找两种条件内的记录.sendedId发给receiveId和receiveId发给sendedId的
+	 * 
+	 * @param sendedId
+	 * @param receiveId
+	 * @param position
+	 * @param size
+	 * @return
+	 */
+	public ArrayList<PrivateChatMessagesEntity> queryPrivateChatRecord(
+			String sendedId, String receiveId, String position, String size) {
+		String sql = "SELECT * FROM "
+				+ TABLE_CHAT_PERSONAL
+				+ " WHERE (sendedId = ? and receiveId = ? and userId = ?) or (receiveId = ? and sendedId = ? and userId = ?) order by messageDate desc limit ?,?";
+		SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+		ArrayList<PrivateChatMessagesEntity> list = new ArrayList<PrivateChatMessagesEntity>();
+		try {
+			db.beginTransaction();// 开始事务
+			// 执行数据库
+			Cursor cursor = db.rawQuery(
+					sql,
+					new String[] { sendedId, receiveId,
+							UserInfoBean.getUserInfo(context).getUid(),
+							sendedId, receiveId,
+							UserInfoBean.getUserInfo(context).getUid(),
+							position, size });
+
+			if (cursor != null && cursor.getCount() > 0) {
+				mapToPrivateChat(list, cursor);
+				cursor.close();
+			}
+			db.setTransactionSuccessful();// 标记事务成功.
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			db.endTransaction();// 结束事务,如果没有标记成功,则数据库回滚.
+			// db.close(); Don't close it directly!
+			DatabaseManager.getInstance().closeDatabase(); // correct way
+		}
+		return list;
+	}
+
+	/**
+	 * 从游标映射到集合
+	 * 
+	 * @param list
+	 * @param cursor
+	 */
+	private void mapToPrivateChat(ArrayList<PrivateChatMessagesEntity> list,
+			Cursor cursor) {
+		if (cursor != null && cursor.getCount() > 0) {
+			while (cursor.moveToNext()) {
+				PrivateChatMessagesEntity entity = new PrivateChatMessagesEntity();
+				entity.setUserId(cursor.getString(cursor
+						.getColumnIndex("userId")));
+				entity.setReceiveId(cursor.getString(cursor
+						.getColumnIndex("receiveId")));
+				entity.setReceiveName(cursor.getString(cursor
+						.getColumnIndex("receiveName")));
+				entity.setReceiveLogo(cursor.getString(cursor
+						.getColumnIndex("receiveLogo")));
+				entity.setSendedId(cursor.getString(cursor
+						.getColumnIndex("sendedId")));
+				entity.setSendedName(cursor.getString(cursor
+						.getColumnIndex("sendedName")));
+				entity.setSendedLogo(cursor.getString(cursor
+						.getColumnIndex("sendedLogo")));
+				entity.setMessageContent(cursor.getString(cursor
+						.getColumnIndex("messageContent")));
+				entity.setMessageDate(cursor.getString(cursor
+						.getColumnIndex("messageDate")));
+				entity.setMessageType(cursor.getString(cursor
+						.getColumnIndex("messageType")));
+				entity.setBubbleType(cursor.getString(cursor
+						.getColumnIndex("bubbleType")));
+				entity.setVoicelength(cursor.getString(cursor
+						.getColumnIndex("voicelength")));
+				entity.setIsRead(cursor.getString(cursor
+						.getColumnIndex("isRead")));
+				entity.setActionType(cursor.getString(cursor
+						.getColumnIndex("actionType")));
+				entity.setCmid(cursor.getString(cursor.getColumnIndex("cmid")));
+				entity.setOtherId(cursor.getString(cursor
+						.getColumnIndex("otherId")));
+				entity.setPath(cursor.getString(cursor.getColumnIndex("path")));
+				list.add(entity);
+			}
+		}
+	}
+	/**
+	 * 根据单聊接受者id发送者id和消息的时间戳来判断某条消息是否存在
+	 * @param sendedId 
+	 * @param receiveId 
+	 * @param messageDate 
+	 */
+	public boolean isPrivateMsgExist(String sendedId, String receiveId, String messageDate) {
+		boolean b;
+		String sql = "SELECT * FROM "
+				+ TABLE_CHAT_PERSONAL
+				+ " where sendedId=? and receiveId=? and messageDate=? and userId =?";
+		SQLiteDatabase db = mInstance.getReadableDatabase();
+		try {
+			db.beginTransaction();// 开始事务
+			// 执行数据库
+			Cursor cursor = db.rawQuery(sql, new String[] { sendedId,
+					receiveId,messageDate, UserInfoBean.getUserInfo(context).getUid() });
+			if (cursor != null && cursor.getCount() > 0) {
+				b = true;
+				cursor.close();
+			} else {
+				b = false;
+			}
+			db.setTransactionSuccessful();// 标记事务成功.
+		} catch (Exception e) {
+			e.printStackTrace();
+			b = false;
+		} finally {
+			db.endTransaction();// 结束事务,如果没有标记成功,则数据库回滚.
+			db.close();// 关闭数据库
+		}
+		return b;
+	}
+	/**
+	 * 删除单聊聊天记录-根据发送者id\接收者id\本地用户id
+	 * <p>
+	 * 删除两种条件下的记录.sendedId发给receiveId和receiveId发给sendedId的
+	 * 
+	 * @param sendedId
+	 * @param receiveId
+	 * @return
+	 */
+	public boolean deletePrivateChat(String sendedId, String receiveId) {
+		SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+		boolean b;
+		try {
+			db.beginTransaction();// 开始事务
+			// 执行数据库
+			int delete = db
+					.delete(TABLE_CHAT_PERSONAL,
+							"(sendedId = ? and receiveId = ? and userId = ?) or (receiveId = ? and sendedId = ? and userId = ?)",
+							new String[] { sendedId, receiveId,
+									UserInfoBean.getUserInfo(context).getUid(),
+									sendedId, receiveId,
+									UserInfoBean.getUserInfo(context).getUid() });
+			b = true;
+			db.setTransactionSuccessful();// 标记事务成功.
+		} catch (Exception e) {
+			e.printStackTrace();
+			b = false;
+		} finally {
+			db.endTransaction();// 结束事务,如果没有标记成功,则数据库回滚.
+			// db.close(); Don't close it directly!
+			DatabaseManager.getInstance().closeDatabase(); // correct way
+		}
+		return b;
+	}
+
+	// =====================================群聊==============================================
+	/**
+	 * 保存群聊
+	 * 
+	 * @param entity
+	 */
+	public void saveChatGroup(GroupChatMessages entity) {
+		SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+		try {
+			db.beginTransaction();// 开始事务
+			// 执行数据库
+			db.execSQL(insertChatGroup(), getValue(entity));
+			db.setTransactionSuccessful();// 标记事务成功.
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			db.endTransaction();// 结束事务,如果没有标记成功,则数据库回滚.
+			// db.close(); Don't close it directly!
+			DatabaseManager.getInstance().closeDatabase(); // correct way
+		}
+	}
+
+	/**
+	 * 保存多条群聊
+	 * 
+	 * @param entity
+	 */
+	public void saveChatGroup(ArrayList<GroupChatMessages> list) {
+		SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+		try {
+			db.beginTransaction();// 开始事务
+			for (int i = 0; i < list.size(); i++) {
+				GroupChatMessages entity = list.get(i);
+				// 执行数据库
+				db.execSQL(insertChatGroup(), getValue(entity));
+			}
+			db.setTransactionSuccessful();// 标记事务成功.
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			db.endTransaction();// 结束事务,如果没有标记成功,则数据库回滚.
+			// db.close(); Don't close it directly!
+			DatabaseManager.getInstance().closeDatabase(); // correct way
+		}
+	}
+
+	private Object[] getValue(GroupChatMessages entity) {
+		Object[] obj = new Object[] { entity.getUserId(), entity.getGroupId(),
+				entity.getGroupName(), entity.getGroupLogo(),
+				entity.getSendedId(), entity.getSendedName(),
+				entity.getSendedLogo(), entity.getMessageContent(),
+				entity.getMessageDate(), entity.getMessageType(),
+				entity.getBubbleType(), entity.getVoicelength(),
+				entity.getIsRead(), entity.getActionType(), entity.getCmid(),
+				entity.getOtherId(), entity.getCreatorId(),
+				entity.getCreatorName(), entity.getOtherType(),
+				entity.getPath() };
+		return obj;
+	}
+
+	private String insertChatGroup() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("INSERT OR REPLACE INTO ")
+				.append(TABLE_CHAT_GROUP)
+				.append(" (userId,groupId,groupName,groupLogo,sendedId,sendedName,sendedLogo,messageContent,messageDate,messageType,bubbleType,voicelength,isRead,actionType,cmid,otherId,creatorId,creatorName,otherType,path)")
+				.append("VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+		return sb.toString();
+	}
+
+	/**
+	 * 根据群的id、 类型 、 消息的时间戳来判断某条消息是否存在
+	 */
+	public boolean isGroupMsgExist(String groupId, String sendedId,
+			String messageDate) {
+		boolean b;
+		String sql = "SELECT * FROM "
+				+ TABLE_CHAT_GROUP
+				+ " where groupId=? and sendedId=? and messageDate=? and userId =?";
+		SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+		try {
+			db.beginTransaction();// 开始事务
+			// 执行数据库
+			Cursor cursor = db.rawQuery(sql, new String[] { groupId, sendedId,
+					messageDate, UserInfoBean.getUserInfo(context).getUid() });
+			if (cursor != null && cursor.getCount() > 0) {
+				b = true;
+				cursor.close();
+			} else {
+				b = false;
+			}
+			db.setTransactionSuccessful();// 标记事务成功.
+		} catch (Exception e) {
+			e.printStackTrace();
+			b = false;
+		} finally {
+			db.endTransaction();// 结束事务,如果没有标记成功,则数据库回滚.
+			// db.close(); Don't close it directly!
+			DatabaseManager.getInstance().closeDatabase(); // correct way
+		}
+		return b;
+	}
+
+	/**
+	 * 查找群的聊天记录-根据groupid\本地用户id
+	 * 
+	 * @param groupId
+	 *            群id
+	 * @param position
+	 *            位置
+	 * @param size
+	 *            大小
+	 * @return
+	 */
+	public ArrayList<GroupChatMessages> queryGroupChatRecord(String groupId,
+			String position, String size) {
+		String sql = "SELECT * FROM "
+				+ TABLE_CHAT_GROUP
+				+ " WHERE groupId =? and userId = ? order by messageDate desc limit ?,?";
+		SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+		ArrayList<GroupChatMessages> list = new ArrayList<GroupChatMessages>();
+		try {
+			db.beginTransaction();// 开始事务
+			// 执行数据库
+			Cursor cursor = db.rawQuery(sql,
+					new String[] { groupId,
+							UserInfoBean.getUserInfo(context).getUid(),
+							position, size });
+			if (cursor != null && cursor.getCount() > 0) {
+				mapToGroupChat(list, cursor);
+				cursor.close();
+			}
+			db.setTransactionSuccessful();// 标记事务成功.
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			db.endTransaction();// 结束事务,如果没有标记成功,则数据库回滚.
+			// db.close(); Don't close it directly!
+			DatabaseManager.getInstance().closeDatabase(); // correct way
+		}
+		return list;
+	}
+
+	/**
+	 * 从游标映射到集合
+	 * 
+	 * @param list
+	 * @param cursor
+	 */
+	private void mapToGroupChat(ArrayList<GroupChatMessages> list, Cursor cursor) {
+		if (cursor != null && cursor.getCount() > 0) {
+			while (cursor.moveToNext()) {
+				GroupChatMessages entity = new GroupChatMessages();
+				entity.setUserId(cursor.getString(cursor
+						.getColumnIndex("userId")));
+				entity.setGroupId(cursor.getString(cursor
+						.getColumnIndex("groupId")));
+				entity.setGroupName(cursor.getString(cursor
+						.getColumnIndex("groupName")));
+				entity.setGroupLogo(cursor.getString(cursor
+						.getColumnIndex("groupLogo")));
+				entity.setSendedId(cursor.getString(cursor
+						.getColumnIndex("sendedId")));
+				entity.setSendedName(cursor.getString(cursor
+						.getColumnIndex("sendedName")));
+				entity.setSendedLogo(cursor.getString(cursor
+						.getColumnIndex("sendedLogo")));
+				entity.setMessageContent(cursor.getString(cursor
+						.getColumnIndex("messageContent")));
+				entity.setMessageDate(cursor.getString(cursor
+						.getColumnIndex("messageDate")));
+				entity.setMessageType(cursor.getString(cursor
+						.getColumnIndex("messageType")));
+				entity.setBubbleType(cursor.getString(cursor
+						.getColumnIndex("bubbleType")));
+				entity.setVoicelength(cursor.getString(cursor
+						.getColumnIndex("voicelength")));
+				entity.setIsRead(cursor.getString(cursor
+						.getColumnIndex("isRead")));
+				entity.setActionType(cursor.getString(cursor
+						.getColumnIndex("actionType")));
+				entity.setCmid(cursor.getString(cursor.getColumnIndex("cmid")));
+				entity.setOtherId(cursor.getString(cursor
+						.getColumnIndex("otherId")));
+				entity.setCreatorId(cursor.getString(cursor
+						.getColumnIndex("creatorId")));
+				entity.setCreatorName(cursor.getString(cursor
+						.getColumnIndex("creatorName")));
+				entity.setOtherType(cursor.getString(cursor
+						.getColumnIndex("otherType")));
+				entity.setPath(cursor.getString(cursor.getColumnIndex("path")));
+				list.add(entity);
+			}
+		}
+	}
+
+	/**
+	 * 删除群的聊天记录-根据groupid\本地用户id
+	 * 
+	 * @param groupId
+	 * @return
+	 */
+	public boolean deleteGroupChat(String groupId) {
+		SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+		boolean b;
+		try {
+			db.beginTransaction();// 开始事务
+			// 执行数据库
+			int delete = db.delete(TABLE_CHAT_GROUP, "groupId=? and userId =?",
+					new String[] { groupId,
+							UserInfoBean.getUserInfo(context).getUid() });
+			b = true;
+			db.setTransactionSuccessful();// 标记事务成功.
+		} catch (Exception e) {
+			e.printStackTrace();
+			b = false;
+		} finally {
+			db.endTransaction();// 结束事务,如果没有标记成功,则数据库回滚.
+			// db.close(); Don't close it directly!
+			DatabaseManager.getInstance().closeDatabase(); // correct way
+		}
+		return b;
+	}
+
+	/**
+	 * 根据groupid\本地用户id 修改群名
+	 * 
+	 * @param groupId
+	 * @param groupName
+	 * @return
+	 */
+	public boolean editGroupName(String groupId, String groupName) {
+		SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+		boolean b;
+		try {
+			db.beginTransaction();// 开始事务
+			ContentValues values = new ContentValues();
+			values.put("groupName", groupName);
+			// 执行数据库
+			db.update(TABLE_CHAT_GROUP, values, "groupId=? and userId= ? ",
+					new String[] { groupId,
+							UserInfoBean.getUserInfo(context).getUid() });
+			b = true;
+			db.setTransactionSuccessful();// 标记事务成功.
+		} catch (Exception e) {
+			e.printStackTrace();
+			b = false;
+		} finally {
+			db.endTransaction();// 结束事务,如果没有标记成功,则数据库回滚.
+			// db.close(); Don't close it directly!
+			DatabaseManager.getInstance().closeDatabase(); // correct way
+		}
+		return b;
+	}
+
+	/**
+	 * 根据群id\sendedId\messageDate 修改未读和已读
+	 * 
+	 * @param groupId
+	 * @param sendedId
+	 * @param messageDate
+	 * @param isRead
+	 *            0-未读,1-已读.
+	 * @return
+	 */
+	public boolean setGroupChatReaded(String groupId, String sendedId,
+			String messageDate, String isRead) {
+		SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+		boolean b;
+		try {
+			db.beginTransaction();// 开始事务
+			ContentValues values = new ContentValues();
+			values.put("isRead", isRead);
+			// 执行数据库
+			db.update(
+					TABLE_CHAT_GROUP,
+					values,
+					"groupId=? and sendedId=? and messageDate=? and userId = ?",
+					new String[] { groupId, sendedId, messageDate,
+							UserInfoBean.getUserInfo(context).getUid() });
+			b = true;
+			db.setTransactionSuccessful();// 标记事务成功.
+		} catch (Exception e) {
+			e.printStackTrace();
+			b = false;
+		} finally {
+			db.endTransaction();// 结束事务,如果没有标记成功,则数据库回滚.
+			// db.close(); Don't close it directly!
+			DatabaseManager.getInstance().closeDatabase(); // correct way
+		}
+		return b;
+	}
+
+	// =====================================通知==============================================
+	/**
+	 * 向数据库存入数据---提醒
+	 * 
+	 * @param entity
+	 */
+	public void saveNoticeContacts(NoticeContacts notice) {
+		SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+		try {
+			db.beginTransaction();// 开始事务
+			// 执行数据库
+			db.execSQL(insertNoticeContacts(), getValue(notice));
+			db.setTransactionSuccessful();// 标记事务成功.
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			db.endTransaction();// 结束事务,如果没有标记成功,则数据库回滚.
+			// db.close(); Don't close it directly!
+			DatabaseManager.getInstance().closeDatabase(); // correct way
+		}
+	}
+
+	private Object[] getValue(NoticeContacts entity) {
+		Object[] obj = new Object[] { entity.getGid(),
+				entity.getN_newMsgRemind(), entity.getShowNikeName(),
+				entity.getUserId(), entity.getIsMember() };
+		return obj;
+	}
+
+	private String insertNoticeContacts() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("INSERT OR REPLACE INTO ").append(TABLE_NOTICE_CONTACTS)
+				.append(" (Gid,N_newMsgRemind,showNikeName,userId,isMember)")
+				.append("VALUES (?,?,?,?,?)");
+
+		return sb.toString();
+	}
+
+	/**
+	 * 更新群组消息提醒的方式
+	 * 
+	 * @param values
+	 *            k-v键值对,k对应数据库里的字段,v对应该字段的值.
+	 * @param Gid
+	 *            群id
+	 * @return
+	 */
+	public boolean updateNoticeContacts(ContentValues values, String Gid) {
+		SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+		boolean b;
+		try {
+			db.beginTransaction();// 开始事务
+			// 执行数据库
+			db.update(TABLE_NOTICE_CONTACTS, values, "Gid=? and userId = ?",
+					new String[] { Gid,
+							UserInfoBean.getUserInfo(context).getUid() });
+			b = true;
+			db.setTransactionSuccessful();// 标记事务成功.
+		} catch (Exception e) {
+			e.printStackTrace();
+			b = false;
+		} finally {
+			db.endTransaction();// 结束事务,如果没有标记成功,则数据库回滚.
+			// db.close(); Don't close it directly!
+			DatabaseManager.getInstance().closeDatabase(); // correct way
+		}
+		return b;
+	}
+
+	/**
+	 * 根据群id获取消息提醒的参数
+	 * 
+	 * @param Gid
+	 * @return
+	 */
+	public NoticeContacts queryNoticeContacts(String Gid) {
+		SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+		NoticeContacts notice = null;
+		try {
+			db.beginTransaction();// 开始事务
+			// 执行数据库
+			Cursor cursor = db.rawQuery("SELECT * FROM "
+					+ TABLE_NOTICE_CONTACTS + " WHERE Gid =? and userId = ?",
+					new String[] { Gid,
+							UserInfoBean.getUserInfo(context).getUid() });
+			if (cursor != null && cursor.getCount() > 0) {
+				notice = new NoticeContacts();
+				mapToNoticeContacts(notice, cursor);
+				cursor.close();
+			}
+			db.setTransactionSuccessful();// 标记事务成功.
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			db.endTransaction();// 结束事务,如果没有标记成功,则数据库回滚.
+			// db.close(); Don't close it directly!
+			DatabaseManager.getInstance().closeDatabase(); // correct way
+		}
+		return notice;
+	}
+
+	/**
+	 * 从游标映射到实体类
+	 * 
+	 * @param notice
+	 * @param cursor
+	 */
+	private void mapToNoticeContacts(NoticeContacts notice, Cursor cursor) {
+		if (cursor != null && cursor.getCount() > 0) {
+			cursor.moveToNext();
+			notice.setGid(cursor.getString(cursor.getColumnIndex("Gid")));
+			notice.setN_newMsgRemind(cursor.getString(cursor
+					.getColumnIndex("N_newMsgRemind")));
+			notice.setShowNikeName(cursor.getString(cursor
+					.getColumnIndex("showNikeName")));
+			notice.setUserId(cursor.getString(cursor.getColumnIndex("userId")));
+			notice.setIsMember(cursor.getString(cursor
+					.getColumnIndex("isMember")));
+		}
+	}
+
+	// =====================================最近聊天==============================================
+	/**
+	 * 保存最近聊天,当两人的聊天记录有的时候替换，没有时插入
+	 * 
+	 * @param entity
+	 * @return
+	 */
+	public boolean saveRecentlyContacts(RecentlyContacts recently) {
+		SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+		boolean b;
+		try {
+			db.beginTransaction();// 开始事务
+			// 执行数据库
+			db.execSQL(insertRecentlyContacts(), getValue(recently));
+			db.setTransactionSuccessful();// 标记事务成功.
+			b = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			b = false;
+		} finally {
+			db.endTransaction();// 结束事务,如果没有标记成功,则数据库回滚.
+			// db.close(); Don't close it directly!
+			DatabaseManager.getInstance().closeDatabase(); // correct way
+		}
+		return b;
+	}
+
+	private Object[] getValue(RecentlyContacts recently) {
+		Object[] obj = new Object[] { recently.getUserId(),
+				recently.getMessageChatType(), recently.getReceiveId(),
+				recently.getReceiveName(), recently.getReceiveLogo(),
+				recently.getMessageContent(), recently.getMessageDate(),
+				recently.getMessageType(), recently.getUnReadNumber() };
+		return obj;
+	}
+
+	private String insertRecentlyContacts() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("INSERT OR REPLACE INTO ")
+				.append(TABLE_RECENTLY_CONTACTS)
+				.append(" (userId,messageChatType,receiveId,receiveName,receiveLogo,messageContent,messageDate,messageType,unReadNumber)")
+				.append("VALUES (?,?,?,?,?,?,?,?,?)");
+
+		return sb.toString();
+	}
+
+	/**
+	 * 查找该表中有没有该某联系人/某群组
+	 * 
+	 * @param receiveId
+	 * @return
+	 */
+	public boolean queryRecently(String receiveId) {
+		SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+		boolean b;
+		try {
+			db.beginTransaction();// 开始事务
+			// 执行数据库
+			Cursor cursor = db.rawQuery("SELECT * FROM "
+					+ TABLE_RECENTLY_CONTACTS
+					+ " where receiveId = ? and userId = ?", new String[] {
+					receiveId, UserInfoBean.getUserInfo(context).getUid() });
+			if (cursor != null && cursor.getCount() > 0) {
+				b = true;
+				cursor.close();
+			} else {
+				b = false;
+			}
+			db.setTransactionSuccessful();// 标记事务成功.
+		} catch (Exception e) {
+			e.printStackTrace();
+			b = false;
+		} finally {
+			db.endTransaction();// 结束事务,如果没有标记成功,则数据库回滚.
+			// db.close(); Don't close it directly!
+			DatabaseManager.getInstance().closeDatabase(); // correct way
+		}
+		return b;
+	}
+
+	/**
+	 * 更改某联系人/某群组信息元素
+	 * 
+	 * @param values
+	 *            k-v键值对,k对应数据库里的字段,v对应该字段的值.
+	 * @param receiveId
+	 * @return
+	 */
+	public boolean updateRecentlyContacts(ContentValues values, String receiveId) {
+		SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+		boolean b;
+		try {
+			db.beginTransaction();// 开始事务
+			// 执行数据库
+			db.update(TABLE_RECENTLY_CONTACTS, values,
+					"receiveId = ? and userId = ?", new String[] { receiveId,
+							UserInfoBean.getUserInfo(context).getUid() });
+			b = true;
+			db.setTransactionSuccessful();// 标记事务成功.
+		} catch (Exception e) {
+			e.printStackTrace();
+			b = false;
+		} finally {
+			db.endTransaction();// 结束事务,如果没有标记成功,则数据库回滚.
+			// db.close(); Don't close it directly!
+			DatabaseManager.getInstance().closeDatabase(); // correct way
+		}
+		return b;
+	}
+
+	/**
+	 * 查看某联系人/某群组的未读条数
+	 * 
+	 * @param receiveId
+	 * @return -1-表中无此人记录.0-表中没有未读消息.>0-未读消息数
+	 */
+	public int queryRecentlyUnRead(String receiveId) {
+		SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+		int num = -1;
+		try {
+			db.beginTransaction();// 开始事务
+			// 执行数据库
+			Cursor cursor = db.rawQuery("SELECT * FROM "
+					+ TABLE_RECENTLY_CONTACTS
+					+ " where receiveId = ? and userId = ?", new String[] {
+					receiveId, UserInfoBean.getUserInfo(context).getUid() });
+			if (cursor != null && cursor.getCount() > 0) {
+				while (cursor.moveToNext()) {
+					String number = cursor.getString(cursor
+							.getColumnIndex("unReadNumber"));
+					if (!TextUtils.isEmpty(number)) {
+						num = Integer.valueOf(number);
+					}
+				}
+				cursor.close();
+			} else {
+				num = -1;
+			}
+			db.setTransactionSuccessful();// 标记事务成功.
+		} catch (Exception e) {
+			e.printStackTrace();
+			num = 0;
+		} finally {
+			db.endTransaction();// 结束事务,如果没有标记成功,则数据库回滚.
+			// db.close(); Don't close it directly!
+			DatabaseManager.getInstance().closeDatabase(); // correct way
+		}
+		return num;
+	}
+
+	/**
+	 * 取出所有的最近联系人--根据本地id
+	 * 
+	 * @return
+	 */
+	public ArrayList<RecentlyContacts> queryRecentlyRecord() {
+		SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+		ArrayList<RecentlyContacts> list = new ArrayList<RecentlyContacts>();
+		try {
+			db.beginTransaction();// 开始事务
+			// 执行数据库
+			Cursor cursor = db
+					.rawQuery("SELECT * FROM " + TABLE_RECENTLY_CONTACTS
+							+ " where userId = ?", new String[] { UserInfoBean
+							.getUserInfo(context).getUid() });
+			if (cursor != null && cursor.getCount() > 0) {
+				mapToRecently(list, cursor);
+				cursor.close();
+			}
+			db.setTransactionSuccessful();// 标记事务成功.
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			db.endTransaction();// 结束事务,如果没有标记成功,则数据库回滚.
+			// db.close(); Don't close it directly!
+			DatabaseManager.getInstance().closeDatabase(); // correct way
+		}
+		return list;
+	}
+
+	private void mapToRecently(ArrayList<RecentlyContacts> list, Cursor cursor) {
+		if (cursor != null && cursor.getCount() > 0) {
+			while (cursor.moveToNext()) {
+				RecentlyContacts recently = new RecentlyContacts();
+				recently.setUserId(cursor.getString(cursor
+						.getColumnIndex("userId")));
+				recently.setMessageChatType(cursor.getString(cursor
+						.getColumnIndex("messageChatType")));
+				recently.setReceiveId(cursor.getString(cursor
+						.getColumnIndex("receiveId")));
+				recently.setReceiveName(cursor.getString(cursor
+						.getColumnIndex("receiveName")));
+				recently.setReceiveLogo(cursor.getString(cursor
+						.getColumnIndex("receiveLogo")));
+				recently.setMessageContent(cursor.getString(cursor
+						.getColumnIndex("messageContent")));
+				recently.setMessageDate(cursor.getString(cursor
+						.getColumnIndex("messageDate")));
+				recently.setMessageType(cursor.getString(cursor
+						.getColumnIndex("messageType")));
+				recently.setUnReadNumber(cursor.getString(cursor
+						.getColumnIndex("unReadNumber")));
+				list.add(recently);
+			}
+		}
+	}
+
+	/**
+	 * 删除某联系人/某群组最近消息记录
+	 * 
+	 * @param receiveId
+	 * @return
+	 */
+	public boolean deleteRecentlyRecord(String receiveId) {
+		SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+		boolean b;
+		try {
+			db.beginTransaction();// 开始事务
+			// 执行数据库
+			db.delete(TABLE_RECENTLY_CONTACTS, "receiveId = ? and userId = ?",
+					new String[] { receiveId,
+							UserInfoBean.getUserInfo(context).getUid() });
+			b = true;
+			db.setTransactionSuccessful();// 标记事务成功.
+		} catch (Exception e) {
+			e.printStackTrace();
+			b = false;
+		} finally {
+			db.endTransaction();// 结束事务,如果没有标记成功,则数据库回滚.
+			// db.close(); Don't close it directly!
+			DatabaseManager.getInstance().closeDatabase(); // correct way
+		}
+		return b;
+	}
+
+	/**
+	 * 清空某联系人/某群组的聊天内容
+	 * 
+	 * @param receiveId
+	 * 
+	 * @return
+	 */
+	public boolean clearRecentlyRecord(String receiveId) {
+		SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+		boolean b;
+		try {
+			db.beginTransaction();// 开始事务
+			ContentValues values = new ContentValues();
+			values.put("messageContent", "");
+			// 执行数据库
+			db.update(TABLE_RECENTLY_CONTACTS, values,
+					"receiveId = ? and userId = ?", new String[] { receiveId,
+							UserInfoBean.getUserInfo(context).getUid() });
+			b = true;
+			db.setTransactionSuccessful();// 标记事务成功.
+		} catch (Exception e) {
+			e.printStackTrace();
+			b = false;
+		} finally {
+			db.endTransaction();// 结束事务,如果没有标记成功,则数据库回滚.
+			// db.close(); Don't close it directly!
+			DatabaseManager.getInstance().closeDatabase(); // correct way
+		}
+		return b;
+	}
+
+	/**
+	 * 清空所有最近聊天记录
+	 * 
+	 * @return
+	 */
+	public boolean clearAllRecently() {
+		SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+		boolean b;
+		try {
+			db.beginTransaction();// 开始事务
+			ContentValues values = new ContentValues();
+			values.put("messageContent", "");
+			// 执行数据库
+			db.delete(TABLE_RECENTLY_CONTACTS, null, null);
+			b = true;
+			db.setTransactionSuccessful();// 标记事务成功.
+		} catch (Exception e) {
+			e.printStackTrace();
+			b = false;
+		} finally {
+			db.endTransaction();// 结束事务,如果没有标记成功,则数据库回滚.
+			// db.close(); Don't close it directly!
+			DatabaseManager.getInstance().closeDatabase(); // correct way
+		}
+		return b;
+	}
+
+	/**
+	 * 清除某联系人的未读信息数
+	 * 
+	 * @param receiveId
+	 * @return
+	 */
+	public boolean clearUnReadNumber(String receiveId) {
+		SQLiteDatabase db = DatabaseManager.getInstance().openDatabase();
+		boolean b;
+		try {
+			db.beginTransaction();// 开始事务
+			ContentValues values = new ContentValues();
+			values.put("unReadNumber", "0");
+			// 执行数据库
+			db.update(TABLE_RECENTLY_CONTACTS, values,
+					"receiveId = ? and userId = ?", new String[] { receiveId,
+							UserInfoBean.getUserInfo(context).getUid() });
+			b = true;
+			db.setTransactionSuccessful();// 标记事务成功.
+		} catch (Exception e) {
+			e.printStackTrace();
+			b = false;
+		} finally {
+			db.endTransaction();// 结束事务,如果没有标记成功,则数据库回滚.
+			// db.close(); Don't close it directly!
+			DatabaseManager.getInstance().closeDatabase(); // correct way
+		}
+		return b;
+	}
+}

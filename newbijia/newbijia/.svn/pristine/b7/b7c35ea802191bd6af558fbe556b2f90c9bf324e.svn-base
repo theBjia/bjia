@@ -1,0 +1,229 @@
+package com.llkj.newbjia.login;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.MainActivity;
+import com.llkj.newbjia.MyApplication;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.bean.KeyBean;
+import com.llkj.newbjia.bean.ResponseBean;
+import com.llkj.newbjia.bean.UserInfoBean;
+import com.llkj.newbjia.http.PoCService;
+import com.llkj.newbjia.utils.FinalBitmapUtil;
+import com.llkj.newbjia.utils.LogUtil;
+import com.llkj.newbjia.utils.SharedPreferenceUtil;
+import com.llkj.newbjia.utils.StringUtil;
+import com.llkj.newbjia.utils.ToastUtil;
+
+/**
+ * 登录页
+ * 
+ * @author John
+ * 
+ */
+public class LoginActivity extends BaseActivity implements OnClickListener {
+
+	private SharedPreferenceUtil spUtil;
+
+	private EditText et_login_username, et_login_password;
+	private Button btn_login_finish;
+	private TextView regist, tv_login_forget_pwd;
+	private int mLogin, mGetLogoId;
+	private Intent bigIntent;
+	private String username, phone, uid;
+	private FinalBitmapUtil fb;
+	private ImageView iv_header;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.layout_login);
+		spUtil = SharedPreferenceUtil.init(this,
+				SharedPreferenceUtil.ACCOUNT_INFO, Activity.MODE_APPEND);
+		fb = FinalBitmapUtil.create(this);
+		initView();
+		initData();
+		initListener();
+	}
+
+	protected void initView() {
+		iv_header = (ImageView) findViewById(R.id.iv_header);
+		regist = (TextView) findViewById(R.id.tv_title_right);
+		et_login_username = (EditText) findViewById(R.id.et_login_username);
+		et_login_password = (EditText) findViewById(R.id.et_login_password);
+		tv_login_forget_pwd = (TextView) findViewById(R.id.tv_login_forget_pwd);
+		btn_login_finish = (Button) findViewById(R.id.btn_login_finish);
+		et_login_username.setText(UserInfoBean.getUserInfo(this).getPhone());
+		// et_login_username.setSelection(UserInfoBean.getUserInfo(this)
+		// .getPhone().length()-1);
+
+		et_login_username.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+				String phone = et_login_username.getText() + "";
+				if (StringUtil.isNetworkConnected(LoginActivity.this)) {
+					if (!StringUtil.isEmpty(phone)
+							&& StringUtil.isPhoneNumber(phone)) {
+						mGetLogoId = mRequestManager.getLogo(phone, true);
+					}
+				} else {
+					ToastUtil.makeShortText(LoginActivity.this,
+							R.string.no_wangluo);
+				}
+
+			}
+		});
+		String account = spUtil.getString("account");
+		if (!TextUtils.isEmpty(account)) {
+
+		}
+		// 如想保存登录状态,取消注释即可
+		// UserInfoBean.getUserInfo(this);
+		// if (UserInfoBean.getIsLogin()) {
+		// Intent in = new Intent(this, MainActivity.class);
+		// startActivity(in);
+		// finish();
+		// }
+	}
+
+	private void initData() {
+
+		bigIntent = getIntent();
+		if (bigIntent.hasExtra(KeyBean.KEY_USERNAME)) {
+			username = bigIntent.getStringExtra(KeyBean.KEY_USERNAME);
+		}
+		if (bigIntent.hasExtra(KeyBean.KEY_PHONE)) {
+			phone = bigIntent.getStringExtra(KeyBean.KEY_PHONE);
+		}
+		if (bigIntent.hasExtra(KeyBean.KEY_UID)) {
+			uid = bigIntent.getStringExtra(KeyBean.KEY_UID);
+			LogUtil.e("彼佳" + uid);
+		}
+
+	}
+
+	protected void initListener() {
+		regist.setOnClickListener(this);
+		btn_login_finish.setOnClickListener(this);
+		tv_login_forget_pwd.setOnClickListener(this);
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.tv_title_right:
+			// 跳转到注册界面
+			openActivity(RegisterOneActivity.class);
+			break;
+		case R.id.btn_login_finish:
+			// 登录
+			String account = et_login_username.getText().toString().trim();
+			String pwd = et_login_password.getText().toString().trim();
+			if (TextUtils.isEmpty(account)) {
+				ToastUtil.makeShortText(this, "请输入登录帐号");
+				return;
+			}
+			if (TextUtils.isEmpty(pwd)) {
+				ToastUtil.makeShortText(this, "请输入密码");
+				return;
+			}
+			if (pwd.length() < 6) {
+				ToastUtil.makeShortText(this, "密码不能小于6位");
+				return;
+			}
+			// TODO 如果软键盘弹出,则隐藏软键盘.
+			InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+			if (imm.isActive()) {
+				imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+			}
+			if (StringUtil.isNetworkConnected(this)) {
+				mLogin = mRequestManager.getLogin(account, pwd, true);
+			} else {
+				ToastUtil.makeShortText(this, R.string.no_wangluo);
+			}
+
+			break;
+		case R.id.tv_login_forget_pwd:
+			openActivity(FindPswActivity.class);
+			break;
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public void onRequestFinished(int requestId, int resultCode, Bundle payload) {
+		super.onRequestFinished(requestId, resultCode, payload);
+		if (resultCode == PoCService.SUCCESS_CODE) {
+			if (mLogin == requestId) {
+				int result = payload.getInt(ResponseBean.RESPONSE_STATE);
+				if (result == 1) {
+					String uid = payload.getString(ResponseBean.RESPONSE_UID);
+					String phone = payload
+							.getString(ResponseBean.RESPONSE_PHONE);
+					String user_name = payload
+							.getString(ResponseBean.RESPONSE_USERNAME);
+					String logo = payload.getString(ResponseBean.RESPONSE_LOGO);
+					UserInfoBean.getUserInfo(this).setUid(uid);
+					UserInfoBean.getUserInfo(this).setPhone(phone);
+					UserInfoBean.getUserInfo(this).setLogo(logo);
+					UserInfoBean.getUserInfo(this).setUserName(user_name);
+					UserInfoBean.saveUserinfo(this);
+					Intent intent = new Intent(this, MainActivity.class);
+					startActivity(intent);
+					this.finish();
+				} else {
+					String msg = payload
+							.getString(ResponseBean.RESPONSE_MESSAGE);
+					ToastUtil.makeShortText(this, msg);
+				}
+
+			}
+			if (mGetLogoId == requestId) {
+				int result = payload.getInt(ResponseBean.RESPONSE_STATE);
+				if (result == 1) {
+					String url = payload.getString(ResponseBean.RESPONSE_URL);
+					if (!StringUtil.isEmpty(url)) {
+						fb.displayForHeader(iv_header, url);
+					}
+
+				} else {
+					String msg = payload
+							.getString(ResponseBean.RESPONSE_MESSAGE);
+					ToastUtil.makeShortText(this, msg);
+				}
+
+			}
+		}
+	}
+
+}

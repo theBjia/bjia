@@ -1,0 +1,511 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:background="#ffffff"
+    >
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:scrollbars="none"
+        >
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <include
+                android:id="@+id/goods_info_ttleId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                layout="@layout/title_bar" />
+
+            <ImageView
+                android:id="@+id/goods_ifo_framID"
+                android:layout_width="fill_parent"
+                android:layout_height="200dp"
+                android:layout_below="@id/goods_info_ttleId"
+                android:background="@drawable/mipatch"
+                android:scaleType="centerCrop" 
+               
+                />
+
+            <View
+                android:id="@+id/vider1Id"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/goods_ifo_framID"
+                android:background="#CBCBCB" />
+
+            <ImageView
+                android:id="@+id/riback_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/vider1Id"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/to_right_back_img" />
+
+            <TextView
+                android:id="@+id/goods_info_cha_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/vider1Id"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toLeftOf="@id/riback_id"
+                android:text="水果 彼佳 新西兰韩国杰出的品质 优质的水质资源"
+                android:textSize="15sp" 
+                  android:background="#ffffff"
+                  android:textColor="#313131"
+                />
+
+            <TextView
+                android:id="@+id/priceId"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/goods_info_cha_id"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:text="市场价：￥-100  彼佳价：￥ 96"
+                android:textColor="#E82A2A"
+                android:textSize="15sp" 
+                android:background="#ffffff"
+                />
+
+            <View
+                android:id="@+id/vider2Id"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/priceId"
+                android:layout_marginTop="5dp"
+                android:background="#CBCBCB" 
+                android:layout_marginLeft="7dp"/>
+
+            <RelativeLayout
+                android:id="@+id/HeghtId"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/vider2Id"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                 android:background="#ffffff"
+                 >
+
+                <TextView
+                    android:id="@+id/goods_info_cha_id2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:text="重量：500g  包装： 托盘加保鲜膜"
+                    android:textColor="#313131"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/vider3Id"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/HeghtId"
+                android:layout_marginTop="10dp"
+                android:background="#CBCBCB" />
+
+            <View
+                android:id="@+id/vider4Id"
+                android:layout_width="fill_parent"
+                android:layout_height="10dp"
+                android:layout_below="@id/vider3Id"
+                android:background="#EEEEEE" />
+
+            <View
+                android:id="@+id/vider5Id"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/vider4Id"
+                android:background="#CBCBCB" />
+
+            <RelativeLayout
+                android:id="@+id/sendToId"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/vider5Id" 
+                android:background="#ffffff"
+                >
+
+                <TextView
+                    android:id="@+id/selft_getID"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:text="配送至：石家庄》瑞成自提点"
+                    android:textSize="15sp" 
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="#313131"
+                    />
+
+                <TextView
+                    android:id="@+id/now_goodsID"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@id/selft_getID"
+                    android:text="现货" 
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="#dcdcdc"
+                    />
+
+                <ImageView
+                    android:id="@+id/selfGId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignTop="@+id/selft_getID"
+                    android:layout_marginRight="66dp"
+                    android:src="@drawable/dingwei" />
+
+            </RelativeLayout>
+            
+             <View
+                android:id="@+id/vider6Id"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/sendToId"
+                android:layout_marginTop="10dp"
+                android:background="#CBCBCB" />
+
+            <View
+                android:id="@+id/vider7Id"
+                android:layout_width="fill_parent"
+                android:layout_height="10dp"
+                android:layout_below="@id/vider6Id"
+                android:background="#EEEEEE" />
+
+            <View
+                android:id="@+id/vider8Id"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/vider7Id"
+                android:background="#CBCBCB" />
+            <RelativeLayout 
+                
+                  android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#EEEEEE"
+                android:layout_below="@id/vider8Id"
+                >
+             
+                <TextView
+                    android:id="@+id/Guess_likeID"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:text="猜你喜欢" 
+                    android:textSize="18dp" 
+                    android:layout_marginLeft="5dp"
+                    android:textColor="#313131"
+                    />
+                
+                <ImageView
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/ges_lik_img1Id"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                   android:layout_alignParentLeft="true"
+                   android:layout_below="@id/Guess_likeID"
+                    android:src="@drawable/caomeiimg" 
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp"
+                  
+                    />
+                <TextView 
+                    
+                   android:layout_width="100dp" 
+                   android:layout_height="wrap_content"
+                   android:text="家国  水果 新西兰果"
+                   android:textSize="15sp"
+                   android:id="@+id/gess_like_text1"
+                   android:layout_below="@id/ges_lik_img1Id"
+                     android:layout_alignParentLeft="true"
+                     android:layout_marginLeft="5dp"
+                     android:layout_marginTop="5dp"
+                     android:textColor="#313131"
+                    />
+                
+                <TextView 
+                    
+                   android:layout_width="wrap_content" 
+                   android:layout_height="wrap_content"
+                   android:text="$36"
+                   android:textSize="15sp"
+                   android:id="@+id/red_prc1Id"
+                   android:layout_below="@id/gess_like_text1"
+                     android:layout_alignParentLeft="true"
+                     android:textColor="#E61B60"
+                     android:layout_marginLeft="5dp"
+                      android:layout_marginTop="5dp"
+                    />
+                
+                <ImageView
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/ges_lik_img2Id"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                android:layout_below="@id/Guess_likeID"
+                 
+                 android:layout_centerInParent="true"
+                    android:src="@drawable/caomeiimg" 
+                    android:layout_marginRight="5dp"
+                  
+                    />
+                 <TextView 
+                    
+                   android:layout_width="100dp" 
+                   android:layout_height="wrap_content"
+                   android:text="家国  水果 新西兰果"
+                   android:textSize="15sp"
+                    android:layout_centerInParent="true"
+                   android:id="@+id/gess_like_text2"
+                   android:layout_below="@id/ges_lik_img2Id"
+                   android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:textColor="#313131"
+                    />
+                 <TextView 
+                    
+                   android:layout_width="wrap_content" 
+                   android:layout_height="wrap_content"
+                   android:text="$36"
+                   android:textSize="15sp"
+                   android:id="@+id/red_prc2Id"
+                   android:layout_below="@id/gess_like_text2"
+                     android:layout_centerInParent="true"
+                     android:textColor="#E61B60"
+                      android:layout_marginTop="5dp"
+                    />
+                <ImageView
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/ges_lik_img3Id"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                  android:layout_alignParentRight="true"
+                   android:layout_below="@id/Guess_likeID"
+                    android:src="@drawable/caomeiimg" 
+                    android:layout_marginRight="5dp"
+                  
+                    />
+                 <TextView 
+                    
+                   android:layout_width="100dp" 
+                   android:layout_height="wrap_content"
+                   android:text="家国  水果 新西兰果"
+                   android:textSize="15sp"
+                   android:id="@+id/gess_like_text3"
+                   android:layout_below="@id/ges_lik_img3Id"
+                    android:layout_marginTop="5dp"
+                     android:layout_alignParentRight="true"
+                     android:textColor="#313131"
+                    />
+                  <TextView 
+                    
+                   android:layout_width="wrap_content" 
+                   android:layout_height="wrap_content"
+                   android:text="$36"
+                   android:textSize="15sp"
+                   android:id="@+id/gess_like_text3"
+                   android:layout_below="@id/gess_like_text2"
+                        android:layout_alignParentRight="true"
+                     android:textColor="#E61B60"
+                     android:layout_marginRight="5dp"
+                      android:layout_marginTop="5dp"
+                    /> 
+                <ImageView
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/ges_lik_img4Id"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                   android:layout_alignParentLeft="true"
+                   android:layout_below="@id/red_prc1Id"
+                    android:src="@drawable/caomeiimg" 
+                    android:layout_marginLeft="5dp"
+                    
+                 
+                    />
+                 <TextView 
+                    
+                   android:layout_width="100dp" 
+                   android:layout_height="wrap_content"
+                   android:text="家国  水果 新西兰果"
+                   android:textSize="15sp"
+                   android:id="@+id/gess_like_text4"
+                   android:layout_below="@id/ges_lik_img4Id"
+                   android:layout_marginTop="5dp"
+                   android:layout_marginLeft="5dp"
+                   android:layout_alignParentLeft="true"
+                   android:textColor="#313131"
+                    />
+                   <TextView 
+                    
+                   android:layout_width="wrap_content" 
+                   android:layout_height="wrap_content"
+                   android:text="$36"
+                   android:textSize="15sp"
+                   android:id="@+id/red_prc4Id"
+                   android:layout_below="@id/gess_like_text4"
+                     android:layout_alignParentLeft="true"
+                     android:textColor="#E61B60"
+                     android:layout_marginLeft="5dp"
+                    />
+                <ImageView
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/ges_lik_img5Id"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                      android:layout_centerInParent="true"
+                   android:layout_below="@id/red_prc2Id"
+                    android:src="@drawable/caomeiimg" 
+                    android:layout_marginRight="5dp"
+                  android:layout_marginLeft="5dp"
+                
+                    />
+                 <TextView 
+                    
+                   android:layout_width="100dp" 
+                   android:layout_height="wrap_content"
+                   android:text="家国  水果 新西兰果"
+                   android:textSize="15sp"
+                   android:id="@+id/gess_like_text5"
+                   android:layout_below="@id/ges_lik_img5Id"
+                   android:layout_marginTop="5dp"
+                   android:layout_centerInParent="true"
+                   android:textColor="#313131"/>
+                   <TextView 
+                    
+                   android:layout_width="wrap_content" 
+                   android:layout_height="wrap_content"
+                   android:text="$36"
+                   android:textSize="15sp"
+                   android:id="@+id/red_prc5Id"
+                   android:layout_below="@id/gess_like_text5"
+                     android:layout_centerInParent="true"
+                     android:textColor="#E61B60"
+                    />
+                <ImageView
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/ges_lik_img6Id"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                  android:layout_alignParentRight="true"
+                   android:layout_below="@id/gess_like_text3"
+                    android:src="@drawable/caomeiimg" 
+                    android:layout_marginRight="5dp"
+                 
+                    />
+                <TextView 
+                    
+                   android:layout_width="100dp" 
+                   android:layout_height="wrap_content"
+                   android:text="家国  水果 新西兰果"
+                   android:textSize="15sp"
+                   android:id="@+id/gess_like_text6"
+                   android:layout_below="@id/ges_lik_img6Id"
+                   android:layout_marginTop="5dp"
+                   android:layout_alignParentRight="true"
+                   android:textColor="#313131"/>
+                 <TextView 
+                    
+                   android:layout_width="wrap_content" 
+                   android:layout_height="wrap_content"
+                   android:text="$36"
+                   android:textSize="15sp"
+                   android:id="@+id/red_prc6Id"
+                   android:layout_below="@id/gess_like_text6"
+                    android:layout_alignParentRight="true"
+                     android:textColor="#E61B60"
+                       android:layout_marginRight="5dp"
+                    />
+                 
+                 <RelativeLayout 
+                     android:layout_width="fill_parent"
+                     android:layout_height="50dp"
+                     android:layout_marginLeft="10dp"
+                     android:layout_marginRight="10dp"
+                     android:layout_marginTop="7dp"
+                     android:layout_below="@id/red_prc6Id"
+                     android:background="#7E7E7E"
+                  
+                     >
+                   
+                     <!--    android:layout_width="73dp"  
+                       android:layout_height="93dp" -->
+                     <ImageView 
+                         android:layout_marginTop="7dp"
+                      android:layout_width="wrap_content"
+                      android:layout_height="38dp"
+                       android:src="@drawable/statre_about"
+                       android:layout_alignParentLeft="true"
+                       android:layout_marginLeft="10dp"
+                     android:id="@+id/satreIds"
+                       android:layout_centerVertical="true"
+                         />
+                     <RelativeLayout 
+                         android:id="@+id/cardImagId"
+                         android:layout_width="wrap_content"
+                         android:layout_height="38dp" 
+                         android:layout_alignParentRight="true"
+                         android:layout_marginRight="10dp"
+                         android:background="@drawable/car_c"
+                          android:layout_marginTop="7dp"
+                        >
+                         
+                       <TextView 
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content" 
+                            android:layout_marginLeft="20dp"
+                           android:background="@drawable/jiaobiao"
+                           android:id="@+id/jiaoBiaoId"
+                           android:gravity="center_horizontal"
+                           android:textColor="#ffffff"
+                             />
+                         
+                         
+                     </RelativeLayout> 
+                     
+                     <ImageView
+                         android:id="@+id/addTocarId"
+                         android:layout_width="fill_parent"
+                         android:layout_height="38dp"
+                         android:layout_marginLeft="10dp"
+                         android:layout_marginRight="10dp"
+                         android:layout_toLeftOf="@id/cardImagId"
+                         android:layout_toRightOf="@id/satreIds"
+                         android:layout_centerVertical="true"
+                         android:background="@drawable/middletocar_c" />
+
+                 </RelativeLayout>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/pontId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/goods_ifo_framID"
+                android:layout_toRightOf="@+id/goods_info_cha_id"
+                android:background="@drawable/circal"
+                android:gravity="center"
+                android:text="1/5"
+                android:textColor="#ffffff"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

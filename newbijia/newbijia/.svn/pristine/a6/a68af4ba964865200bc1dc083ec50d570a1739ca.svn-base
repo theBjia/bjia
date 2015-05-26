@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eeeeee" >
+    
+	 <include
+        android:id="@+id/relativeLayout1"
+        layout="@layout/title_bar" />
+
+	<RelativeLayout
+	    android:id="@+id/rl_01"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentLeft="true"
+	    android:layout_below="@+id/relativeLayout1" 
+	    android:layout_marginTop="10dp"
+	    android:background="#ffffff">
+
+	    <View
+	        android:id="@+id/ImageView08"
+	        android:layout_width="match_parent"
+	        android:layout_height="1dp"
+	        android:layout_alignParentLeft="true"
+	        android:layout_marginTop="54dp"
+	        android:background="#cccccc" />
+
+	    <View
+	        android:id="@+id/View01"
+	        android:layout_width="match_parent"
+	        android:layout_height="1dp"
+	        android:layout_alignParentLeft="true"
+	        android:background="#cccccc" />
+
+	    <EditText
+	        android:id="@+id/et_RawPassword"
+	        android:layout_width="fill_parent"
+	        android:layout_height="44dp"
+	        android:layout_centerHorizontal="true"
+	        android:layout_centerVertical="true"
+	        android:background="@null"
+	        android:ems="10"
+	        android:layout_marginLeft="40dp"
+	        android:hint="请输入原密码"
+	        android:numeric="integer"
+	        android:singleLine="true"
+	        android:textSize="16sp" >
+
+	        <requestFocus />
+	    </EditText>
+
+	</RelativeLayout>
+
+	<RelativeLayout
+	    android:id="@+id/rl_02"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentLeft="true"
+	    android:layout_below="@+id/rl_01" 
+	    android:layout_marginTop="10dp"
+	    android:background="#ffffff">
+
+	    <View
+	        android:id="@+id/View02"
+	        android:layout_width="match_parent"
+	        android:layout_height="1dp"
+	        android:layout_alignParentLeft="true"
+	        android:layout_marginTop="54dp"
+	        android:background="#cccccc" />
+
+	    <View
+	        android:id="@+id/View03"
+	        android:layout_width="match_parent"
+	        android:layout_height="1dp"
+	        android:layout_alignParentLeft="true"
+	        android:background="#cccccc" />
+
+	    <EditText
+	        android:id="@+id/et_Password"
+	        android:layout_width="fill_parent"
+	        android:layout_height="44dp"
+	        android:layout_centerHorizontal="true"
+	        android:layout_centerVertical="true"
+	        android:layout_marginLeft="40dp"
+	        android:background="@null"
+	        android:ems="10"
+	        android:hint="请输入密码"
+	        android:numeric="integer"
+	        android:singleLine="true"
+	        android:textSize="16sp" />
+	</RelativeLayout>
+
+	<RelativeLayout
+	    android:id="@+id/rl_03"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentLeft="true"
+	    android:layout_below="@+id/rl_02" 
+	    android:layout_marginTop="10dp"
+	    android:background="#ffffff">
+
+	    <View
+	        android:id="@+id/View04"
+	        android:layout_width="match_parent"
+	        android:layout_height="1dp"
+	        android:layout_alignParentLeft="true"
+	        android:layout_marginTop="54dp"
+	        android:background="#cccccc" />
+
+	    <View
+	        android:id="@+id/View05"
+	        android:layout_width="match_parent"
+	        android:layout_height="1dp"
+	        android:layout_alignParentLeft="true"
+	        android:background="#cccccc" />
+
+	    <EditText
+	        android:id="@+id/et_VerifyPassword"
+	        android:layout_width="fill_parent"
+	        android:layout_height="44dp"
+	        android:layout_centerHorizontal="true"
+	        android:layout_centerVertical="true"
+	        android:layout_marginLeft="40dp"
+	        android:background="@null"
+	        android:ems="10"
+	        android:hint="请确认密码"
+	        android:numeric="integer"
+	        android:singleLine="true"
+	        android:textSize="16sp" />
+	</RelativeLayout>
+
+</RelativeLayout>

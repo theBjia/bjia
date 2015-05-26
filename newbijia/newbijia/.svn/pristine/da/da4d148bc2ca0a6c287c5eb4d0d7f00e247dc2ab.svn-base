@@ -1,0 +1,62 @@
+package com.llkj.newbjia.mybijia;
+
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.RelativeLayout;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.R;
+/**
+ * 关于我们页
+ * @author John
+ *
+ */
+public class AboutActivity extends BaseActivity implements OnClickListener{
+				   //去评分                 功能介绍           帮助                            版本查询
+	RelativeLayout rl_ToScore,rl_Function,rl_Help,rl_CheckVersions;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.about_us);
+		setTitle(R.string.about,true,R.string.kong,false,R.string.kong);
+		initView();
+		initData();
+		initListener();
+	}
+
+	private void initView() {
+		rl_ToScore = (RelativeLayout) findViewById(R.id.rl_ToScore);
+		rl_Function = (RelativeLayout) findViewById(R.id.rl_Function);
+		rl_Help = (RelativeLayout) findViewById(R.id.rl_Help);
+		rl_CheckVersions = (RelativeLayout) findViewById(R.id.rl_CheckVersions);
+	}
+
+	private void initData() {
+		
+	}
+
+	private void initListener() {
+		
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.rl_ToScore:
+			
+			break;
+		case R.id.rl_Function:
+			
+			break;
+		case R.id.rl_Help:
+	
+			break;
+		case R.id.rl_CheckVersions:
+	
+			break;
+		}
+	}
+}

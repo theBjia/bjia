@@ -1,0 +1,181 @@
+package com.llkj.newbjia;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.llkj.newbjia.utils.MetherUtil;
+
+public class LeftSlidingMenuFragment extends Fragment implements
+		OnClickListener {
+	private View view;
+	// 用户名， 注册退出登录 关于我们
+	public TextView tv_qianming, tv_UserName, tv_wether_time, tv_wether_adres,
+			tv_temperater, tv_wetherson, tv_wether_date;
+	// 用户名 3，主页 4， 分类 5，购物车 6.收藏夹 7好友 8.聊天 9，圈子 10我的彼佳 11 我的订单
+	RelativeLayout rl_user, rl_three, rl_four, rl_five, rl_six, rl_seven,
+			rl_eight, rl_night, rl_ten, rl_oneone, rl_onetwo, rl_setting;
+
+	private ImageView imUserHead, iv_wether_iMg;
+	private Handler handler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			Bundle bundle = msg.getData();
+			String temperature1 = bundle.getString("temperature1");
+			tv_temperater.setText(temperature1 + "°C");// 字段未找到
+			String status1 = bundle.getString("status1");
+			tv_wetherson.setText(status1);
+			if (status1.contains("晴")) {
+				iv_wether_iMg.setImageResource(R.drawable.sunshine);
+			} else if (status1.contains("雨")) {
+				iv_wether_iMg.setImageResource(R.drawable.cloud);
+
+			} else {
+				iv_wether_iMg.setImageResource(R.drawable.many_cloud);
+			}
+		};
+	};
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		view = inflater.inflate(R.layout.left_drawer_fragment, null);
+		initView();
+		addListener();
+		initData();
+		selectWether();
+		return view;
+	}
+
+	private void selectWether() {
+		// TODO Auto-generated method stub
+
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				try {
+					new MetherUtil().showWether(getActivity(), "北京", handler);
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (URISyntaxException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}).start();
+
+	}
+
+	private void initData() {
+		// TODO Auto-generated method stub
+
+	}
+
+	private void initView() {
+		// TODO Auto-generated method stub
+		tv_qianming = (TextView) view.findViewById(R.id.tv_qianming);
+		tv_UserName = (TextView) view.findViewById(R.id.tv_UserName);
+
+		tv_wether_time = (TextView) view.findViewById(R.id.tv_wether_time);
+		tv_wether_adres = (TextView) view.findViewById(R.id.tv_wether_adres);
+		tv_temperater = (TextView) view.findViewById(R.id.tv_temperater);
+		tv_wetherson = (TextView) view.findViewById(R.id.tv_wetherson);
+		tv_wether_date = (TextView) view.findViewById(R.id.tv_wether_date);
+
+		imUserHead = (ImageView) view.findViewById(R.id.imUserHead);
+		iv_wether_iMg = (ImageView) view.findViewById(R.id.iv_wether_iMg);
+
+		rl_user = (RelativeLayout) view.findViewById(R.id.rl_user);
+		rl_three = (RelativeLayout) view.findViewById(R.id.rl_three);
+		rl_four = (RelativeLayout) view.findViewById(R.id.rl_four);
+		rl_five = (RelativeLayout) view.findViewById(R.id.rl_five);
+		rl_six = (RelativeLayout) view.findViewById(R.id.rl_six);
+		rl_seven = (RelativeLayout) view.findViewById(R.id.rl_seven);
+		rl_eight = (RelativeLayout) view.findViewById(R.id.rl_eight);
+		rl_night = (RelativeLayout) view.findViewById(R.id.rl_night);
+		rl_ten = (RelativeLayout) view.findViewById(R.id.rl_ten);
+		rl_oneone = (RelativeLayout) view.findViewById(R.id.rl_oneone);
+		rl_onetwo = (RelativeLayout) view.findViewById(R.id.rl_onetwo);
+		rl_setting = (RelativeLayout) view.findViewById(R.id.rl_setting);
+
+	}
+
+	private void addListener() {
+		// TODO Auto-generated method stub\
+		rl_user.setOnClickListener(this);
+		rl_three.setOnClickListener(this);
+		rl_four.setOnClickListener(this);
+		rl_five.setOnClickListener(this);
+		rl_six.setOnClickListener(this);
+		rl_seven.setOnClickListener(this);
+		rl_eight.setOnClickListener(this);
+		rl_night.setOnClickListener(this);
+		rl_ten.setOnClickListener(this);
+		rl_oneone.setOnClickListener(this);
+
+		rl_onetwo.setOnClickListener(this);
+		rl_setting.setOnClickListener(this);
+
+	}
+
+	@Override
+	public void onClick(View arg0) {
+		// TODO Auto-generated method stub
+		Intent intent;
+		switch (arg0.getId()) {
+		case R.id.rl_three:
+			if ((MainActivity) getActivity() != null) {
+				((MainActivity) getActivity()).switchContent(0);
+			}
+			break;
+		case R.id.rl_four:
+
+			break;
+		case R.id.rl_five:
+
+			break;
+		case R.id.rl_six:
+
+			break;
+		case R.id.rl_seven:
+
+			break;
+		case R.id.rl_eight:
+
+			break;
+		case R.id.rl_night:
+
+			break;
+		case R.id.rl_ten:
+
+			break;
+		case R.id.rl_oneone:
+
+			break;
+		case R.id.rl_onetwo:
+
+			break;
+		case R.id.rl_setting:
+
+			break;
+
+		default:
+			break;
+		}
+	}
+
+}

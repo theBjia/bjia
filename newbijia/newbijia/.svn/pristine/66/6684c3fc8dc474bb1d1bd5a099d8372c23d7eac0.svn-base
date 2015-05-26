@@ -1,0 +1,76 @@
+package com.llkj.newbjia.shoppingcart;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.adpater.AceeGoodAdressAdapter;
+import com.llkj.newbjia.adpater.AceeGoodAdressAdapter.Onclick;
+import com.llkj.newbjia.utils.ToastUtil;
+/**
+ * 填写订单页
+ * @author John
+ *
+ */
+public class AceeGoodAdressActivity extends BaseActivity implements Onclick,OnClickListener{
+	
+	private ListView lv_content;
+	private ArrayList arrayList;
+	private AceeGoodAdressAdapter adapter;
+	private TextView tvRight;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.acee_good_adress);
+		setTitle(R.string.aaceegoodadress, true, R.string.kong, true, R.string.newaceegood);
+		initView();
+		initData();
+		initListener();
+	}
+
+	private void initView() {
+		lv_content = (ListView) findViewById(R.id.lv_content);
+		tvRight = (TextView) findViewById(R.id.tv_title_right);
+	}
+
+	private void initData() {
+		arrayList = new ArrayList();
+		for(int i = 0;i<3;i++){
+			HashMap hashMap = new HashMap();
+			hashMap.put("name", "王航"+i);
+			arrayList.add(hashMap);
+		}
+		adapter = new AceeGoodAdressAdapter(AceeGoodAdressActivity.this, arrayList,this);
+		lv_content.setAdapter(adapter);
+		
+	}
+
+	private void initListener() {
+		tvRight.setOnClickListener(this);
+	}
+
+	@Override
+	public void myClick(View v, int type) {
+		openActivity(EditAdressActivity.class);
+	}
+
+	@Override
+	public void myLongClick(View v, int type) {
+		
+	}
+
+	@Override
+	public void onClick(View v) {
+		openActivity(AddAceeAdressActivity.class);
+	}
+}

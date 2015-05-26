@@ -1,0 +1,130 @@
+package com.llkj.newbjia.adpater;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.utils.FinalBitmapUtil;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+public class MyOrderAdapter extends BaseAdapter{
+	private LayoutInflater inflater;
+	private ArrayList arrayList;
+	private Context context;
+	private FinalBitmapUtil finalBitmapUtil;
+	protected Map<Integer, View> map = new HashMap<Integer, View>();
+	private MyClicker myClicker;
+	
+	public MyOrderAdapter(Context context,ArrayList list,MyClicker myClicker){
+		this.inflater = LayoutInflater.from(context);
+		this.context = context;
+		setData(list);
+		finalBitmapUtil = FinalBitmapUtil.create(context);
+		this.myClicker = myClicker;
+	}
+	
+	
+	private void setData(ArrayList list) {
+		if(null != list){
+			this.arrayList = list;
+		}else{
+			arrayList = new ArrayList();
+		}
+	}
+
+	public void notifyDataSetChanged(ArrayList list) {
+		setData(arrayList);
+		map.clear();
+		this.notifyDataSetChanged();
+	}
+	
+	@Override
+	public int getCount() {
+		// TODO Auto-generated method stub
+		return arrayList.size();
+	}
+
+	@Override
+	public Object getItem(int position) {
+		// TODO Auto-generated method stub
+		return arrayList.get(position);
+	}
+
+	@Override
+	public long getItemId(int position) {
+		// TODO Auto-generated method stub
+		return position;
+	}
+
+	@Override
+	public View getView(final int position, View convertView, ViewGroup parent) {
+		HoldView holdView;
+		View pv;
+			if(null == map.get(position)){
+				holdView = new HoldView();
+				pv = inflater.inflate(R.layout.order_check_item, null);
+				holdView.r_OrderOver = (RelativeLayout) pv.findViewById(R.id.r_OrderOver);
+				holdView.im_GoodsPicture = (ImageView) pv.findViewById(R.id.im_GoodsPicture);
+				holdView.tv_OrderNumber = (TextView) pv.findViewById(R.id.tv_OrderNumber);
+				holdView.tv_OrderMoeny = (TextView) pv.findViewById(R.id.tv_OrderMoeny);
+				holdView.tv_OrderTime = (TextView) pv.findViewById(R.id.tv_OrderTime);
+				holdView.tv_CommodityName = (TextView) pv.findViewById(R.id.tv_CommodityName);
+				holdView.tv_Weight = (TextView) pv.findViewById(R.id.tv_Weight);
+				holdView.tv_Pack = (TextView) pv.findViewById(R.id.tv_Pack);
+				holdView.tv_OrderStaut = (TextView) pv.findViewById(R.id.tv_OrderStaut);
+				holdView.btn_UserAction = (Button) pv.findViewById(R.id.btn_UserAction);
+				holdView.r_OrderOver.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						myClicker.myClick(v,1);
+					}
+				});
+				
+				holdView.btn_UserAction.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						//myClicker.myClick(v,1);
+					}
+				});
+				HashMap item = (HashMap) arrayList.get(position);
+				holdView.r_OrderOver.setTag(item);
+				if(item.containsKey("orderNumber")){
+					String orderNumber = item.get("orderNumber").toString();
+					holdView.tv_OrderNumber.setText(orderNumber);
+				}
+				pv.setTag(holdView);
+				map.put(position, pv);
+			}else{
+				pv = map.get(position);
+				holdView = (HoldView) pv.getTag();
+			}
+		return pv;
+	}
+	
+	class HoldView{
+		ImageView im_GoodsPicture;
+		TextView tv_OrderNumber,tv_OrderMoeny,tv_OrderTime,tv_CommodityName,tv_Weight,tv_Pack,tv_OrderStaut;
+		Button btn_UserAction;
+		RelativeLayout r_OrderOver;
+	}
+	
+	public interface MyClicker{
+		void myClick(View v,int type);//type 为1 点击
+		void myLongClick(View v,int type);
+	}
+}

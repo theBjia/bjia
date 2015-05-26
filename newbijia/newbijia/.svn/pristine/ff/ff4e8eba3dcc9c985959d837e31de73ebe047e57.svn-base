@@ -1,0 +1,17 @@
+package com.llkj.newbjia.bean;
+
+public class ResponseBean {
+	public static final String RESPONSE_STATE = "state";
+	public static final String RERSPONSE_URL = "url";
+	public static final String RESPONSE_PATH = "path";
+	public static final String RESPONSE_MESSAGE = "message";
+	public static final String RESPONSE_CODE = "code";
+	public static final String RESPONSE_UID = "uid";
+	public static final String RESPONSE_PHONE = "phone";
+	public static final String RESPONSE_MOBILE_PHONE = "mobile_phone";
+	public static final String RESPONSE_USERNAME = "user_name";
+	public static final String RESPONSE_LOGO = "logo";
+	public static final String RESPONSE_SIGNATURE = "signature";
+	public static final String RESPONSE_CITY = "city";
+	public static final String RESPONSE_COMMUNITY = "community";
+}

@@ -1,0 +1,120 @@
+package com.llkj.newbjia.login;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.MainActivity;
+import com.llkj.newbjia.MyApplication;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.bean.UserInfoBean;
+import com.llkj.newbjia.http.PoCService;
+import com.llkj.newbjia.utils.LogUtil;
+import com.llkj.newbjia.utils.SharedPreferenceUtil;
+import com.llkj.newbjia.utils.StringUtil;
+import com.llkj.newbjia.utils.ToastUtil;
+
+public class LoginActivity extends BaseActivity implements OnClickListener {
+
+	private SharedPreferenceUtil spUtil;
+
+	private EditText et_login_username, et_login_password;
+	private Button btn_login_finish;
+	private TextView regist, tv_login_forget_pwd;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.layout_login);
+		spUtil = SharedPreferenceUtil.init(this,
+				SharedPreferenceUtil.ACCOUNT_INFO, Activity.MODE_APPEND);
+		initView();
+		initListener();
+	}
+
+	protected void initView() {
+		regist = (TextView) findViewById(R.id.tv_title_right);
+		et_login_username = (EditText) findViewById(R.id.et_login_username);
+		et_login_password = (EditText) findViewById(R.id.et_login_password);
+		tv_login_forget_pwd = (TextView) findViewById(R.id.tv_login_forget_pwd);
+		btn_login_finish = (Button) findViewById(R.id.btn_login_finish);
+		String account = spUtil.getString("account");
+		if (!TextUtils.isEmpty(account)) {
+			et_login_username.setText(account);
+			et_login_username.setSelection(account.length());
+		}
+		// 如想保存登录状态,取消注释即可
+		// UserInfoBean.getUserInfo(this);
+		// if (UserInfoBean.getIsLogin()) {
+		// Intent in = new Intent(this, MainActivity.class);
+		// startActivity(in);
+		// finish();
+		// }
+	}
+
+	protected void initListener() {
+		regist.setOnClickListener(this);
+		btn_login_finish.setOnClickListener(this);
+		tv_login_forget_pwd.setOnClickListener(this);
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.tv_title_right:
+			// 跳转到注册界面
+			openActivity(RegisterOneActivity.class);
+			break;
+		case R.id.btn_login_finish:
+			// 登录
+			String account = et_login_username.getText().toString().trim();
+			String pwd = et_login_password.getText().toString().trim();
+			if (TextUtils.isEmpty(account)) {
+				ToastUtil.makeShortText(this, "请输入登录帐号");
+				return;
+			}
+			if (TextUtils.isEmpty(pwd)) {
+				ToastUtil.makeShortText(this, "请输入密码");
+				return;
+			}
+			if (pwd.length()<6) {
+				ToastUtil.makeShortText(this, "密码不能小于6位");
+				return;
+			}
+			// TODO 如果软键盘弹出,则隐藏软键盘.
+			InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+			if (imm.isActive()) {
+				imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+			}
+			if (StringUtil.isNetworkConnected(this)) {
+				Intent intent = new Intent(this, MainActivity.class);
+				startActivity(intent);
+				this.finish();
+			}
+
+			break;
+		case R.id.tv_login_forget_pwd:
+			openActivity(FindPswActivity.class);
+			break;
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public void onRequestFinished(int requestId, int resultCode, Bundle payload) {
+		super.onRequestFinished(requestId, resultCode, payload);
+		if (resultCode == PoCService.SUCCESS_CODE) {
+
+		}
+	}
+
+}

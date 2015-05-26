@@ -1,0 +1,46 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="siz_12">12sp</dimen>
+    <dimen name="siz_15">15sp</dimen>
+    <dimen name="siz_20">20sp</dimen>
+    <dimen name="slidingmenu_offset">120dp</dimen>
+    <dimen name="shadow_width">15.0dip</dimen>
+    <dimen name="goods_detail_add_margin">20dp</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="dialog_lib_textsize_9">9sp</dimen>
+    <dimen name="dialog_lib_textsize_10">10sp</dimen>
+    <dimen name="dialog_lib_textsize_12">12sp</dimen>
+    <dimen name="dialog_lib_textsize_14">14sp</dimen>
+    <dimen name="dialog_lib_textsize_16">16sp</dimen>
+    <dimen name="dialog_lib_textsize_18">18sp</dimen>
+    <dimen name="dialog_lib_textsize_19">19sp</dimen>
+    <dimen name="dialog_lib_textsize_20">20sp</dimen>
+    <dimen name="dialog_lib_textsize_21">21sp</dimen>
+    <dimen name="dialog_lib_textsize_22">22sp</dimen>
+    <dimen name="dialog_lib_textsize_23">23sp</dimen>
+    <dimen name="dialog_lib_textsize_24">24sp</dimen>
+    <dimen name="dialog_lib_margin_1">1dp</dimen>
+    <dimen name="dialog_lib_margin_2">2dp</dimen>
+    <dimen name="dialog_lib_margin_3">3dp</dimen>
+    <dimen name="dialog_lib_margin_4">4dp</dimen>
+    <dimen name="dialog_lib_margin_5">5dp</dimen>
+    <dimen name="dialog_lib_margin_7">7dp</dimen>
+    <dimen name="dialog_lib_margin_9">9dp</dimen>
+    <dimen name="dialog_lib_margin_10">10dp</dimen>
+    <dimen name="dialog_lib_margin_12">12dp</dimen>
+    <dimen name="dialog_lib_margin_15">15dp</dimen>
+    <dimen name="dialog_lib_margin_20">20dp</dimen>
+    <dimen name="dialog_lib_margin_25">25dp</dimen>
+    <dimen name="dialog_lib_margin_30">30dp</dimen>
+
+    <!-- font size and others -->
+    <dimen name="friend_add_list_size">17dp</dimen>
+    <dimen name="friend_community_title_small">18sp</dimen>
+    <dimen name="friend_community_item_tv">16sp</dimen>
+    <dimen name="friend_community_item_btn">15sp</dimen>
+
+</resources>

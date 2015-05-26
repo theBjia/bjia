@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <include
+        android:id="@+id/AdreeId"
+        layout="@layout/stub_title" />
+
+    <!--  -->
+
+    <RelativeLayout
+        android:id="@+id/addreddTypeID"
+        android:layout_width="fill_parent"
+        android:layout_height="58dp"
+        android:layout_below="@id/AdreeId"
+        android:background="#ffffff" >
+
+        <EditText
+            android:id="@+id/et_AddRess_Name"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:background="@null"
+            android:hint="请输入姓名"
+            android:singleLine="true"
+            android:textColor="#000000"
+            android:maxLength="10"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="#dbdbdb" />
+    </RelativeLayout>
+
+    <!--  -->
+
+    <RelativeLayout
+        android:id="@+id/addreddphoneTypeID"
+        android:layout_width="fill_parent"
+        android:layout_height="58dp"
+        android:layout_below="@id/addreddTypeID"
+        android:background="#ffffff" >
+
+        <EditText
+            android:id="@+id/et_AddRess_Phone"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:background="@null"
+            android:hint="请输入手机"
+            android:singleLine="true"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:inputType="number" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="#dbdbdb" />
+    </RelativeLayout>
+    <!--  -->
+
+    <RelativeLayout
+        android:id="@+id/addred2TypeID"
+        android:layout_width="fill_parent"
+        android:layout_height="58dp"
+        android:layout_below="@id/addreddphoneTypeID"
+        android:background="#ffffff" >
+
+        <TextView
+            android:id="@+id/tv_AddRess_Ziti"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:background="@null"
+            android:singleLine="true"
+            android:textColor="#000000"
+            android:text="请选择自提点"
+            android:gravity="center_vertical"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="#dbdbdb" />
+    </RelativeLayout>
+
+    <!--  -->
+
+    <Button
+        android:id="@+id/addAfreBtonnoid"
+        android:layout_width="400dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/addred2TypeID"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="25dp"
+        android:background="#3ab485"
+        android:text="添加地址"
+        android:textColor="#ffffff"
+        android:textSize="18sp" />
+
+</RelativeLayout>

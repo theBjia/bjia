@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/rl_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/qian_gray" >
+
+        <ImageView
+            android:id="@+id/iv_content"
+            android:layout_width="62dp"
+            android:layout_height="62dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/add_hao" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/iv_content"
+            android:layout_toRightOf="@+id/iv_content"
+            android:paddingLeft="10dp"
+            android:text="小宝"
+            android:textColor="@color/green" />
+
+        <TextView
+            android:id="@+id/tv_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/tv_name"
+            android:paddingRight="10dp"
+            android:text="删除" />
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_name"
+            android:layout_below="@+id/iv_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="-20dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/quanzi_onebg" >
+
+            <TextView
+                android:id="@+id/tv_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:ellipsize="end"
+                android:maxLines="5"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:text="今晚一起吃饭的么，龙虾盛宴，小伙伴们快来找我吧，走起" />
+
+            <LinearLayout
+                android:id="@+id/ll_images"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/tv_content"
+                android:layout_below="@+id/tv_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="vertical" >
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="20dp"
+                android:layout_below="@+id/ll_images" >
+            </LinearLayout>
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/iv_pinglun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/relativeLayout1"
+            android:layout_below="@+id/relativeLayout1"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/pinglun"
+            android:padding="5dp" />
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/relativeLayout1"
+            android:layout_below="@+id/iv_pinglun"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/quanzitwobg" >
+
+            <RelativeLayout
+                android:id="@+id/rl_two"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp" >
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/quanzhi_xin" />
+
+                <TextView
+                    android:id="@+id/tv_zannames"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/imageView2"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="10dp"
+                    android:singleLine="true"
+                    android:text="小白，小花，小明"
+                    android:textColor="@color/green"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="fill_parent"
+                android:layout_height="0.5dp"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/rl_two"
+                android:layout_marginTop="10dp"
+                android:background="@color/fengeline_gray" />
+
+            <LinearLayout
+                android:id="@+id/ll_comments"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/rl_two"
+                android:layout_below="@+id/imageView3"
+                android:layout_marginRight="10dp"
+                android:orientation="vertical" >
+            </LinearLayout>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tv_delete"
+            android:layout_alignBottom="@+id/tv_delete"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/tv_delete"
+            android:text="一分钟前"
+            android:textColor="@color/text_grey" />
+    </RelativeLayout>
+
+</RelativeLayout>

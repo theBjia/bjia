@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/rl_background"
+        android:layout_width="fill_parent"
+        android:layout_height="65dp" >
+
+        <ImageView
+            android:id="@+id/picIv"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:scaleType="fitXY"
+            android:src="@color/gray" />
+
+        <TextView
+            android:id="@+id/timeTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:text="13:00"
+            android:textColor="#888888" />
+
+        <TextView
+            android:id="@+id/nameTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_toLeftOf="@+id/timeTv"
+            android:layout_toRightOf="@+id/picIv"
+            android:singleLine="true"
+            android:text="name"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/messageNumberTv"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="-5dp"
+            android:layout_marginTop="5dp"
+            android:layout_toLeftOf="@+id/nameTv"
+            android:background="@drawable/red_circle_icon"
+            android:gravity="center"
+            android:text="99"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/timeTv"
+            android:layout_below="@id/timeTv"
+            android:layout_marginTop="3dp"
+            android:background="#CF0A0A"
+            android:paddingBottom="2dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="2dp"
+            android:text="删除"
+            android:textColor="@color/white"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/textTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/nameTv"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_toLeftOf="@+id/tv_delete"
+            android:layout_toRightOf="@+id/picIv"
+            android:singleLine="true"
+            android:text="content"
+            android:textColor="#888888" />
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,88 @@
+package com.llkj.newbjia.mybijia;
+
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.RelativeLayout;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.utils.LogUtil;
+import com.llkj.newbjia.utils.SlidButton;
+import com.llkj.newbjia.utils.SlidButton.OnChangedListener;
+import com.llkj.newbjia.utils.ToastUtil;
+/**
+ * 设置页
+ * @author John
+ *
+ */
+public class MySettingActivity extends BaseActivity implements OnClickListener{
+		      //震动按钮       声音按钮
+	SlidButton su_Shake,su_Voice;
+	              //关于我们         意见反馈                修改密码
+	RelativeLayout rl_About,rl_Feedback,rl_PasswordUpdate;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.my_setting);
+		setTitle(R.string.setting,true,R.string.kong,false,R.string.kong);
+		initView();
+		initData();
+		initListener();
+	}
+
+	private void initView() {
+		rl_About = (RelativeLayout) findViewById(R.id.rl_About);
+		rl_Feedback = (RelativeLayout) findViewById(R.id.rl_Feedback);
+		rl_PasswordUpdate = (RelativeLayout) findViewById(R.id.rl_PasswordUpdate);
+		su_Shake = (SlidButton) findViewById(R.id.su_Shake);
+		su_Voice = (SlidButton) findViewById(R.id.su_Voice);
+		su_Shake.SetOnChangedListener(new OnChangedListener() {
+			@Override
+			public void OnChanged(boolean checkState) {
+				if(checkState){
+					ToastUtil.makeShortText(MySettingActivity.this,"震动开");
+				}else{
+					ToastUtil.makeShortText(MySettingActivity.this,"震动关");
+				}
+			}
+		});
+		su_Voice.SetOnChangedListener(new OnChangedListener() {
+			
+			@Override
+			public void OnChanged(boolean checkState) {
+				if(checkState){
+					ToastUtil.makeShortText(MySettingActivity.this,"声音开");
+				}else{
+					ToastUtil.makeShortText(MySettingActivity.this,"声音关");
+				}
+			}
+		});
+	}
+
+	private void initData() {
+		
+	}
+
+	private void initListener() {
+		rl_About.setOnClickListener(this);
+		rl_Feedback.setOnClickListener(this);
+		rl_PasswordUpdate.setOnClickListener(this);
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.rl_About:
+			openActivity(AboutActivity.class);
+			break;
+
+		case R.id.rl_Feedback:
+			openActivity(FeedbackActivity.class);
+			break;
+		case R.id.rl_PasswordUpdate:
+			openActivity(UpdatePassword.class);
+			break;
+		}
+	}
+}

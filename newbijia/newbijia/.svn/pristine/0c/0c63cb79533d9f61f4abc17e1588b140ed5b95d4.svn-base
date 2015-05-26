@@ -1,0 +1,48 @@
+package com.llkj.newbjia.chat;
+
+
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.app.Notification;
+
+import com.llkj.newbjia.MyApplication;
+
+public class ChatUtils {
+	public static void setYZ(Notification mNotification, boolean isvoice,
+			boolean isZhenDong) {
+		if (isvoice && isZhenDong) {
+			mNotification.defaults |= Notification.DEFAULT_VIBRATE;
+			mNotification.defaults |= Notification.DEFAULT_SOUND;
+			return;
+		}
+		if (isvoice && !isZhenDong) {
+			mNotification.defaults |= Notification.DEFAULT_SOUND;
+			mNotification.vibrate = null;
+		}
+		if (isZhenDong && !isvoice) {
+			mNotification.sound = null;
+			mNotification.defaults |= Notification.DEFAULT_VIBRATE;
+		}
+	}
+
+	public static void notifyShoudaoxiaoxi(JSONObject jsonObject) {
+		if (jsonObject.has("dataId")) {
+			try {
+				String dataId = jsonObject.getString("dataId");
+				JSONArray ja = new JSONArray();
+				JSONObject json = new JSONObject();
+				json.put("dataId", dataId);
+				ja.put(json);
+				MyApplication.client.emit("RemoveOffline", ja);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+	}
+
+}

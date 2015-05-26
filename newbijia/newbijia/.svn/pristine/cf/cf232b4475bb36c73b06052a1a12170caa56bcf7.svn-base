@@ -1,0 +1,234 @@
+package com.llkj.newbjia.zitidianfenbu;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.amap.api.maps2d.AMap;
+import com.amap.api.maps2d.AMap.InfoWindowAdapter;
+import com.amap.api.maps2d.AMap.OnInfoWindowClickListener;
+import com.amap.api.maps2d.AMap.OnMapLoadedListener;
+import com.amap.api.maps2d.AMap.OnMarkerClickListener;
+import com.amap.api.maps2d.AMap.OnMarkerDragListener;
+import com.amap.api.maps2d.MapView;
+import com.amap.api.maps2d.model.BitmapDescriptorFactory;
+import com.amap.api.maps2d.model.LatLng;
+import com.amap.api.maps2d.model.Marker;
+import com.amap.api.maps2d.model.MarkerOptions;
+import com.llkj.newbjia.BaseFragment;
+import com.llkj.newbjia.MainActivity;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.adpater.FenLeiAdapter;
+import com.llkj.newbjia.bean.ResponseBean;
+import com.llkj.newbjia.http.PoCService;
+import com.llkj.newbjia.utils.StringUtil;
+import com.llkj.newbjia.utils.ToastUtil;
+
+public class ZitidianfenbuFragment extends BaseFragment implements
+		OnMarkerClickListener, OnInfoWindowClickListener, OnMarkerDragListener,
+		OnMapLoadedListener, OnClickListener, InfoWindowAdapter {
+	private MarkerOptions markerOption;
+	private MapView mapView;
+	private LatLng latlng = new LatLng(36.061, 103.834);
+	private AMap aMap;
+	private ArrayList arrayList;
+	private ImageView iv_one;
+	private String name;
+	private TextView tv_name;
+	private LinearLayout ll_title_back;
+	private int mRequestId;
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		if (rootView == null) {
+			rootView = inflater.inflate(R.layout.layout_zitidianfenbu, null);
+			mapView = (MapView) rootView.findViewById(R.id.map);
+			// 此方法必须重写
+			mapView.onCreate(savedInstanceState);
+			initView();
+			initListener();
+			initData();
+
+		} else {
+			ViewGroup parent = (ViewGroup) rootView.getParent();
+			if (parent != null) {
+				parent.removeView(rootView);
+			}
+		}
+		return rootView;
+	}
+
+	private void initView() {
+		// TODO Auto-generated method stub
+		if (aMap == null) {
+			aMap = mapView.getMap();
+			setUpMap();
+		}
+		ll_title_back = (LinearLayout) rootView
+				.findViewById(R.id.ll_title_back);
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+
+	}
+
+	private void setUpMap() {
+		aMap.setOnMarkerDragListener(this);// 设置marker可拖拽事件监听器
+		aMap.setOnMapLoadedListener(this);// 设置amap加载成功事件监听器
+		aMap.setOnMarkerClickListener(this);// 设置点击marker事件监听器
+		aMap.setOnInfoWindowClickListener(this);// 设置点击infoWindow事件监听器
+		aMap.setInfoWindowAdapter(this);// 设置自定义InfoWindow样式
+
+	}
+
+	private void addMarkersToMap() {
+		// TODO Auto-generated method stub
+		for (int i = 0; i < arrayList.size(); i++) {
+			MarkerOptions markerOption = new MarkerOptions();
+			HashMap map = (HashMap) arrayList.get(i);
+			double doulat = Double.parseDouble(map.get("lat").toString());
+			double doulng = Double.parseDouble(map.get("lng").toString());
+			LatLng latlnt = new LatLng(doulat, doulng);
+			markerOption.position(latlnt);
+
+			markerOption.icon(BitmapDescriptorFactory
+					.fromResource(R.drawable.ditubiaozhi));
+
+			markerOption.title(map.get("name").toString());
+
+			aMap.addMarker(markerOption);
+		}
+
+	}
+
+	private void initListener() {
+		// TODO Auto-generated method stub
+		ll_title_back.setOnClickListener(this);
+	}
+
+	private void initData() {
+		// TODO Auto-generated method stub
+		if (StringUtil.isNetworkConnected(getActivity())) {
+			mRequestId = mRequestManager.zitiList(true);
+		} else {
+			ToastUtil.makeShortText(getActivity(), R.string.no_wangluo);
+		}
+
+	}
+
+	@Override
+	public View getInfoContents(Marker arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public View getInfoWindow(Marker marker) {
+		// TODO Auto-generated method stub
+		View infoWindow;
+		infoWindow = getActivity().getLayoutInflater().inflate(
+				R.layout.custom_info_window, null);
+		render(marker, infoWindow);
+		return infoWindow;
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		switch (v.getId()) {
+		case R.id.ll_title_back:
+			if ((MainActivity) getActivity() != null) {
+				((MainActivity) getActivity()).switchContent(0);
+			}
+			break;
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public void onMapLoaded() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onMarkerDrag(Marker arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onMarkerDragEnd(Marker arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onMarkerDragStart(Marker arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onInfoWindowClick(Marker arg0) {
+		// TODO Auto-generated method stub
+		String lat = arg0.getPosition().latitude + "";
+		String lng = arg0.getPosition().longitude + "";
+		Intent data = new Intent();
+		data.putExtra("lat", lat);
+		data.putExtra("lng", lng);
+		arg0.hideInfoWindow();
+	}
+
+	@Override
+	public boolean onMarkerClick(Marker arg0) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/**
+	 * 自定义infowinfow窗口
+	 */
+	public void render(Marker marker, View view) {
+
+		tv_name = (TextView) view.findViewById(R.id.tv_name);
+
+		name = marker.getTitle();
+		tv_name.setText(name);
+
+	}
+
+	@Override
+	public void onRequestFinished(int requestId, int resultCode, Bundle payload) {
+		super.onRequestFinished(requestId, resultCode, payload);
+		if (resultCode == PoCService.SUCCESS_CODE) {
+			if (mRequestId == requestId) {
+				int result = payload.getInt(ResponseBean.RESPONSE_STATE);
+				if (result == 1) {
+					arrayList = payload
+							.getParcelableArrayList(ResponseBean.RESPONSE_LIST);
+					addMarkersToMap();
+				} else {
+					String msg = payload
+							.getString(ResponseBean.RESPONSE_MESSAGE);
+					ToastUtil.makeShortText(getActivity(), msg);
+				}
+
+			}
+
+		}
+	}
+}

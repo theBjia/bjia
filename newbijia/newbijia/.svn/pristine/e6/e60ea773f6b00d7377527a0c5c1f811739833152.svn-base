@@ -1,0 +1,294 @@
+package com.llkj.newbjia.friend;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build.VERSION;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.provider.ContactsContract;
+import android.view.View;
+import android.view.View.OnClickListener;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.MyClicker;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.adpater.AddFriendAdapter;
+import com.llkj.newbjia.adpater.AddressBookAdpter;
+import com.llkj.newbjia.adpater.NewFriendAdapter;
+import com.llkj.newbjia.bean.ResponseBean;
+import com.llkj.newbjia.bean.UserInfoBean;
+import com.llkj.newbjia.customview.MyListView;
+import com.llkj.newbjia.http.PoCService;
+import com.llkj.newbjia.sortlistview.CharacterParser;
+import com.llkj.newbjia.sortlistview.PinyinComparator;
+import com.llkj.newbjia.sortlistview.SortModel;
+import com.llkj.newbjia.utils.StringUtil;
+import com.llkj.newbjia.utils.ToastUtil;
+
+/**
+ * 关于我们页
+ * 
+ * @author John
+ * 
+ */
+public class AddressBookActivity extends BaseActivity implements
+		OnClickListener, MyClicker {
+
+	private AddressBookAdpter adapterone, adaptertwo, adaterthree;
+	private ArrayList arrayList;
+	private MyListView mlv_no_add, mlv_no_kaitong, mlv_add;
+	private List<SortModel> SourceDateList;
+	private String users, uid;
+	private CharacterParser characterParser;
+	private PinyinComparator pinyinComparator;
+	private int mRequestId, mAddFriendId;
+	private static final String SMS_BODY = "嘿，我正在用彼佳商城";
+	private Handler handler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			super.handleMessage(msg);
+
+			if (msg != null && msg.what == 100) {
+				if (arrayList != null && arrayList.size() > 0) {
+					SourceDateList = filledData(arrayList);
+					StringBuilder sb = new StringBuilder();
+					for (int i = 0; i < SourceDateList.size(); i++) {
+						sb.append(SourceDateList.get(i).getPhone()).append(",")
+								.append(SourceDateList.get(i).getName())
+								.append("||");
+					}
+					if (sb.length() > 0)
+						users = sb.substring(0, sb.length() - 2);
+					else
+						users = "";
+					if (StringUtil.isNetworkConnected(AddressBookActivity.this)) {
+						if (!StringUtil.isEmpty(uid)) {
+							mRequestId = mRequestManager.addressList(uid,
+									users, true);
+						} else {
+							ToastUtil.makeShortText(AddressBookActivity.this,
+									R.string.xiandenglu);
+						}
+
+					} else {
+						ToastUtil.makeShortText(AddressBookActivity.this,
+								R.string.no_wangluo);
+					}
+				}
+
+			}
+		}
+
+	};
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.layout_address_book);
+		setTitle(R.string.addressbook, true, R.string.kong, false,
+				R.string.kong);
+		initView();
+		initData();
+		initListener();
+		new Thread(new MyTask()).start();
+	}
+
+	private void initView() {
+		mlv_no_add = (MyListView) findViewById(R.id.mlv_no_add);
+		mlv_no_kaitong = (MyListView) findViewById(R.id.mlv_no_kaitong);
+		mlv_add = (MyListView) findViewById(R.id.mlv_add);
+
+	}
+
+	private void initData() {
+		uid = UserInfoBean.getUserInfo(this).getUid();
+		characterParser = CharacterParser.getInstance();
+		pinyinComparator = new PinyinComparator();
+		arrayList = new ArrayList();
+		for (int i = 0; i < 10; i++) {
+			arrayList.add("测试" + i);
+		}
+
+	}
+
+	@SuppressWarnings("rawtypes")
+	public ArrayList getPersons() {
+		ArrayList list = new ArrayList();
+		Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+		String[] projection = new String[] {
+				ContactsContract.CommonDataKinds.Phone._ID,
+				ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+				ContactsContract.CommonDataKinds.Phone.NUMBER };
+		String[] selectionArgs = null;
+		String sortOrder = ContactsContract.Contacts.DISPLAY_NAME
+				+ " COLLATE LOCALIZED ASC";
+		Cursor cursor = managedQuery(uri, projection, null, null, sortOrder);
+		while (cursor.moveToNext()) {
+			String id = cursor
+					.getString(cursor
+							.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID));
+			String name = cursor
+					.getString(cursor
+							.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+			String phoneNum = cursor
+					.getString(cursor
+							.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+
+			HashMap map = new HashMap();
+			map.put("name", name);
+			map.put("phone", StringUtil.removeAllSpace(phoneNum));
+			list.add(map);
+		}
+		if (VERSION.SDK_INT < 14) {
+			cursor.close();
+		}
+		return list;
+	}
+
+	class MyTask implements Runnable {
+
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			arrayList = getPersons();
+			handler.sendEmptyMessage(100);
+		}
+
+	}
+
+	private void initListener() {
+
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.rl_ToScore:
+
+			break;
+
+		}
+	}
+
+	@Override
+	public void myClick(View view, int type) {
+		// TODO Auto-generated method stub
+		SortModel sm = (SortModel) view.getTag();
+		switch (type) {
+		case 0:
+			String id = sm.getUid();
+			mAddFriendId = mRequestManager.friendAdd(uid, id, true);
+			break;
+		case 1:
+			if (StringUtil.isPhone(sm.getPhone())) {
+				Uri smsToUri = Uri.parse("smsto:" + sm.getPhone());
+				Intent intent = new Intent(Intent.ACTION_SENDTO, smsToUri);
+				intent.putExtra("sms_body", SMS_BODY);
+				startActivity(intent);
+			} else {
+				ToastUtil.makeShortText(this, "手机号不合法");
+			}
+
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public void myLongClick(View view, int type) {
+		// TODO Auto-generated method stub
+
+	}
+
+	// 把arrayList 封装成sortmodel对象
+	private List<SortModel> filledData(ArrayList arraylist) {
+		List<SortModel> mSortList = new ArrayList<SortModel>();
+		for (int i = 0; i < arraylist.size(); i++) {
+			if (((HashMap) arraylist.get(i)).containsKey("name")) {
+				SortModel sortModel = new SortModel();
+				HashMap map = (HashMap) arraylist.get(i);
+				sortModel.setName(map.get("name").toString());
+				sortModel.setPhone(map.get("phone").toString());
+				if (map.containsKey("id")) {
+					sortModel.setUid(map.get("id").toString());
+				}
+				// sortModel.setUid(map.get("uid").toString());
+				// 汉字转换成拼音
+				String pinyin = characterParser.getSelling(map.get("name")
+						.toString());
+				String sortString = pinyin.substring(0, 1).toUpperCase();
+				// 正则表达式，判断首字母是否是英文字母
+				if (sortString.matches("[A-Z]")) {
+					sortModel.setSortLetters(sortString.toUpperCase());
+				} else {
+					sortModel.setSortLetters("#");
+				}
+
+				mSortList.add(sortModel);
+			}
+		}
+		Collections.sort(mSortList, pinyinComparator);
+		return mSortList;
+
+	}
+
+	@Override
+	public void onRequestFinished(int requestId, int resultCode, Bundle payload) {
+		super.onRequestFinished(requestId, resultCode, payload);
+		if (resultCode == PoCService.SUCCESS_CODE) {
+			if (mRequestId == requestId) {
+				int result = payload.getInt(ResponseBean.RESPONSE_STATE);
+				if (result == 1) {
+					ArrayList weizhuceList = payload
+							.getParcelableArrayList(ResponseBean.RESPONSE_LIST);
+					ArrayList addList = payload
+							.getParcelableArrayList(ResponseBean.RESPONSE_ADD);
+					ArrayList usersList = payload
+							.getParcelableArrayList(ResponseBean.RESPONSE_USERS);
+					if (weizhuceList != null && weizhuceList.size() > 0)
+						adapterone = new AddressBookAdpter(this,
+								filledData(weizhuceList), 1, this);
+					if (addList != null && addList.size() > 0)
+						adaptertwo = new AddressBookAdpter(this,
+								filledData(addList), 2, this);
+					if (usersList != null && usersList.size() > 0)
+						adaterthree = new AddressBookAdpter(this,
+								filledData(usersList), 0, this);
+					mlv_no_add.setAdapter(adaterthree);
+					mlv_add.setAdapter(adaptertwo);
+					mlv_no_kaitong.setAdapter(adapterone);
+
+				} else {
+					String msg = payload
+							.getString(ResponseBean.RESPONSE_MESSAGE);
+					ToastUtil.makeShortText(this, msg);
+				}
+
+			}
+			if (mAddFriendId == requestId) {
+				int result = payload.getInt(ResponseBean.RESPONSE_STATE);
+				if (result == 1) {
+					ToastUtil.makeShortText(this, "已发送请等待");
+				} else {
+					String msg = payload
+							.getString(ResponseBean.RESPONSE_MESSAGE);
+					ToastUtil.makeShortText(this, msg);
+				}
+
+			}
+
+		}
+	}
+}

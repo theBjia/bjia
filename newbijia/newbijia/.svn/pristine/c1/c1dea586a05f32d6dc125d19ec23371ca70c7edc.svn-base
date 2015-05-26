@@ -1,0 +1,34 @@
+package com.llkj.newbjia.shoppingcart;
+
+import android.os.Bundle;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.R;
+
+public class AddAceeAdressActivity extends BaseActivity{
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.add_address);
+		setTitle(R.string.addaceegood, true, R.string.kong, true, R.string.kong);
+		initView();
+		initData();
+		initListener();
+	}
+
+	private void initView() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void initData() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void initListener() {
+		// TODO Auto-generated method stub
+		
+	}
+}

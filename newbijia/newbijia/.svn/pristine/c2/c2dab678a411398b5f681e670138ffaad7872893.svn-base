@@ -1,0 +1,168 @@
+package com.llkj.newbjia.main;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+
+import com.llkj.newbjia.BaseFragment;
+import com.llkj.newbjia.MainActivity;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.adpater.MainAdapter;
+import com.llkj.newbjia.bean.ResponseBean;
+import com.llkj.newbjia.http.PoCService;
+import com.llkj.newbjia.utils.StringUtil;
+import com.llkj.newbjia.utils.ToastUtil;
+
+public class MainFragment extends BaseFragment implements OnClickListener {
+	private ImageView iv_top_left, iv_top_right, iv_top_center;
+	private LinearLayout ll_search, ll_fenlei;
+	private ListView lv_content;
+	private MainAdapter adapter;
+	private ArrayList arrayList;
+	private int mRequestId;
+
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		if (rootView == null) {
+			rootView = inflater.inflate(R.layout.mainpages_first, null);
+			initView();
+			initListener();
+			intData();
+		} else {
+			ViewGroup parent = (ViewGroup) rootView.getParent();
+			if (parent != null) {
+				parent.removeView(rootView);
+			}
+		}
+		return rootView;
+	}
+
+	private void intData() {
+		// TODO Auto-generated method stub
+		arrayList = new ArrayList();
+		if (StringUtil.isNetworkConnected(getActivity())) {
+			mRequestId = mRequestManager.index(true);
+		} else {
+			ToastUtil.makeLongText(getActivity(), R.string.no_wangluo);
+		}
+
+	}
+
+	private void initView() {
+		// TODO Auto-generated method stub
+		iv_top_left = (ImageView) rootView.findViewById(R.id.iv_top_left);
+		iv_top_right = (ImageView) rootView.findViewById(R.id.iv_top_right);
+		iv_top_center = (ImageView) rootView.findViewById(R.id.iv_top_center);
+		ll_search = (LinearLayout) rootView.findViewById(R.id.ll_search);
+		ll_fenlei = (LinearLayout) rootView.findViewById(R.id.ll_fenlei);
+		lv_content = (ListView) rootView.findViewById(R.id.lv_content);
+	}
+
+	private void initListener() {
+		// TODO Auto-generated method stub
+		iv_top_left.setOnClickListener(this);
+		iv_top_right.setOnClickListener(this);
+		ll_search.setOnClickListener(this);
+		ll_fenlei.setOnClickListener(this);
+		lv_content.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				// TODO Auto-generated method stub
+				HashMap map = (HashMap) arrayList.get(arg2);
+				if (map.containsKey("goods_id")) {
+					String goods_id = map.get("goods_id") + "";
+					String goods_img = map.get("goods_img") + "";
+					if (!StringUtil.isEmpty(goods_id)) {
+						Intent intent = new Intent(getActivity(),
+								GoodDetailActivity.class);
+						intent.putExtra("goods_id", goods_id);
+						intent.putExtra("goods_img", goods_img);
+						startActivity(intent);
+					}
+
+				} else {
+					String id = map.get("id") + "";
+					if (!StringUtil.isEmpty(id)) {
+						Intent intent = new Intent(getActivity(),
+								GoodDetailTwoActivity.class);
+						intent.putExtra("id", id);
+						startActivity(intent);
+					}
+				}
+
+			}
+		});
+	}
+
+	@Override
+	public void onClick(View arg0) {
+		// TODO Auto-generated method stub
+		Intent intent;
+		switch (arg0.getId()) {
+
+		case R.id.iv_top_left:
+			((MainActivity) (getActivity())).showOrHideMenu();
+			break;
+		case R.id.iv_top_right:
+			if ((MainActivity) getActivity() != null) {
+				((MainActivity) getActivity()).switchContent(5);
+			}
+			break;
+		case R.id.ll_search:
+			if ((MainActivity) getActivity() != null) {
+				((MainActivity) getActivity()).switchContent(1);
+			}
+			break;
+		case R.id.ll_fenlei:
+			if ((MainActivity) getActivity() != null) {
+				((MainActivity) getActivity()).switchContent(1);
+			}
+			// intent = new Intent(getActivity(),GoodsActivity.class);
+			// getActivity().startActivity(intent);
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public void onRequestFinished(int requestId, int resultCode, Bundle payload) {
+		super.onRequestFinished(requestId, resultCode, payload);
+		if (resultCode == PoCService.SUCCESS_CODE) {
+			if (mRequestId == requestId) {
+				int result = payload.getInt(ResponseBean.RESPONSE_STATE);
+				if (result == 1) {
+					ArrayList groupList = payload
+							.getParcelableArrayList("group");
+					ArrayList salesList = payload
+							.getParcelableArrayList("sales");
+					arrayList.addAll(groupList);
+					arrayList.addAll(salesList);
+					adapter = new MainAdapter(getActivity(), arrayList);
+					lv_content.setAdapter(adapter);
+
+				} else {
+					String msg = payload
+							.getString(ResponseBean.RESPONSE_MESSAGE);
+					ToastUtil.makeShortText(getActivity(), msg);
+				}
+
+			}
+
+		}
+	}
+}

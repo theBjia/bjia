@@ -1,0 +1,19 @@
+package com.llkj.newbjia.chat;
+
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.gester.ScaleImageView;
+
+import android.app.Activity;
+import android.os.Bundle;
+
+public class OneImageScanTwoActivity extends Activity {
+	private ScaleImageView siv;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.scan_big_pic);
+		siv = (ScaleImageView) findViewById(R.id.siv);
+	}
+}

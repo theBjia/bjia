@@ -1,0 +1,47 @@
+package com.llkj.newbjia.shoppingcart;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import android.os.Bundle;
+import android.widget.ListView;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.adpater.SearchSelfPointAdapter;
+
+public class SearchSelfPointActivity extends BaseActivity{
+	private ListView srcSelfPONNTid;
+	private ArrayList arrayList;
+	private SearchSelfPointAdapter adapter;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.search_self_point);
+		setTitle(R.string.searchsefpoint, true, R.string.kong, true, R.string.kong);
+		initView();
+		initData();
+		initListener();
+	}
+
+	private void initView() {
+		srcSelfPONNTid = (ListView) findViewById(R.id.srcSelfPONNTid);
+	}
+
+	private void initData() {
+		arrayList = new ArrayList();
+		for(int i = 0;i<3;i++){
+			HashMap hashMap = new HashMap();
+			hashMap.put("name", "XXX自提点");
+			arrayList.add(hashMap);
+		}
+		adapter = new SearchSelfPointAdapter(SearchSelfPointActivity.this, arrayList);
+		srcSelfPONNTid.setAdapter(adapter);
+	}
+
+	private void initListener() {
+		
+	}
+}

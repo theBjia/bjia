@@ -1,0 +1,38 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context=".WelcomeActivity" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/front_bg"
+        android:orientation="vertical"
+        android:scaleType="fitXY" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/login_theme_bean_green"
+            android:scaleType="fitXY" >
+
+            <ImageView
+                android:id="@+id/iv_logo_splash"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/icon_bijia" />
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/front_bg"
+                android:visibility="invisible" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

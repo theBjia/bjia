@@ -1,0 +1,105 @@
+package com.llkj.newbjia.adpater;
+
+import java.util.ArrayList;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.llkj.newbjia.MyClicker;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.utils.FinalBitmapUtil;
+
+public class RecentlyChatAdpter extends BaseAdapter {
+	private Context context;
+	private LayoutInflater inflater;
+	private ArrayList arrayList;
+	private FinalBitmapUtil fb;
+	private MyClicker myClicker;
+
+	public RecentlyChatAdpter(Context context, ArrayList arrayList,
+			MyClicker myClicker) {
+		super();
+		this.context = context;
+		setData(arrayList);
+		inflater = LayoutInflater.from(context);
+		fb = FinalBitmapUtil.create(context);
+		this.myClicker = myClicker;
+	}
+
+	public void setData(ArrayList arrayList) {
+		if (arrayList == null) {
+			this.arrayList = new ArrayList();
+		} else {
+			this.arrayList = arrayList;
+		}
+	}
+
+	@Override
+	public int getCount() {
+		// TODO Auto-generated method stub
+		return arrayList.size();
+	}
+
+	@Override
+	public Object getItem(int arg0) {
+		// TODO Auto-generated method stub
+		return arrayList.get(arg0);
+
+	}
+
+	@Override
+	public long getItemId(int arg0) {
+		// TODO Auto-generated method stub
+		return arg0;
+	}
+
+	@Override
+	public View getView(int arg0, View view, ViewGroup arg2) {
+		// TODO Auto-generated method stub
+		ViewHolder holder = null;
+		if (view == null) {
+			holder = new ViewHolder();
+			view = inflater.inflate(R.layout.item_recentchat, null);
+			holder.picIv = (ImageView) view.findViewById(R.id.picIv);
+			holder.nameTv = (TextView) view.findViewById(R.id.nameTv);
+			holder.messageNumberTv = (TextView) view
+					.findViewById(R.id.messageNumberTv);
+			holder.tv_delete = (TextView) view.findViewById(R.id.tv_delete);
+			holder.textTv = (TextView) view.findViewById(R.id.textTv);
+			holder.rl_background = (RelativeLayout) view.findViewById(R.id.rl_background);
+			holder.rl_background .setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					myClicker.myClick(v, 1);
+				}
+			});
+			view.setTag(holder);
+		} else {
+			holder = (ViewHolder) view.getTag();
+		}
+		if (arg0 == 0) {
+			holder.picIv.setImageResource(R.drawable.chat_xitongxiaoxi);
+			holder.nameTv.setText("客服");
+		} else {
+
+		}
+
+		return view;
+	}
+
+	class ViewHolder {
+		ImageView picIv;
+		TextView nameTv, messageNumberTv, tv_delete, textTv;
+		RelativeLayout rl_background;
+	}
+
+}

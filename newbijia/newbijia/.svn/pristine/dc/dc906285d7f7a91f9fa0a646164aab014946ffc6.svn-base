@@ -1,0 +1,149 @@
+package com.llkj.newbjia.login;
+
+/**
+ * @author 吕柳燕
+ * 启动页
+ * */
+
+import net.tsz.afinal.FinalBitmap;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.View;
+import android.view.Window;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.MyApplication;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.bean.UserInfoBean;
+import com.llkj.newbjia.http.NetworkErrorLog;
+import com.llkj.newbjia.http.PoCRequestManager;
+import com.llkj.newbjia.http.PoCRequestManager.OnRequestFinishedListener;
+import com.llkj.newbjia.http.PoCService;
+import com.llkj.newbjia.utils.StringUtil;
+
+public class SplashScreenActivity extends BaseActivity {
+	private AlphaAnimation aa;
+	private View view;
+	private PoCRequestManager mRequestManager;
+	private int mRequestId;
+	private ImageView iv;
+	private FinalBitmap fb;
+	private DisplayMetrics displaysMetrics;
+	private int width, height;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		view = View.inflate(this, R.layout.layout_splashscreen, null);
+		MyApplication.getInstance().addActivity(this);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		setContentView(view);
+		displaysMetrics = this.getResources().getDisplayMetrics();
+		width = displaysMetrics.widthPixels;
+		height = displaysMetrics.heightPixels;
+		mRequestManager = PoCRequestManager.from(this);
+		iv = (ImageView) findViewById(R.id.imageView1);
+		fb = FinalBitmap.create(this);
+		// 渐变展示启动屏
+		aa = new AlphaAnimation(1.0f, 1.0f);
+		aa.setDuration(2000);
+		view.startAnimation(aa);
+		aa.setAnimationListener(new AnimationListener() {
+			@Override
+			public void onAnimationEnd(Animation arg0) {
+				redirectTo();
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+			}
+
+			@Override
+			public void onAnimationStart(Animation animation) {
+			}
+
+		});
+
+	}
+
+	// 跳转
+	private void redirectTo() {
+		Intent intent = new Intent(this, LoginReginActivity.class);
+		startActivity(intent);
+		finish();
+
+	}
+
+	@Override
+	protected void onPause() {
+
+		super.onPause();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+	}
+
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+
+		super.onDestroy();
+	}
+
+	@Override
+	public void onRequestFinished(int requestId, int resultCode, Bundle payload) {
+		// TODO Auto-generated method stub
+		if (resultCode == PoCService.ERROR_CODE) {
+			if (payload != null) {
+				final int errorType = payload.getInt(
+						PoCRequestManager.RECEIVER_EXTRA_ERROR_TYPE, -1);
+				NetworkErrorLog.networkErrorOperate(getApplicationContext(),
+						errorType);
+			} else {
+				Toast.makeText(this, "服务器出错！", Toast.LENGTH_SHORT).show();
+			}
+		} else {
+			if (mRequestId == requestId) {
+				int state = payload.getInt("state");
+				if (state == 1) {
+
+					String type_three = payload.getString("android_small");
+					String type_four = payload.getString("android_middle");
+					String type_five = payload.getString("android_big");
+					if (width == 480 && height == 800) {
+						if (!StringUtil.isEmpty(type_three)) {
+							fb.display(iv, type_three);
+						}
+					} else if (width == 720 && height == 1280) {
+						if (!StringUtil.isEmpty(type_four)) {
+							fb.display(iv, type_four);
+						}
+					} else if (width == 1080 && height == 1920) {
+						if (!StringUtil.isEmpty(type_five)) {
+							fb.display(iv, type_five);
+						}
+					} else {
+						if (!StringUtil.isEmpty(type_four)) {
+							fb.display(iv, type_four);
+						}
+					}
+
+				} else {
+					String message = payload.getString("message");
+					Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+				}
+			}
+		}
+	}
+
+}

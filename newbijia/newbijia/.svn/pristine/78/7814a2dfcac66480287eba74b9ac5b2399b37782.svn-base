@@ -1,0 +1,91 @@
+package com.llkj.newbjia.adpater;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.utils.FinalBitmapUtil;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.TextView;
+
+public class WriteOrderAdapter extends BaseAdapter{
+	private LayoutInflater inflater;
+	private ArrayList arrayList;
+	private Map<Integer, View> map = new HashMap<Integer, View>();
+	private Context context;
+	private FinalBitmapUtil bitmapUtil;
+	
+	
+	public WriteOrderAdapter(Context context,ArrayList list){
+		this.inflater = LayoutInflater.from(context);
+		this.context = context;
+		setData(list);
+		this.bitmapUtil = FinalBitmapUtil.create(context);
+	}
+	
+	private void setData(ArrayList list) {
+		if(null != list){
+			this.arrayList = list;
+		}else{
+			this.arrayList = new ArrayList();
+		}
+	}
+	
+	public void notifyDataSetChanged(ArrayList list) {
+		setData(list);
+		map.clear();
+		this.notifyDataSetChanged();
+	}
+	
+	@Override
+	public int getCount() {
+		return arrayList.size();
+	}
+
+	@Override
+	public Object getItem(int position) {
+		return arrayList.get(position);
+	}
+
+	@Override
+	public long getItemId(int position) {
+		return position;
+	}
+
+	@Override
+	public View getView(final int position, View convertView, ViewGroup parent) {
+		HoldView holdView;
+		View pv;
+			if(null == map.get(position)){
+				pv = inflater.inflate(R.layout.write_dan_itme, null);
+				holdView = new HoldView();
+				holdView.tv_ShoppingName = (TextView) pv.findViewById(R.id.tv_ShoppingName);
+				holdView.tv_number = (TextView) pv.findViewById(R.id.tv_number);
+				holdView.tv_money = (TextView) pv.findViewById(R.id.tv_money);
+				holdView.tv_type = (TextView) pv.findViewById(R.id.tv_type);
+				holdView.tv_weight = (TextView) pv.findViewById(R.id.tv_weight);
+				holdView.tv_style = (TextView) pv.findViewById(R.id.tv_style);
+				HashMap item = (HashMap) arrayList.get(position);
+				if(item.containsKey("ShoppingName")){
+					String ShoppingName = item.get("ShoppingName").toString();
+					holdView.tv_ShoppingName.setText(ShoppingName);
+				}
+				pv.setTag(holdView);
+				map.put(position, pv);
+			}else{
+				pv = map.get(position);
+				holdView = (HoldView) pv.getTag();
+			}
+		return pv;
+	}
+	
+	class HoldView{
+		TextView tv_ShoppingName,tv_number,tv_money,tv_type,tv_weight,tv_style;
+	}
+}

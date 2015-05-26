@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eeeeee" >
+
+    <include
+        android:id="@+id/quanId"
+        layout="@layout/talk_title_bar" />
+    <!-- 好友圈 -->
+
+    <RelativeLayout
+        android:id="@+id/frsRow1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/quanId"
+        android:background="#ffffff" >
+
+        <ImageView
+            android:id="@+id/quanId"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/quan" />
+
+        <TextView
+            android:id="@+id/quantexId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@id/quanId"
+            android:text="好友圈"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/quan_ritId"
+            android:layout_width="17dp"
+            android:layout_height="21dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="9dp"
+            android:src="@drawable/to_right_back_img" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/quanViewId"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_below="@id/frsRow1"
+        android:background="#e3e3e3" />
+
+    <!-- xx社交圈 -->
+
+    <RelativeLayout
+        android:id="@+id/she_frsRow1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/quanViewId"
+        android:background="#ffffff" >
+
+        <ImageView
+            android:id="@+id/she_quanId"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/sheq" />
+
+        <TextView
+            android:id="@+id/she_quantexId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@id/she_quanId"
+            android:text="XX社区圈"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/she_ritId"
+            android:layout_width="17dp"
+            android:layout_height="21dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="9dp"
+            android:src="@drawable/to_right_back_img" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/she_quanViewId"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_below="@id/she_frsRow1"
+        android:background="#e3e3e3" />
+    <!-- xx社区圈 -->
+
+    <RelativeLayout
+        android:id="@+id/qu_frsRow1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/she_quanViewId"
+        android:background="#ffffff" >
+
+        <ImageView
+            android:id="@+id/qu_quanId"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/sheq" />
+
+        <TextView
+            android:id="@+id/qu_quantexId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@id/qu_quanId"
+            android:text="XX社区圈"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/qu_ritId"
+            android:layout_width="17dp"
+            android:layout_height="21dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="9dp"
+            android:src="@drawable/to_right_back_img" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/qu_quanViewId"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_below="@id/qu_frsRow1"
+        android:background="#e3e3e3" />
+    <!-- 北京圈 -->
+
+    <RelativeLayout
+        android:id="@+id/beij_frsRow1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/qu_quanViewId"
+        android:background="#ffffff" >
+
+        <ImageView
+            android:id="@+id/beij_quanId"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/beij" />
+
+        <TextView
+            android:id="@+id/beij_quantexId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@id/beij_quanId"
+            android:text="北京圈"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/beij_ritId"
+            android:layout_width="17dp"
+            android:layout_height="21dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="9dp"
+            android:src="@drawable/to_right_back_img" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/beij_quanViewId"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_below="@id/beij_frsRow1"
+        android:background="#e3e3e3" />
+    <!-- 上海圈 -->
+
+    <RelativeLayout
+        android:id="@+id/ShaH_frsRow1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/beij_quanViewId"
+        android:background="#ffffff" >
+
+        <ImageView
+            android:id="@+id/ShaH_quanId"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/beij" />
+
+        <TextView
+            android:id="@+id/ShaH_quantexId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@id/ShaH_quanId"
+            android:text="上海圈"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/ShaH_ritId"
+            android:layout_width="17dp"
+            android:layout_height="21dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="9dp"
+            android:src="@drawable/to_right_back_img" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/ShaH_quanViewId"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_below="@id/ShaH_frsRow1"
+        android:background="#e3e3e3" />
+
+</RelativeLayout>

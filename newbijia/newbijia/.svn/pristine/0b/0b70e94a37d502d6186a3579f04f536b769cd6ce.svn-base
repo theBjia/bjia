@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    <RelativeLayout 
+         android:layout_width="fill_parent"
+         android:layout_height="100dp"
+         android:background="#ffffff"
+         android:layout_marginTop="10dp"
+         >
+
+         <TextView
+             android:id="@+id/tv_ScoreTime"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignParentLeft="true"
+             android:layout_alignParentTop="true"
+             android:layout_marginLeft="18dp"
+             android:layout_marginTop="15dp"
+             android:text="2014-06-22" 
+             android:textSize="16sp"/>
+
+         <TextView
+             android:id="@+id/tv_ScoreMoeny"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignBaseline="@+id/tv_ScoreTime"
+             android:layout_alignBottom="@+id/tv_ScoreTime"
+             android:layout_alignParentRight="true"
+             android:layout_marginRight="18dp"
+             android:text="100" 
+             android:textSize="16sp"/>
+
+         <TextView
+             android:id="@+id/tv_ScoreType"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignBaseline="@+id/tv_ScoreMoeny"
+             android:layout_alignBottom="@+id/tv_ScoreMoeny"
+             android:layout_toLeftOf="@+id/tv_ScoreMoeny"
+             android:text="-" 
+             android:textSize="16sp"/>
+
+         <TextView
+             android:id="@+id/tv_ScoreDesc"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignLeft="@+id/tv_ScoreTime"
+             android:layout_alignRight="@+id/tv_ScoreMoeny"
+             android:layout_below="@+id/tv_ScoreTime"
+             android:text="详细说明：订单编号12345678912，这是一个简单的小苹果，吃出人们心中的曲折" 
+             android:layout_marginTop="10dp"
+             android:textSize="16sp"/>
+
+         <View
+             android:id="@+id/View01"
+             android:layout_width="match_parent"
+             android:layout_height="1dp"
+             android:layout_alignParentLeft="true"
+             android:layout_alignParentTop="true"
+             android:background="#cccccc" />
+
+         <View
+             android:id="@+id/View02"
+             android:layout_width="match_parent"
+             android:layout_height="1dp"
+             android:layout_alignParentBottom="true"
+             android:layout_alignParentLeft="true"
+             android:background="#cccccc" />
+         
+     </RelativeLayout>
+</RelativeLayout>

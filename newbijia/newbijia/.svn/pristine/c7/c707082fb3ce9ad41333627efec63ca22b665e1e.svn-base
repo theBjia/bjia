@@ -1,0 +1,371 @@
+package com.llkj.newbjia.http;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.json.JSONException;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+
+import com.llkj.cm.restfull.exception.RestClientException;
+import com.llkj.cm.restfull.service.WorkerService;
+
+/**
+ * This class is called by the {@link PoCRequestManager} through the
+ * {@link Intent} system. Get the parameters stored in the {@link Intent} and
+ * call the right Worker. f
+ * 
+ * @author Foxykeep
+ */
+public class PoCService extends WorkerService {
+
+	private static final String LOG_TAG = PoCService.class.getSimpleName();
+
+	// Max number of parallel threads used
+	private static final int MAX_THREADS = 5;
+
+	public static final int ADD_CONTROL_TYPE_COMMODITY = 1;
+	public static final int ADD_CONTROL_TYPE_PT = 2;
+	public static final int ADD_CONTROL_TYPE_PHOTO = 3;
+	public static final int ADD_CONTROL_TYPE_TEXT = 4;
+	public static final int ADD_CONTROL_TYPE_VOICE = 5;
+	public static final int ADD_CONTROL_TYPE_CURRENT_PAGE = 6;
+	public static final int ADD_CONTROL_TYPE_ROUTE = 7;
+	public static final int ADD_CONTROL_TYPE_ADDRESS_WALL = 8;
+	public static final int ADD_CONTROL_TYPE_GROUP = 9;
+	public static final int ADD_CONTROL_TYPE_WEBPAGE = 10;
+
+	// Worker types
+	/**
+	 * 1.1获取验证码
+	 */
+	public static final int TYPE_INDEX_GETCODE = 0x11;
+	/**
+	 * 1.2注册
+	 */
+	public static final int TYPE_INDEX_REGISTER = 0x12;
+	/**
+	 * 1.3登录
+	 */
+	public static final int TYPE_INDEX_LOGIN = 0x13;
+
+	/**
+	 * 1.4找回密码
+	 */
+	public static final int TYPE_INDEX_FORGETPOSSWORD = 0x14;
+
+	/**
+	 * 1.4个人信息
+	 */
+	public static final int TYPE_INDEX_PERSONDESC = 0x15;
+
+	/**
+	 * 1.5修改个性签名
+	 */
+	public static final int TYPE_INDEX_SIGNEDIT = 0x16;
+
+	/**
+	 * 1.5修改用户名
+	 */
+	public static final int TYPE_INDEX_NAMEEDIT = 0x17;
+
+	/**
+	 * 1.6我的积分
+	 */
+	public static final int TYPE_INDEX_MYINTEGRAL = 0x18;
+
+	/**
+	 * 1.6我的彼佳币
+	 */
+	public static final int TYPE_INDEX_MYCOIN = 0x19;
+
+	/**
+	 * 1.6优惠券
+	 */
+	public static final int TYPE_INDEX_MYPRIVILEGE = 0x20;
+
+	/**
+	 * 1.7收藏夹
+	 */
+	public static final int TYPE_INDEX_COLLECTLIST = 0x21;
+
+	/**
+	 * 1.9意见反馈
+	 */
+	public static final int TYPE_INDEX_ADVISE = 0x22;
+
+	/**
+	 * 2.0修改密码
+	 */
+	public static final int TYPE_INDEX_PASSWORDEDIT = 0x23;
+
+	/**
+	 * 2.2收货地址
+	 */
+	public static final int TYPE_INDEX_SHOPADDRESSLIST = 0x25;
+
+	/**
+	 * 2.1购物车
+	 */
+	public static final int TYPE_INDEX_SHOPCARTLIST = 0x24;
+
+	/**
+	 * 2.3编辑收货地址
+	 */
+	public static final int TYPE_INDEX_ADDRESSEDIT = 0x26;
+
+	/**
+	 * 2.4添加收货地址
+	 */
+	public static final int TYPE_INDEX_ADDRESSADD = 0x27;
+
+	/**
+	 * 1.6判断用户是否注册
+	 */
+	public static final int TYPE_INDEX_ISUSER = 0x99;
+
+	/**
+	 * 1.7根据用户手机号获取用户头像
+	 */
+	public static final int TYPE_INDEX_GETLOGO = 0x98;
+
+	/**
+	 * 2.1首页
+	 */
+	public static final int TYPE_INDEX_INDEX = 0x97;
+	/**
+	 * 2.3商品详情
+	 */
+	public static final int TYPE_INDEX_GOODDESC = 0x96;
+
+	public static final int TYPE_INDEX_PURCHASEDESC = 0x95;
+
+	public static final int TYPE_INDEX_GOODATTENTION = 0x94;
+
+	public static final int TYPE_INDEX_SHOPCARTADD = 0x93;
+
+	public static final int TYPE_INDEX_CLASSLIST = 0x92;
+
+	public static final int TYPE_INDEX_GOODLIST = 0x91;
+
+	public static final int TYPE_INDEX_ZITILIST = 0x90;
+	public static final int TYPE_INDEX_JUDGEAVAILABLE = 0x89;
+	public static final int TYPE_INDEX_DEFAULTADDRESS = 0x88;
+	public static final int TYPE_INDEX_SEARCHGOODS = 0x87;
+	public static final int TYPE_INDEX_FRIENDSLIST = 0x86;
+	public static final int TYPE_INDEX_NEWFRIEND = 0x85;
+	public static final int TYPE_INDEX_FRIENDSEARCH = 0x84;
+
+	public static final int TYPE_INDEX_ADDRESSLIST = 0x83;
+	public static final int TYPE_INDEX_COMMUNITYFRIEND = 0x82;
+
+	public static final int TYPE_INDEX_FRIENDDESC = 0x81;
+	public static final int TYPE_INDEX_FRIENDADD = 0x80;
+	public static final int TYPE_INDEX_PASSVERIFICATION = 0x79;
+
+	public static final int TYPE_INDEX_COMMUNITYLIST = 0x78;
+
+	public static final int TYPE_INDEX_FRIENDPEN = 0x77;
+
+	public static final int TYPE_INDEX_PENADD = 0x76;
+
+	public static final int TYPE_INDEX_PENCOMMENT = 0x75;
+
+	public static final int TYPE_INDEX_PENPRAISE = 0x74;
+
+	public static final int TYPE_INDEX_EDITLOGO = 0x73;
+
+	public PoCService() {
+		super(MAX_THREADS);
+	}
+
+	@Override
+	protected void onHandleIntent(final Intent intent) {
+		// This line will generate the Android User Agent which will be used in
+		// your webservice calls if you don't specify a special one
+		// NetworkConnection.generateDefaultUserAgent(this);
+
+		int workerType = intent.getIntExtra(INTENT_EXTRA_WORKER_TYPE, -1);
+
+		try {
+			switch (workerType) {
+			// TODO 可以考虑在返回方法里增加文件缓存.参见新浪乐居FixCacheManger
+			case TYPE_INDEX_GETCODE:
+				sendSuccess(intent, HTTPWorker.startGetCode(intent));
+				break;
+			case TYPE_INDEX_REGISTER:
+				sendSuccess(intent, HTTPWorker.startRegister(intent));
+				break;
+			case TYPE_INDEX_LOGIN:
+				sendSuccess(intent, HTTPWorker.startLogin(intent));
+				break;
+			case TYPE_INDEX_FORGETPOSSWORD:
+				sendSuccess(intent, HTTPWorker.startForgetpassword(intent));
+				break;
+
+			case TYPE_INDEX_PERSONDESC:
+				sendSuccess(intent, HTTPWorker.startPersonDesc(intent));
+				break;
+			case TYPE_INDEX_SIGNEDIT:
+				sendSuccess(intent, HTTPWorker.startSignEdit(intent));
+				break;
+			case TYPE_INDEX_NAMEEDIT:
+				sendSuccess(intent, HTTPWorker.startNameEdit(intent));
+				break;
+			case TYPE_INDEX_MYINTEGRAL:
+				sendSuccess(intent, HTTPWorker.startMyIntegral(intent));
+				break;
+			case TYPE_INDEX_MYCOIN:
+				sendSuccess(intent, HTTPWorker.startMyCoin(intent));
+				break;
+			case TYPE_INDEX_ISUSER:
+				sendSuccess(intent, HTTPWorker.startIsUser(intent));
+				break;
+			case TYPE_INDEX_GETLOGO:
+				sendSuccess(intent, HTTPWorker.startGetLogo(intent));
+				break;
+			case TYPE_INDEX_INDEX:
+				sendSuccess(intent, HTTPWorker.startIndex(intent));
+				break;
+			case TYPE_INDEX_GOODDESC:
+				sendSuccess(intent, HTTPWorker.startGooddesc(intent));
+				break;
+			case TYPE_INDEX_PURCHASEDESC:
+				sendSuccess(intent, HTTPWorker.startPurchaseDesc(intent));
+				break;
+			case TYPE_INDEX_GOODATTENTION:
+				sendSuccess(intent, HTTPWorker.startGoodAttention(intent));
+				break;
+			case TYPE_INDEX_SHOPCARTADD:
+				sendSuccess(intent, HTTPWorker.startShopCartAdd(intent));
+				break;
+			case TYPE_INDEX_CLASSLIST:
+				sendSuccess(intent, HTTPWorker.startClassList(intent));
+				break;
+			case TYPE_INDEX_GOODLIST:
+				sendSuccess(intent, HTTPWorker.startGoodList(intent));
+				break;
+			case TYPE_INDEX_ZITILIST:
+				sendSuccess(intent, HTTPWorker.startZitiList(intent));
+				break;
+
+			case TYPE_INDEX_JUDGEAVAILABLE:
+				sendSuccess(intent, HTTPWorker.startJudgeAvailable(intent));
+				break;
+			case TYPE_INDEX_DEFAULTADDRESS:
+				sendSuccess(intent, HTTPWorker.startDefaultAddress(intent));
+				break;
+			case TYPE_INDEX_SEARCHGOODS:
+				sendSuccess(intent, HTTPWorker.startSearchGoods(intent));
+				break;
+			case TYPE_INDEX_FRIENDSLIST:
+				sendSuccess(intent, HTTPWorker.startFriendsList(intent));
+				break;
+			case TYPE_INDEX_NEWFRIEND:
+				sendSuccess(intent, HTTPWorker.startNewFriend(intent));
+				break;
+			case TYPE_INDEX_FRIENDSEARCH:
+				sendSuccess(intent, HTTPWorker.startFriendSearch(intent));
+				break;
+			case TYPE_INDEX_ADDRESSLIST:
+				sendSuccess(intent, HTTPWorker.startAddressList(intent));
+				break;
+			case TYPE_INDEX_COMMUNITYFRIEND:
+				sendSuccess(intent, HTTPWorker.startCommunityFriend(intent));
+				break;
+			case TYPE_INDEX_FRIENDDESC:
+				sendSuccess(intent, HTTPWorker.startFriendDesc(intent));
+				break;
+			case TYPE_INDEX_FRIENDADD:
+				sendSuccess(intent, HTTPWorker.startFriendAdd(intent));
+				break;
+			case TYPE_INDEX_PASSVERIFICATION:
+				sendSuccess(intent, HTTPWorker.startPassVerification(intent));
+				break;
+			case TYPE_INDEX_MYPRIVILEGE:
+				sendSuccess(intent, HTTPWorker.startMyPrivilege(intent));
+				break;
+			case TYPE_INDEX_COLLECTLIST:
+				sendSuccess(intent, HTTPWorker.startCollectList(intent));
+				break;
+			case TYPE_INDEX_COMMUNITYLIST:
+				sendSuccess(intent, HTTPWorker.startCommunityList(intent));
+				break;
+
+			case TYPE_INDEX_ADVISE:
+				sendSuccess(intent, HTTPWorker.startAdvise(intent));
+				break;
+			case TYPE_INDEX_PASSWORDEDIT:
+				sendSuccess(intent, HTTPWorker.startPasswordEdit(intent));
+				break;
+			case TYPE_INDEX_SHOPCARTLIST:
+				sendSuccess(intent, HTTPWorker.startShopCartList(intent));
+				break;
+
+			case TYPE_INDEX_SHOPADDRESSLIST:
+				sendSuccess(intent, HTTPWorker.startShopAddRessList(intent));
+				break;
+			case TYPE_INDEX_ADDRESSEDIT:
+				sendSuccess(intent, HTTPWorker.startAddRessEdit(intent));
+				break;
+			case TYPE_INDEX_ADDRESSADD:
+				sendSuccess(intent, HTTPWorker.startAddRessAdd(intent));
+				break;
+
+			case TYPE_INDEX_FRIENDPEN:
+				sendSuccess(intent, HTTPWorker.startFriendPen(intent));
+				break;
+			case TYPE_INDEX_PENADD:
+				sendSuccess(intent, HTTPWorker.startPenAdd(intent));
+				break;
+			case TYPE_INDEX_PENCOMMENT:
+				sendSuccess(intent, HTTPWorker.startPenComment(intent));
+				break;
+			case TYPE_INDEX_PENPRAISE:
+				sendSuccess(intent, HTTPWorker.startPenPraise(intent));
+				break;
+			case TYPE_INDEX_EDITLOGO:
+				sendSuccess(intent, HTTPWorker.startEditLogo(intent));
+				break;
+
+			}
+
+		} catch (final IllegalStateException e) {
+			Log.e(LOG_TAG, "IllegalStateException", e);
+			sendConnexionFailure(intent, null);
+		} catch (final IOException e) {
+			Log.e(LOG_TAG, "IOException", e);
+			Bundle bundle = new Bundle();
+			bundle.putSerializable("IOException", e);
+			sendConnexionFailure(intent, bundle);
+		} catch (final URISyntaxException e) {
+			Log.e(LOG_TAG, "URISyntaxException", e);
+			sendConnexionFailure(intent, null);
+		} catch (final RestClientException e) {
+			Log.e(LOG_TAG, "RestClientException", e);
+			Bundle bundle = new Bundle();
+			bundle.putInt("errorStatus", e.getErrorStatus());
+			sendConnexionFailure(intent, bundle);
+		} catch (final ParserConfigurationException e) {
+			Log.e(LOG_TAG, "ParserConfigurationException", e);
+			sendDataFailure(intent, null);
+		} catch (final JSONException e) {
+			Log.e(LOG_TAG, "JSONException", e);
+			sendDataFailure(intent, null);
+		}
+		// This block (which should be the last one in your implementation)
+		// will catch all the RuntimeException and send you back an error
+		// that you can manage. If you remove this catch, the
+		// RuntimeException will still crash the PoCService but you will not be
+		// informed (as it is in 'background') so you should never remove this
+		// catch
+		catch (final RuntimeException e) {
+			Log.e(LOG_TAG, "RuntimeException", e);
+			sendDataFailure(intent, null);
+		}
+	}
+}

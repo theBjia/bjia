@@ -1,0 +1,104 @@
+package com.llkj.newbjia.shoppingcart;
+
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.bean.ResponseBean;
+import com.llkj.newbjia.bean.UserInfoBean;
+import com.llkj.newbjia.http.PoCService;
+import com.llkj.newbjia.utils.StringUtil;
+import com.llkj.newbjia.utils.ToastUtil;
+/**
+ * 编辑地址页
+ * @author John
+ *
+ */
+public class EditAdressActivity extends BaseActivity implements OnClickListener{
+	private EditText pnoheeId,aceeGoodsId;
+	private TextView self_ponteId,tvRight;
+	private int mAddressEdit;
+	private String id;
+	private String uid;
+	private String consignee;
+	private String phone;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.edit_adress);
+		setTitle(R.string.editadress, true, R.string.kong, true, R.string.over);
+		initView();
+		initData();
+		initListener();
+	}
+
+	private void initView() {
+		aceeGoodsId = (EditText) findViewById(R.id.aceeGoodsId);
+		pnoheeId = (EditText) findViewById(R.id.pnoheeId);
+		self_ponteId = (TextView) findViewById(R.id.self_ponteId);
+		tvRight = (TextView) findViewById(R.id.tv_title_right);
+	}
+
+	private void initData() {
+		Bundle bundle = getIntent().getExtras();
+	    id = bundle.getString(ResponseBean.RESPONSE_ID);
+	    consignee = bundle.getString(ResponseBean.RESPONSE_CONSIGNEE);
+	    phone = bundle.getString(ResponseBean.RESPONSE_PHONE);
+	    uid = UserInfoBean.getUserInfo(this).getUid();
+	    aceeGoodsId.setText(consignee);
+	    pnoheeId.setText(phone);
+	}
+
+	private void initListener() {
+		self_ponteId.setOnClickListener(this);
+		tvRight.setOnClickListener(this);
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.self_ponteId:
+			openActivity(SelfDesionActivity.class);
+			break;
+
+		case R.id.tv_title_right:
+			String aceeGoods = aceeGoodsId.getText().toString();
+			String phone = pnoheeId.getText().toString();
+			if(TextUtils.isEmpty(aceeGoods)){
+				ToastUtil.makeShortText(this, "收货人不能为空");
+				return;
+			}
+			if(StringUtil.isEmpty(phone) || !StringUtil.isPhoneNumberValid(phone)){
+				ToastUtil.makeShortText(this, "请输入正确手机号码");
+				return;
+			}
+			mAddressEdit = mRequestManager.getAddRessEdit(aceeGoods, phone, id,uid, true);
+			
+			break;
+		}
+		
+	}
+	
+	@Override
+	public void onRequestFinished(int requestId, int resultCode, Bundle payload) {
+		super.onRequestFinished(requestId, resultCode, payload);
+		if(resultCode == PoCService.SUCCESS_CODE){
+			if(mAddressEdit == requestId){
+				int result = payload.getInt(ResponseBean.RESPONSE_STATE);
+				if(result == 1){
+					ToastUtil.makeShortText(this, R.string.PWDok);
+					this.finish();
+				}else{
+					String msg = payload.getString(ResponseBean.RESPONSE_MESSAGE);
+					ToastUtil.makeShortText(this, msg);
+				}
+			}
+		}
+	}
+}

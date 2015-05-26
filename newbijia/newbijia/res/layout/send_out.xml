@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff" >
+
+    <include
+        android:id="@+id/senTitId"
+        layout="@layout/talk_title_bar" />
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/senTitId" >
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:id="@+id/piC_CamerId"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:id="@+id/Cmer_piId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/gre_pic_camer" />
+
+                <ImageView
+                    android:id="@+id/Pic_piId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:background="@drawable/pic" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:layout_below="@id/piC_CamerId"
+                android:layout_centerInParent="true" />
+        </RelativeLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/acleId"
+        android:layout_width="129dp"
+        android:layout_height="45dp"
+        android:layout_alignLeft="@+id/editIdtak"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/accbtn"
+        android:text="完成"
+        android:textColor="#ffffff"
+        android:textSize="16sp" 
+        android:layout_marginBottom="40dp"/>
+
+    <Button
+        android:id="@+id/CaseldeId"
+        android:layout_width="129dp"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/editIdtak"
+        android:background="@drawable/caselbtn"
+        android:text="取消"
+        android:textColor="#ffffff"
+        android:textSize="16sp" 
+        android:layout_marginBottom="40dp"/>
+
+    <GridView
+        android:id="@+id/noScrollgridview"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/scrollView1"
+        android:layout_marginTop="50dp"
+        android:horizontalSpacing="3dp"
+        android:numColumns="3"
+        android:scrollbars="none"
+        android:verticalSpacing="5dp" >
+    </GridView>
+
+    <EditText
+        android:id="@+id/editIdtak"
+        android:layout_width="292dp"
+        android:layout_height="100dp"
+        android:layout_above="@+id/acleId"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/big_edit_bg"
+        android:ems="10"
+        android:gravity="left|top"
+        android:hint="输入内容"
+        android:maxLines="20" 
+        android:layout_alignBottom="@+id/acleId"
+        android:layout_marginBottom="70dp"/>
+</RelativeLayout>

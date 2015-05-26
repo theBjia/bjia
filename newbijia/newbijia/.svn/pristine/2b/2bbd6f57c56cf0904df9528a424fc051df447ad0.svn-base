@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#3AB485"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/miiddId"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="#3AB485"
+        android:text="" />
+
+    <LinearLayout
+        android:id="@+id/chaIdp"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="80dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/greg" >
+
+        <Button
+            android:id="@+id/bt_regin"
+            android:layout_width="250dp"
+            android:layout_height="60dp"
+            android:background="@drawable/greg"
+            android:text="@string/regbtnstr"
+            android:textColor="@color/white"
+            android:textSize="@dimen/siz_20" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/bt_login"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:layout_above="@id/chaIdp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/log_btn_bg"
+        android:text="@string/loginbtnstr"
+        android:textColor="#4AB08A"
+        android:textSize="@dimen/siz_20" />
+
+    <ImageView
+        android:id="@+id/chaId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/miiddId"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/charcter" />
+
+    <ImageView
+        android:id="@+id/nullid1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/chaId"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/baiselogo" />
+
+</RelativeLayout>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/white" >
+
+        <ImageView
+            android:id="@+id/iv_content"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/dakuang" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_content"
+            android:layout_centerHorizontal="true" >
+
+            <TextView
+                android:id="@+id/tv_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:text="海南柠檬4个"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_daili"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tv_content"
+                android:layout_toRightOf="@+id/tv_content"
+                android:text="/400g"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_old_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_content"
+                android:background="@drawable/xie"
+                android:text="￥10.00"
+                android:textColor="#C9C9C9"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_content"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/tv_old_price"
+                android:text="￥9.00"
+                android:textColor="#E77209"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:id="@+id/iv_gou"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_below="@+id/tv_content"
+                android:layout_toRightOf="@+id/tv_price"
+                android:src="@drawable/iv_gou" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

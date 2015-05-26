@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <include
+        android:id="@+id/searcID"
+        layout="@layout/stub_title" />
+
+    <RelativeLayout
+        android:id="@+id/sercIdd"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_below="@id/searcID"
+        android:background="#cccccc" >
+
+        <EditText
+            android:id="@+id/et_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/fangda_jing_biank"
+            android:hint="请输入关键字"
+            android:paddingLeft="35dp"
+            android:singleLine="true" />
+
+        <Button
+            android:id="@+id/bt_search"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="3dp"
+            android:background="@drawable/sousuo"
+            android:text="搜索"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/srcSelfPONNTid"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sercIdd"
+        android:divider="@null" >
+    </ListView>
+
+</RelativeLayout>

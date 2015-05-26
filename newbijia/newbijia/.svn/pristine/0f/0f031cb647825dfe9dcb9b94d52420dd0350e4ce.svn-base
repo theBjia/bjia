@@ -1,0 +1,57 @@
+package com.llkj.newbjia.shoppingcart;
+
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.utils.ToastUtil;
+/**
+ * 编辑地址页
+ * @author John
+ *
+ */
+public class EditAdressActivity extends BaseActivity implements OnClickListener{
+	private EditText pnoheeId,aceeGoodsId;
+	private TextView self_ponteId;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.edit_adress);
+		setTitle(R.string.editadress, true, R.string.kong, true, R.string.over);
+		initView();
+		initData();
+		initListener();
+	}
+
+	private void initView() {
+		aceeGoodsId = (EditText) findViewById(R.id.aceeGoodsId);
+		pnoheeId = (EditText) findViewById(R.id.pnoheeId);
+		self_ponteId = (TextView) findViewById(R.id.self_ponteId);
+	}
+
+	private void initData() {
+		
+	}
+
+	private void initListener() {
+		self_ponteId.setOnClickListener(this);
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.self_ponteId:
+			openActivity(SelfDesionActivity.class);
+			break;
+
+		default:
+			break;
+		}
+		
+	}
+}

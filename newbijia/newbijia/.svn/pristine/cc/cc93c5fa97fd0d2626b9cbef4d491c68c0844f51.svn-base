@@ -1,0 +1,53 @@
+package com.llkj.newbjia.mybijia;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import android.os.Bundle;
+import android.widget.ListView;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.adpater.MyScoreAdapter;
+/**
+ * 我的积分页
+ * @author John
+ *
+ */
+public class MyScoreActivity extends BaseActivity{
+	
+	private ListView lv_Form;
+	private ArrayList arrayList;
+	private MyScoreAdapter adapter;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.my_score);
+		setTitle(R.string.myscore, true, R.string.kong, true, R.string.kong);
+		initView();
+		initData();
+		initListener();
+	}
+
+	private void initView() {
+		lv_Form = (ListView) findViewById(R.id.lv_Form);
+	}
+
+	private void initData() {
+		arrayList = new ArrayList();
+		for(int i = 0;i<4;i++){
+			HashMap hashMap = new HashMap();
+			hashMap.put("Time", "2014-06-20");
+			arrayList.add(hashMap);
+		}
+		adapter = new MyScoreAdapter(MyScoreActivity.this, arrayList);
+		lv_Form.setAdapter(adapter);
+	}
+
+	private void initListener() {
+		// TODO Auto-generated method stub
+		
+	}
+}

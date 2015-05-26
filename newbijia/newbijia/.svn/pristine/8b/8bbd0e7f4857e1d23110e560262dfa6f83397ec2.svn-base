@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#eeeeee" >
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/biaogebeijing" 
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
+
+    <TextView
+        android:id="@+id/tvOrderAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@+id/tvOrderId"
+        android:text="100"
+        android:textSize="13sp" 
+         android:textColor="#444444"/>
+
+    <TextView
+        android:id="@+id/tvOrderTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvOrderAdd"
+        android:layout_alignBottom="@+id/tvOrderAdd"
+        android:layout_alignLeft="@+id/imageView1"
+        android:text="2014-06-22"
+        android:textSize="13sp" 
+        android:layout_marginLeft="5dp"
+         android:textColor="#444444"/>
+
+    <TextView
+        android:id="@+id/tvOrderId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvOrderTime"
+        android:layout_alignBottom="@+id/tvOrderTime"
+        android:layout_marginLeft="25dp"
+        android:layout_toRightOf="@+id/tvOrderTime"
+        android:text="5148462"
+        android:textSize="13sp" 
+         android:textColor="#444444"/>
+
+</RelativeLayout>

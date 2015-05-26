@@ -1,0 +1,228 @@
+package com.llkj.newbjia.friend;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build.VERSION;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.provider.ContactsContract;
+import android.view.View;
+import android.view.View.OnClickListener;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.MyClicker;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.adpater.AddressBookAdpter;
+import com.llkj.newbjia.adpater.NewFriendAdapter;
+import com.llkj.newbjia.bean.UserInfoBean;
+import com.llkj.newbjia.customview.MyListView;
+import com.llkj.newbjia.sortlistview.CharacterParser;
+import com.llkj.newbjia.sortlistview.PinyinComparator;
+import com.llkj.newbjia.sortlistview.SortModel;
+import com.llkj.newbjia.utils.StringUtil;
+import com.llkj.newbjia.utils.ToastUtil;
+
+/**
+ * 关于我们页
+ * 
+ * @author John
+ * 
+ */
+public class AddressBookActivity extends BaseActivity implements
+		OnClickListener, MyClicker {
+
+	private AddressBookAdpter adapterone, adaptertwo, adaterthree;
+	private ArrayList arrayList;
+	private MyListView mlv_no_add, mlv_no_kaitong, mlv_add;
+	private List<SortModel> SourceDateList;
+	private String users;
+	private CharacterParser characterParser;
+	private PinyinComparator pinyinComparator;
+	private Handler handler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			super.handleMessage(msg);
+
+			if (msg != null && msg.what == 100) {
+				if (arrayList != null) {
+					SourceDateList = filledData(arrayList);
+					adapterone = new AddressBookAdpter(
+							AddressBookActivity.this, SourceDateList, 0,
+							AddressBookActivity.this);
+					adaptertwo = new AddressBookAdpter(
+							AddressBookActivity.this, SourceDateList, 1,
+							AddressBookActivity.this);
+					adaterthree = new AddressBookAdpter(
+							AddressBookActivity.this, SourceDateList, 2,
+							AddressBookActivity.this);
+					mlv_no_add.setAdapter(adapterone);
+					mlv_no_kaitong.setAdapter(adaptertwo);
+					mlv_add.setAdapter(adaterthree);
+				}
+				StringBuilder sb = new StringBuilder();
+				for (int i = 0; i < SourceDateList.size(); i++) {
+					sb.append(SourceDateList.get(i).getPhone()).append("&")
+							.append(SourceDateList.get(i).getName())
+							.append(",");
+				}
+				if (sb.length() > 0)
+					users = sb.substring(0, sb.length() - 1);
+				else
+					users = "";
+
+			}
+		}
+
+	};
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.layout_address_book);
+		setTitle(R.string.addressbook, true, R.string.kong, false,
+				R.string.kong);
+		initView();
+		initData();
+		initListener();
+		new Thread(new MyTask()).start();
+	}
+
+	private void initView() {
+		mlv_no_add = (MyListView) findViewById(R.id.mlv_no_add);
+		mlv_no_kaitong = (MyListView) findViewById(R.id.mlv_no_kaitong);
+		mlv_add = (MyListView) findViewById(R.id.mlv_add);
+
+	}
+
+	private void initData() {
+		characterParser = CharacterParser.getInstance();
+		pinyinComparator = new PinyinComparator();
+		arrayList = new ArrayList();
+		for (int i = 0; i < 10; i++) {
+			arrayList.add("测试" + i);
+		}
+
+	}
+
+	@SuppressWarnings("rawtypes")
+	public ArrayList getPersons() {
+		ArrayList list = new ArrayList();
+		Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+		String[] projection = new String[] {
+				ContactsContract.CommonDataKinds.Phone._ID,
+				ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+				ContactsContract.CommonDataKinds.Phone.NUMBER };
+		String[] selectionArgs = null;
+		String sortOrder = ContactsContract.Contacts.DISPLAY_NAME
+				+ " COLLATE LOCALIZED ASC";
+		Cursor cursor = managedQuery(uri, projection, null, null, sortOrder);
+		while (cursor.moveToNext()) {
+			String id = cursor
+					.getString(cursor
+							.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID));
+			String name = cursor
+					.getString(cursor
+							.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+			String phoneNum = cursor
+					.getString(cursor
+							.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+
+			HashMap map = new HashMap();
+			map.put("user_name", name);
+			map.put("phone", StringUtil.removeAllSpace(phoneNum));
+			list.add(map);
+		}
+		if (VERSION.SDK_INT < 14) {
+			cursor.close();
+		}
+		return list;
+	}
+
+	class MyTask implements Runnable {
+
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			arrayList = getPersons();
+			handler.sendEmptyMessage(100);
+		}
+
+	}
+
+	private void initListener() {
+
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.rl_ToScore:
+
+			break;
+
+		}
+	}
+
+	@Override
+	public void myClick(View view, int type) {
+		// TODO Auto-generated method stub
+		SortModel sm = (SortModel) view.getTag();
+		switch (type) {
+		case 0:
+			if (StringUtil.isPhone(sm.getPhone())) {
+				ToastUtil.makeShortText(this, "手机号合法");
+			} else {
+				ToastUtil.makeShortText(this, "手机号不合法");
+			}
+
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public void myLongClick(View view, int type) {
+		// TODO Auto-generated method stub
+
+	}
+
+	// 把arrayList 封装成sortmodel对象
+	private List<SortModel> filledData(ArrayList arraylist) {
+		List<SortModel> mSortList = new ArrayList<SortModel>();
+		for (int i = 0; i < arraylist.size(); i++) {
+			if (((HashMap) arraylist.get(i)).containsKey("user_name")) {
+				SortModel sortModel = new SortModel();
+				HashMap map = (HashMap) arraylist.get(i);
+				sortModel.setName(map.get("user_name").toString());
+				sortModel.setPhone(map.get("phone").toString());
+				// sortModel.setUid(map.get("uid").toString());
+				// 汉字转换成拼音
+				String pinyin = characterParser.getSelling(map.get("user_name")
+						.toString());
+				String sortString = pinyin.substring(0, 1).toUpperCase();
+				// 正则表达式，判断首字母是否是英文字母
+				if (sortString.matches("[A-Z]")) {
+					sortModel.setSortLetters(sortString.toUpperCase());
+				} else {
+					sortModel.setSortLetters("#");
+				}
+
+				mSortList.add(sortModel);
+			}
+		}
+		Collections.sort(mSortList, pinyinComparator);
+		return mSortList;
+
+	}
+}

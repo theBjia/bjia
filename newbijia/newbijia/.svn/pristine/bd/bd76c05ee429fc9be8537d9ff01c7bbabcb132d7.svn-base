@@ -1,0 +1,69 @@
+package com.llkj.newbjia.collection;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.llkj.newbjia.BaseFragment;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.utils.FinalBitmapUtil;
+
+/**
+ * 首页:我界面
+ * 
+ * @author zhang.zk
+ * 
+ */
+public class CollectionFragment extends BaseFragment implements OnClickListener {
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		if (rootView == null) {
+			rootView = inflater.inflate(R.layout.acee_good_adress, null);
+			setTitle(rootView, R.string.account, false, -1, false, -1);
+			init();
+			initData();
+		} else {
+			ViewGroup parent = (ViewGroup) rootView.getParent();
+			if (parent != null) {
+				parent.removeView(rootView);
+			}
+		}
+		return rootView;
+	}
+
+	private void init() {
+
+	}
+
+	private void initData() {
+
+	}
+
+	@Override
+	public void onClick(View v) {
+		Intent intent;
+		switch (v.getId()) {
+		case 0:
+
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+	}
+}

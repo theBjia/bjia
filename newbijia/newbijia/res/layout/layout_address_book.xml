@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/qian_gray" >
+
+    <include
+        android:id="@+id/tiid"
+        android:layout_alignParentTop="true"
+        layout="@layout/stub_title" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/tiid" >
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:id="@+id/ll_one"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/tv_one"
+                    style="@style/TvFriendAddTitle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/view_selector"
+                    android:padding="10dp"
+                    android:text="未添加好友" />
+
+                <com.llkj.newbjia.customview.MyListView
+                    android:id="@+id/mlv_no_add"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="@android:color/white"
+                    android:dividerHeight="1dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_two"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ll_one"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/tv_two"
+                    style="@style/TvFriendAddTitle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/view_selector"
+                    android:padding="10dp"
+                    android:text="未开通好友" />
+
+                <com.llkj.newbjia.customview.MyListView
+                    android:id="@+id/mlv_no_kaitong"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="@android:color/white"
+                    android:dividerHeight="1dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_three"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ll_two"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/tv_three"
+                    style="@style/TvFriendAddTitle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/view_selector"
+                    android:padding="10dp"
+                    android:text="已添加好友" />
+
+                <com.llkj.newbjia.customview.MyListView
+                    android:id="@+id/mlv_add"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="@android:color/white"
+                    android:dividerHeight="1dp" />
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

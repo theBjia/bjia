@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+	<RelativeLayout
+        android:id="@+id/huadongId"
+        android:layout_width="fill_parent"
+        android:layout_height="67dp"
+        android:layout_alignParentBottom="true"
+        android:background="#997f7f7f" >
+        
+        <TextView 
+             android:layout_marginTop="8dp"
+            android:id="@+id/zongeId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_alignParentLeft="true"
+            android:text="总额"
+            android:textColor="#ffffff"
+            android:textSize="15sp"
+            />
+        
+        <TextView 
+            android:id="@+id/vamuYId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_alignParentLeft="true"
+             android:text="￥100.00元"
+            android:textColor="#ffffff"
+            android:textSize="15sp"
+            android:layout_below="@id/zongeId"
+            android:layout_marginTop="8dp"
+            />
+        
+        
+        <Button
+            android:id="@+id/tijiaoId"
+            android:layout_width="94dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textSize="15sp"
+            android:layout_marginTop="8dp"
+            android:background="#fe0000"
+            android:gravity="center"
+            android:text="提交订单"
+            android:textColor="#ffffff"
+            />
+        
+    </RelativeLayout>
+</RelativeLayout>

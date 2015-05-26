@@ -1,0 +1,403 @@
+package com.llkj.newbjia.main;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import android.content.Intent;
+import android.graphics.Paint;
+import android.os.Bundle;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.adpater.GoodsDetailAdapter;
+import com.llkj.newbjia.bean.KeyBean;
+import com.llkj.newbjia.bean.ResponseBean;
+import com.llkj.newbjia.bean.UserInfoBean;
+import com.llkj.newbjia.chat.Constants;
+import com.llkj.newbjia.customview.MyGridView;
+import com.llkj.newbjia.customview.PagerScrollView;
+import com.llkj.newbjia.http.PoCService;
+import com.llkj.newbjia.utils.FinalBitmapUtil;
+import com.llkj.newbjia.utils.StringUtil;
+import com.llkj.newbjia.utils.ToastUtil;
+
+public class GoodDetailTwoActivity extends BaseActivity implements
+		OnClickListener {
+	private ViewPager guidePages;
+	private ArrayList<View> viewList = new ArrayList<View>();
+	private ImageView[] imageViews;
+	private ArrayList urls;
+	private FinalBitmapUtil fb;
+	private int currentItem, mRequestId, mSetAttentionId, mCancleAttentionId,
+			mAddCartId, mDefaultAddressId, mJudgeAvailableId;
+	private TextView tv_ivnmus, tv_peisongzhi, tv_shifouxianhuo;
+	private MyGridView mgv;
+	private GoodsDetailAdapter adapter;
+	private ArrayList arrayList;
+	private PagerScrollView scroll;
+	private RelativeLayout rl_goods_info, rl_gouwuche, rl_add_cart, rl_place;
+	private Intent bigIntent;
+	private String id, is_attention, uid, zitidianId, zitidianName;
+	private TextView tv_goods_name, tv_shichangjia, tv_bijiajia, tv_zhongliang,
+			tv_baozhuang, tv_shouchang;
+	private boolean isShouchang;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.layout_goods_detail_two);
+		setTitle(R.string.goodsdetail, true, R.string.kongzifuchuan, false,
+				R.string.kongzifuchuan);
+		
+		initView();
+		initListener();
+		initData();
+		scroll.smoothScrollTo(0, 0);
+		uid = UserInfoBean.getUserInfo(this).getUid();
+		if (StringUtil.isNetworkConnected(this)) {
+			if (!StringUtil.isEmpty(id)) {
+				mRequestId = mRequestManager.goodDesc(id, true);
+
+			}
+		} else {
+			ToastUtil.makeShortText(this, R.string.no_wangluo);
+		}
+	}
+
+	private void initView() {
+		guidePages = (ViewPager) findViewById(R.id.guidePages);
+		tv_ivnmus = (TextView) findViewById(R.id.tv_ivnmus);
+		mgv = (MyGridView) findViewById(R.id.mgv_content);
+		scroll = (PagerScrollView) findViewById(R.id.pslv_content);
+		rl_goods_info = (RelativeLayout) findViewById(R.id.rl_goods_info);
+		rl_gouwuche = (RelativeLayout) findViewById(R.id.rl_gouwuche);
+		tv_goods_name = (TextView) findViewById(R.id.tv_goods_name);
+		tv_shichangjia = (TextView) findViewById(R.id.tv_shichangjia);
+		tv_bijiajia = (TextView) findViewById(R.id.tv_bijiajia);
+		tv_zhongliang = (TextView) findViewById(R.id.tv_zhongliang);
+		tv_baozhuang = (TextView) findViewById(R.id.tv_baozhuang);
+		tv_shouchang = (TextView) findViewById(R.id.tv_shouchang);
+
+		rl_add_cart = (RelativeLayout) findViewById(R.id.rl_add_cart);
+		rl_place = (RelativeLayout) findViewById(R.id.rl_place);
+
+		tv_peisongzhi = (TextView) findViewById(R.id.tv_peisongzhi);
+
+		tv_shifouxianhuo = (TextView) findViewById(R.id.tv_shifouxianhuo);
+	}
+
+	private void initListener() {
+		guidePages.setOnPageChangeListener(new NavigationPageChangeListener());
+		rl_goods_info.setOnClickListener(this);
+		rl_gouwuche.setOnClickListener(this);
+		tv_shouchang.setOnClickListener(this);
+
+		rl_add_cart.setOnClickListener(this);
+		rl_place.setOnClickListener(this);
+		mgv.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				// TODO Auto-generated method stub
+				HashMap map = (HashMap) arrayList.get(position);
+				String rid = map.get("goods_id") + "";
+				if (!StringUtil.isEmpty(rid)) {
+					Intent intent = new Intent(GoodDetailTwoActivity.this,
+							GoodDetailTwoActivity.class);
+					intent.putExtra("id", rid);
+					startActivity(intent);
+				}
+			}
+		});
+	}
+
+	private void initData() {
+		bigIntent = getIntent();
+		fb = FinalBitmapUtil.create(this);
+		urls = new ArrayList<String>();
+		if (bigIntent.hasExtra("id")) {
+			id = bigIntent.getStringExtra("id");
+
+		}
+
+	}
+
+	public void fillGuanggao(ArrayList arrayList) {
+		for (int i = 0; i < arrayList.size(); i++) {
+			ImageView iv = new ImageView(this);
+			iv.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
+					LayoutParams.MATCH_PARENT));
+
+			fb.displayForPicture(iv, arrayList.get(i) + "");
+			iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
+			iv.setTag(i);
+			iv.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View arg0) {
+					// TODO Auto-generated method stub
+					ToastUtil.makeShortText(GoodDetailTwoActivity.this,
+							"跳到详情页面" + arg0.getTag());
+				}
+			});
+			viewList.add(iv);
+		}
+		tv_ivnmus.setText("1/" + viewList.size());
+		guidePages.setAdapter(new MyViewPagerAdapter(viewList));
+		imageViews = new ImageView[arrayList.size()];
+		// for (int i = 0; i < arrayList.size(); i++) {
+		// ImageView imageView = new ImageView(this);
+		// imageView = new ImageView(this);
+		// imageView.setLayoutParams(new LayoutParams(20, 20));
+		// imageView.setPadding(5, 0, 5, 0);
+		// imageViews[i] = imageView;
+		// if (i == 0)
+		// imageViews[i].setImageDrawable(getResources().getDrawable(
+		// R.drawable.page_focused));
+		// else
+		// imageViews[i].setImageDrawable(getResources().getDrawable(
+		// R.drawable.page_unfocused));
+		//
+		// viewGroup.addView(imageViews[i]);
+		// }
+	}
+
+	class NavigationPageChangeListener implements OnPageChangeListener {
+
+		@Override
+		public void onPageScrollStateChanged(int arg0) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onPageScrolled(int arg0, float arg1, int arg2) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onPageSelected(int arg0) {
+			// TODO Auto-generated method stub
+			currentItem = arg0;
+			tv_ivnmus.setText((currentItem + 1) + "/" + viewList.size());
+			// for (int i = 0; i < imageViews.length; i++) {
+			// if (arg0 == i) {
+			// imageViews[i].setImageDrawable(getResources().getDrawable(
+			// R.drawable.page_focused));
+			// } else {
+			// imageViews[i].setImageDrawable(getResources().getDrawable(
+			// R.drawable.page_unfocused));
+			// }
+			// }
+		}
+	}
+
+	public class MyViewPagerAdapter extends PagerAdapter {
+		private List<View> mListViews;
+
+		public MyViewPagerAdapter(List<View> mListViews) {
+			this.mListViews = mListViews;
+		}
+
+		@Override
+		public void destroyItem(ViewGroup container, int position, Object object) {
+			container.removeView(mListViews.get(position));
+		}
+
+		@Override
+		public Object instantiateItem(ViewGroup container, int position) {
+			container.addView(mListViews.get(position), 0);
+			return mListViews.get(position);
+		}
+
+		@Override
+		public int getCount() {
+			return mListViews.size();
+		}
+
+		@Override
+		public boolean isViewFromObject(View arg0, Object arg1) {
+			return arg0 == arg1;
+		}
+	}
+
+	@Override
+	public void onClick(View arg0) {
+		Intent intent;
+		switch (arg0.getId()) {
+		case R.id.rl_goods_info:
+			intent = new Intent(this, GoodsInfoTwoActivity.class);
+			intent.putExtra(KeyBean.KEY_ID, id);
+			startActivity(intent);
+			break;
+		case R.id.rl_add_cart:
+			mAddCartId = mRequestManager.shopCartAdd("1", id, "", true);
+			break;
+		case R.id.rl_gouwuche:
+			intent = new Intent(Constants.SWITCHCART);
+			sendBroadcast(intent);
+			break;
+		case R.id.rl_place:
+			break;
+		case R.id.tv_shouchang:
+			if (isShouchang) {
+				mCancleAttentionId = mRequestManager.goodAttention(id,
+						UserInfoBean.getUserInfo(this).getUid(), "2", true);
+
+			} else {
+				mSetAttentionId = mRequestManager.goodAttention(id,
+						UserInfoBean.getUserInfo(this).getUid(), "1", true);
+			}
+			break;
+
+		}
+	}
+
+	@Override
+	public void onRequestFinished(int requestId, int resultCode, Bundle payload) {
+		super.onRequestFinished(requestId, resultCode, payload);
+		if (resultCode == PoCService.SUCCESS_CODE) {
+			if (mRequestId == requestId) {
+				int result = payload.getInt(ResponseBean.RESPONSE_STATE);
+				if (result == 1) {
+					// 限购数量 restrict_amount 赠送积分gift_integral 价格阶梯 price_ladder
+					// 团购说明 act_desc 当前价 formated_cur_price
+					// tv_goods_name, tv_shichangjia, tv_bijiajia,
+					// tv_zhongliang,
+					// tv_baozhuang
+					String goods_name = payload
+							.getString(ResponseBean.RESPONSE_GOODS_NAME);
+					String shop_price_formated = payload
+							.getString(ResponseBean.RESPONSE_SPF);
+					String market_price = payload
+							.getString(ResponseBean.RESPONSE_MARKET_PRICE);
+					String goods_number = payload
+							.getString(ResponseBean.RESPONSE_GOODS_NUMBER);
+					String goods_weight = payload
+							.getString(ResponseBean.RESPONSE_GOODS_WEIGHT);
+
+					String commodity_packaging = payload
+							.getString(ResponseBean.RESPONSE_COMMODITY_PACKAGING);
+					tv_goods_name.setText(goods_name);
+					tv_baozhuang.setText(commodity_packaging);
+					tv_bijiajia.setText(shop_price_formated);
+					tv_shichangjia.getPaint().setFlags(
+							Paint.STRIKE_THRU_TEXT_FLAG); // 中间横线
+					tv_shichangjia.setText(market_price);
+					tv_zhongliang.setText(goods_weight + "kg");
+					urls = payload.getParcelableArrayList("pic");
+					fillGuanggao(urls);
+					arrayList = payload.getParcelableArrayList("related_goods");
+					if (arrayList != null) {
+						adapter = new GoodsDetailAdapter(this, arrayList);
+						mgv.setAdapter(adapter);
+					}
+					is_attention = payload
+							.getString(ResponseBean.RESPONSE_IS_ATTENTION);
+					if ("0".equals(is_attention)) {
+						setShouchang(true);
+					} else {
+						setShouchang(false);
+					}
+
+					if (!StringUtil.isEmpty(uid)) {
+						mDefaultAddressId = mRequestManager.defaultAddress(uid,
+								true);
+					}
+
+				} else {
+					String msg = payload
+							.getString(ResponseBean.RESPONSE_MESSAGE);
+					ToastUtil.makeShortText(this, msg);
+				}
+
+			} else if (mCancleAttentionId == requestId) {
+				int result = payload.getInt(ResponseBean.RESPONSE_STATE);
+				if (result == 1) {
+					ToastUtil.makeShortText(this, "取消成功");
+					setShouchang(false);
+
+				} else {
+					String msg = payload
+							.getString(ResponseBean.RESPONSE_MESSAGE);
+					ToastUtil.makeShortText(this, msg);
+				}
+			} else if (mSetAttentionId == requestId) {
+				int result = payload.getInt(ResponseBean.RESPONSE_STATE);
+				if (result == 1) {
+					ToastUtil.makeShortText(this, "关注成功");
+					setShouchang(true);
+
+				} else {
+					String msg = payload
+							.getString(ResponseBean.RESPONSE_MESSAGE);
+					ToastUtil.makeShortText(this, msg);
+				}
+			} else if (mAddCartId == requestId) {
+				int result = payload.getInt(ResponseBean.RESPONSE_STATE);
+				if (result == 1) {
+					ToastUtil.makeShortText(this, "已加入购物车，请到购物车查看");
+
+				} else {
+					String msg = payload
+							.getString(ResponseBean.RESPONSE_MESSAGE);
+					ToastUtil.makeShortText(this, msg);
+				}
+			} else if (mDefaultAddressId == requestId) {
+				int result = payload.getInt(ResponseBean.RESPONSE_STATE);
+				if (result == 1) {
+					zitidianId = payload
+							.getString(ResponseBean.RESPONSE_ZITI_ID);
+					zitidianName = payload
+							.getString(ResponseBean.RESPONSE_ZITI_NAME);
+					tv_peisongzhi.setText("配送至：" + zitidianName);
+					if (!StringUtil.isEmpty(zitidianId)) {
+						mJudgeAvailableId = mRequestManager.judgeAvailable(
+								zitidianId, id, true);
+					}
+				} else {
+					String msg = payload
+							.getString(ResponseBean.RESPONSE_MESSAGE);
+					ToastUtil.makeShortText(this, msg);
+				}
+			} else if (mJudgeAvailableId == requestId) {
+				int result = payload.getInt(ResponseBean.RESPONSE_STATE);
+				if (result == 2) {
+					tv_shifouxianhuo.setText("无货");
+				} else if (result == 1) {
+					tv_shifouxianhuo.setText("有货");
+				} else if (result == 0) {
+					tv_shifouxianhuo.setText("失败");
+				}
+			}
+
+		}
+	}
+
+	public void setShouchang(boolean isShouchang) {
+		if (isShouchang) {
+			StringUtil.setDrawbleLeft(this, tv_shouchang, R.drawable.youxin);
+			this.isShouchang = true;
+		} else {
+			StringUtil.setDrawbleLeft(this, tv_shouchang,
+					R.drawable.goods_detail_xin);
+			this.isShouchang = false;
+		}
+
+	}
+}

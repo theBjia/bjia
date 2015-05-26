@@ -1,0 +1,73 @@
+package com.llkj.newbjia.mybijia;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ListView;
+
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.MyClicker;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.adpater.BrowsingAdapter;
+import com.llkj.newbjia.main.GoodDetailActivity;
+/**
+ * 浏览历史页
+ * @author John
+ *
+ */
+public class BrowsingActivity extends BaseActivity implements MyClicker{
+	private BrowsingAdapter adapter;
+	private ArrayList arrayList;
+	private ListView listView;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.browsing_history);
+		setTitle(R.string.browsing, true, R.string.kong, true, R.string.clear);
+		initView();
+		initData();
+		initListener();
+	}
+
+	private void initView() {
+		listView = (ListView) findViewById(R.id.lv_History);
+	}
+
+	private void initData() {
+		arrayList = new ArrayList();
+		for(int i = 0;i<2;i++){
+			HashMap hashMap = new HashMap();
+			hashMap.put("name", "进口苹果");
+			arrayList.add(hashMap);
+		}
+		adapter = new BrowsingAdapter(BrowsingActivity.this,arrayList,this);
+		listView.setAdapter(adapter);
+	}
+
+	private void initListener() {
+		
+	}
+
+	@Override
+	public void myClick(View view, int type) {
+		Intent intent;
+		switch (type) {
+		case 1:
+			intent = new Intent(BrowsingActivity.this, GoodDetailActivity.class);
+			startActivity(intent);
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public void myLongClick(View view, int type) {
+		// TODO Auto-generated method stub
+		
+	}
+}

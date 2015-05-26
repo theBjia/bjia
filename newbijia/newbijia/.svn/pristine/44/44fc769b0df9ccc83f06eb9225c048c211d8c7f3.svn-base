@@ -1,0 +1,196 @@
+package com.llkj.newbjia.utils;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+public class TimeUtils {
+	public static final long DAY_MILLSECONDS = 24 * 3600 * 1000;
+
+	// a) 当天显示 上午03：00 等于0 天
+	// b) 当天显示 下午12：00 等于0天
+	// c) 往前一天显示 昨天 11：59 等于1天
+	// d) 往前两天显示 前天 23：44 等于2天
+	// e) 往前7天内显示 星期日 11：33 小于7天并大于2天判断星期几
+	// f) 本年度内显示 9月18日 17：00 大于7天并在本年度显示月份。
+	// g) 跨年度显示 2013年9月18日 17：00 判断年份
+	public static String showTime(long startime) {
+		// 当天显示 上午03：00
+		String showtimeString = "";
+		int current_year = Integer
+				.parseInt(getYear(System.currentTimeMillis()));
+		int year = Integer.parseInt(getYear(startime));
+
+		if (current_year > year) {
+			showtimeString = getDateEN(startime);
+		} else {
+
+			// 如果在同一个月内就比较天数
+			if (newchajitian(startime) == 0) {
+
+				// 当天
+				if (getShi(startime) < 12) {
+					showtimeString = "上午" + getShiFen(startime);
+				} else {
+					showtimeString = "下午" + getShiFen(startime);
+				}
+
+			} else if (newchajitian(startime) == 1) {
+				showtimeString = "昨天" + getShiFen(startime);
+
+			} else if (newchajitian(startime) == 2) {
+				// 2天
+				showtimeString = "前天" + getShiFen(startime);
+			} else if ((2 < newchajitian(startime) && newchajitian(startime) < 7)
+					|| newchajitian(startime) == 7) {
+				// 三天
+				try {
+					showtimeString = "星期"
+							+ xingqiji(dayForWeek(getNianyueri(startime)))
+							+ getShiFen(startime);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else if (newchajitian(startime) > 7) {
+				// 7天之内。
+				showtimeString = getDate(startime);
+
+			}
+
+		}
+		return showtimeString;
+	}
+
+	public static int dayForWeek(String pTime) throws Exception {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar c = Calendar.getInstance();
+		c.setTime(format.parse(pTime));
+		int dayForWeek = 0;
+		if (c.get(Calendar.DAY_OF_WEEK) == 1) {
+			dayForWeek = 7;
+		} else {
+			dayForWeek = c.get(Calendar.DAY_OF_WEEK) - 1;
+		}
+		return dayForWeek;
+	}
+
+	public static String getDate(long time) {
+		SimpleDateFormat format1 = new SimpleDateFormat("MM-dd HH:mm");
+		String date1 = format1.format(new Date(time));
+		return date1;// 2012-10-03 23:41:31
+	}
+
+	public static String xingqiji(int ji) {
+		String strJiString = "一";
+		switch (ji) {
+		case 1:
+			strJiString = "一";
+			break;
+		case 2:
+			strJiString = "二";
+			break;
+		case 3:
+			strJiString = "三";
+			break;
+		case 4:
+			strJiString = "四";
+			break;
+		case 5:
+			strJiString = "五";
+			break;
+		case 6:
+			strJiString = "六";
+			break;
+		case 7:
+			strJiString = "天";
+			break;
+
+		default:
+			break;
+		}
+		return strJiString;
+	}
+
+	// 获取当前年份
+	//
+
+	public static String getYear(Long time) {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy");
+		String date = format.format(new Date(time));
+		return date;
+	}
+
+	public static String getDateEN(long time) {
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		String date1 = format1.format(new Date(time));
+		return date1;// 2012-10-03 23:41:31
+	}
+
+	public static int getyue(long time) {
+		SimpleDateFormat format1 = new SimpleDateFormat("MM");
+		String date1 = format1.format(new Date(time));
+		return Integer.parseInt(date1);// 2012-10-03 23:41:31
+	}
+
+	public static int getAbsDayDiff(Calendar calStart, Calendar calEnd) {
+		Calendar start = (Calendar) calStart.clone();
+		Calendar end = (Calendar) calEnd.clone();
+
+		start.set(start.get(Calendar.YEAR), start.get(Calendar.MONTH),
+				start.get(Calendar.DATE), 0, 0, 0);
+		start.set(Calendar.MILLISECOND, 0);
+
+		end.set(end.get(Calendar.YEAR), end.get(Calendar.MONTH),
+				end.get(Calendar.DATE), 0, 0, 0);
+		end.set(Calendar.MILLISECOND, 0);
+
+		return (int) ((end.getTimeInMillis() - start.getTimeInMillis()) / DAY_MILLSECONDS);
+	}
+
+	public static long newchajitian(Long lstartTime) {
+		Calendar c1 = Calendar.getInstance();
+		int year = c1.get(Calendar.YEAR);
+		int yue = c1.get(Calendar.MONTH);
+		int ri = c1.get(Calendar.DATE);
+		c1.set(year, yue + 1, ri, 0, 0);
+		Calendar c2 = Calendar.getInstance();
+		int lyear = Integer.parseInt((getYear(lstartTime)));
+		int lyue = getyue(lstartTime);
+		int lri = getDay(lstartTime);
+		c2.set(lyear, lyue, lri, 0, 0);
+		return getAbsDayDiff(c2, c1);
+
+	}
+
+	public static int getDay(long time) {
+		SimpleDateFormat format1 = new SimpleDateFormat("dd");
+		String date1 = format1.format(new Date(time));
+		return Integer.parseInt(date1);// 2012-10-03 23:41:31
+	}
+
+	public static String getShiFen(long time) {
+		SimpleDateFormat format1 = new SimpleDateFormat("HH:mm");
+		String date1 = format1.format(new Date(time));
+		return date1;// 2012-10-03 23:41:31
+	}
+
+	public static int getShi(long time) {
+		SimpleDateFormat format1 = new SimpleDateFormat("HH");
+		String date1 = format1.format(new Date(time));
+		return Integer.parseInt(date1);// 2012-10-03 23:41:31
+	}
+
+	public static String getNianyueri(long time) {
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+		String date1 = format1.format(new Date(time));
+		return date1;// 2012-10-03 23:41:31
+	}
+
+	public static String getNianyueri(long time, String format) {
+		SimpleDateFormat format1 = new SimpleDateFormat(format);
+		String date1 = format1.format(new Date(time));
+		return date1;// 2012-10-03 23:41:31
+	}
+
+}

@@ -1,0 +1,52 @@
+8
+
+dir
+208
+svn://192.168.1.100/Android-yunshanghui/alipay_lib/res/values
+svn://192.168.1.100/Android-yunshanghui
+
+
+
+2014-06-10T08:41:22.746543Z
+208
+yu.jl
+
+
+svn:special svn:externals svn:needs-lock
+
+styles.xml
+file
+
+
+
+
+2013-06-18T08:51:44.000000Z
+940e7e92a047baff83c0795abc441408
+2014-06-10T08:41:22.746543Z
+208
+yu.jl
+
+strings.xml
+file
+
+
+
+
+2013-08-21T06:27:46.000000Z
+5ab88dc7ed62f94b5865a292c86eaafa
+2014-06-10T08:41:22.746543Z
+208
+yu.jl
+
+colorlist.xml
+file
+
+
+
+
+2013-06-18T08:50:34.000000Z
+21a1ab3a1ee4570d6a4495e6e685c55e
+2014-06-10T08:41:22.746543Z
+208
+yu.jl
+

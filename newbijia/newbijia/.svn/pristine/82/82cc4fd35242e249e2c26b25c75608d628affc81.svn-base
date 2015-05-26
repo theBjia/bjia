@@ -1,0 +1,82 @@
+package com.llkj.newbjia.main;
+
+import java.util.ArrayList;
+
+import android.os.Bundle;
+import android.widget.GridView;
+
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
+import com.handmark.pulltorefresh.library.PullToRefreshGridView;
+import com.llkj.newbjia.BaseActivity;
+import com.llkj.newbjia.MyApplication;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.adpater.GoodsAdapter;
+
+public class GoodsActivity extends BaseActivity {
+	private PullToRefreshGridView mPullRefreshGridView;
+	private GridView mGridView;
+	private ArrayList arrayList;
+	private GoodsAdapter adapter;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.layout_goods);
+		setTitle(R.string.goods, true, R.string.kongzifuchuan, false, R.string.kongzifuchuan);
+
+		initView();
+		initListener();
+		initData();
+	}
+
+	private void initView() {
+		// TODO Auto-generated method stub
+		mPullRefreshGridView = (PullToRefreshGridView) findViewById(R.id.pull_refresh_grid);
+		mGridView = mPullRefreshGridView.getRefreshableView();
+		mGridView.setVerticalScrollBarEnabled(false);
+	}
+
+	private void initData() {
+		// TODO Auto-generated method stub
+		arrayList = new ArrayList();
+		for(int i=0;i<10;i++){
+			arrayList.add("测试"+i);
+		}
+		adapter = new GoodsAdapter(this, arrayList);
+		mGridView.setAdapter(adapter);
+	}
+	
+	class MyTask implements Runnable{
+
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			mPullRefreshGridView.onRefreshComplete();
+		}
+		
+	}
+
+	private void initListener() {
+		// TODO Auto-generated method stub
+		mPullRefreshGridView
+				.setOnRefreshListener(new OnRefreshListener2<GridView>() {
+
+					@Override
+					public void onPullDownToRefresh(
+							PullToRefreshBase<GridView> refreshView) {
+						// TODO Auto-generated method stub
+						MyApplication.hanlder.postDelayed(new MyTask(), 3000);
+					}
+
+					@Override
+					public void onPullUpToRefresh(
+							PullToRefreshBase<GridView> refreshView) {
+						// TODO Auto-generated method stub
+						MyApplication.hanlder.postDelayed(new MyTask(), 3000);
+					}
+				});
+	}
+}
+
+

@@ -1,0 +1,107 @@
+package com.llkj.newbjia.adpater;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.llkj.newbjia.MyClicker;
+import com.llkj.newbjia.R;
+import com.llkj.newbjia.utils.FinalBitmapUtil;
+
+public class FavoriteAdapter extends BaseAdapter {
+	private LayoutInflater inflater;
+	private ArrayList arrayList;
+	private Context context;
+	private Map<Integer, View> map = new HashMap<Integer, View>();
+	private FinalBitmapUtil bitmapUtil;
+	private MyClicker myClicker;
+
+	public FavoriteAdapter(Context context, ArrayList list, MyClicker myClicker) {
+		inflater = LayoutInflater.from(context);
+		this.context = context;
+		setData(list);
+		bitmapUtil = FinalBitmapUtil.create(context);
+		this.myClicker = myClicker;
+	}
+
+	private void setData(ArrayList list) {
+		if (null != list) {
+			this.arrayList = list;
+		} else {
+			this.arrayList = new ArrayList();
+		}
+	}
+
+	public void notifyDataSetChanged(ArrayList list) {
+		setData(arrayList);
+		map.clear();
+		this.notifyDataSetChanged();
+	}
+
+	@Override
+	public int getCount() {
+		return arrayList.size();
+	}
+
+	@Override
+	public Object getItem(int position) {
+		return arrayList.get(position);
+	}
+
+	@Override
+	public long getItemId(int position) {
+		return position;
+	}
+
+	@Override
+	public View getView(final int position, View convertView, ViewGroup parent) {
+		HoldView holdView;
+		View pv;
+		if (null == map.get(position)) {
+			pv = inflater.inflate(R.layout.favorite_item, null);
+			holdView = new HoldView();
+			holdView.im_Photo = (ImageView) pv.findViewById(R.id.im_Photo);
+			holdView.tv_Name = (TextView) pv.findViewById(R.id.tv_Name);
+			holdView.tv_Weight = (TextView) pv.findViewById(R.id.tv_Weight);
+			holdView.tv_Pack = (TextView) pv.findViewById(R.id.tv_Pack);
+			holdView.tv_money = (TextView) pv.findViewById(R.id.tv_money);
+			holdView.rl_bg = (RelativeLayout) pv.findViewById(R.id.rl_bg);
+			holdView.rl_bg.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					myClicker.myClick(v, 1);
+				}
+			});
+
+			HashMap item = (HashMap) arrayList.get(position);
+			if (item.containsKey("name")) {
+				String name = item.get("name").toString();
+				holdView.tv_Name.setText(name);
+			}
+			pv.setTag(holdView);
+			map.put(position, pv);
+		} else {
+			pv = map.get(position);
+			holdView = (HoldView) pv.getTag();
+		}
+		return pv;
+	}
+
+	class HoldView {
+		ImageView im_Photo;
+		TextView tv_Name, tv_Weight, tv_Pack, tv_money;
+		RelativeLayout rl_bg;
+	}
+}

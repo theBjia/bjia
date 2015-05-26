@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:background="@drawable/circle_green_bg"
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            android:id="@+id/rl_zan"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="30dp"
+                android:drawableLeft="@drawable/quanzhi_xintwo"
+                android:drawablePadding="10dp"
+                android:text="赞"
+                android:textColor="@android:color/white" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:background="@android:color/white" />
+
+        <RelativeLayout
+            android:id="@+id/rl_pinglun"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="30dp"
+                android:drawableLeft="@drawable/quanzhi_pinglun"
+                android:drawablePadding="10dp"
+                android:text="评论"
+                android:textColor="@android:color/white" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

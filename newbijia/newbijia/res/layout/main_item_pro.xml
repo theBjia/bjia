@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/mainPa_ID"
+        android:layout_width="fill_parent"
+        android:layout_height="190dp" >
+
+        <RelativeLayout
+            android:id="@+id/fruts_id"
+            android:layout_width="fill_parent"
+            android:layout_height="180dp" >
+
+            <ImageView
+                android:id="@+id/bg_img_soid"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:scaleType="fitXY"
+                 />
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="190dp" >
+
+                <RelativeLayout
+                    android:id="@+id/showTinfoID"
+                    android:layout_width="fill_parent"
+                    android:layout_height="60dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="#993d8560" >
+
+                    <TextView
+                        android:id="@+id/tuan_miaoKILL_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="7dp"
+                        android:layout_marginTop="7dp"
+                        android:text="团购秒杀"
+                        android:textColor="#ffffff"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/fru_info_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tuan_miaoKILL_id"
+                        android:layout_marginLeft="52dp"
+                        android:layout_marginTop="9dp"
+                        android:text="新疆葡萄   一口价     18.00元"
+                        android:textColor="#ffffff" />
+
+                    <ImageView
+                        android:id="@+id/frut_info_img_id"
+                        android:layout_width="40dp"
+                        android:layout_height="38dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginRight="9dp"
+                        android:src="@drawable/tuan_img" />
+                </RelativeLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="10dp"
+            android:layout_below="@id/fruts_id"
+            android:background="#eeeeee" />
+    </RelativeLayout>
+
+</RelativeLayout>

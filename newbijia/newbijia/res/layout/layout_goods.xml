@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <include
+        android:id="@+id/tiid"
+        android:layout_alignParentTop="true"
+        layout="@layout/stub_title" />
+
+    <ImageView
+        android:id="@+id/fenlei_iv"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="7dp"
+        android:src="@drawable/fenlei_iv" />
+
+    <RelativeLayout
+        android:id="@+id/sou"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_below="@+id/fenlei_iv"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="15dp" >
+
+        <EditText
+            android:id="@+id/et_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/search_lv"
+            android:hint=" 请输入关键字"
+            android:paddingLeft="5dp"
+            android:textColor="#3ab483"
+            android:textColorHint="#3ab483"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/bt_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/sou_lv" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/shai"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sou"
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:id="@+id/l_xiaoliang"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="销量"
+                android:textColor="#3ab483"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:baselineAlignBottom="true"
+                android:src="@drawable/sanjiao" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/l_jiage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="价格"
+                android:textColor="#3ab483"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:baselineAlignBottom="true"
+                android:src="@drawable/sanjiao" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/l_pingjia"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="评价"
+                android:textColor="#3ab483"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:baselineAlignBottom="true"
+                android:src="@drawable/sanjiao" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/l_shangjia"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.3" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="上架时间"
+                android:textColor="#3ab483"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:baselineAlignBottom="true"
+                android:src="@drawable/sanjiao" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.handmark.pulltorefresh.library.PullToRefreshGridView
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/pull_refresh_grid"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/shai"
+        android:layout_marginTop="10dp"
+        android:gravity="fill"
+        android:horizontalSpacing="5dp"
+        android:numColumns="2"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="5dp"
+        ptr:ptrDrawable="@drawable/default_ptr_rotate"
+        ptr:ptrMode="both" />
+
+</RelativeLayout>
