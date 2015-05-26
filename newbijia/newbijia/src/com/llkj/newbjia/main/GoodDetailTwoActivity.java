@@ -403,7 +403,7 @@ public class GoodDetailTwoActivity extends BaseActivity implements
 				mAddCartId = mRequestManager
 
 				.shopCartAdd(tv_goods_add_number.getText().toString(), uid, id,
-						"", true);
+						"", false);
 				// TODO
 				if (urls != null && urls.size() != 0) {
 					fb.displayForHeader(img1, urls.get(currentItem) + "");
@@ -513,7 +513,7 @@ public class GoodDetailTwoActivity extends BaseActivity implements
 				if (!StringUtil.isEmpty(zitidianId)) {
 
 					mJudgeAvailableId = mRequestManager.judgeAvailable(
-							zitidianId, id, true);
+							zitidianId, id, false);
 				}
 				break;
 			case 200:
@@ -588,7 +588,7 @@ public class GoodDetailTwoActivity extends BaseActivity implements
 
 					if (!StringUtil.isEmpty(uid)) {
 						mDefaultAddressId = mRequestManager.defaultAddress(uid,
-								true);
+								false);
 
 					}
 
@@ -652,7 +652,7 @@ public class GoodDetailTwoActivity extends BaseActivity implements
 					tv_peisongzhi.setText(zitidianName);
 					if (!StringUtil.isEmpty(zitidianId)) {
 						mJudgeAvailableId = mRequestManager.judgeAvailable(
-								zitidianId, id, true);
+								zitidianId, id, false);
 					}
 				} else {
 					String msg = payload

@@ -70,7 +70,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginTop="20dp"
             android:orientation="horizontal" >
 
@@ -129,10 +129,10 @@
             <LinearLayout
                 android:id="@+id/ll_search_menu"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:background="#3AB485"
-                android:visibility="visible" >
+                android:visibility="invisible" >
 
                 <LinearLayout
                     android:layout_width="match_parent"
