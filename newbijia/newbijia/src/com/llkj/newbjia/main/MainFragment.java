@@ -33,6 +33,7 @@ import android.widget.TextView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Toast;
 
+import com.amap.api.services.core.v;
 import com.llkj.newbjia.BaseFragment;
 import com.llkj.newbjia.MainActivity;
 import com.llkj.newbjia.R;
@@ -82,7 +83,7 @@ public class MainFragment extends BaseFragment implements OnClickListener,
 			iv_ningmeng, iv_boluo;
 	private ImageView iv_liaotian, iv_haoyou, iv_quanzi;
 	private View v_dot[];
-	// TODO
+	
 	private ViewPager vp_goods;
 	private List<View> listViews; // Tab页面列表
 	private ImageView cursor;// 动画图片
@@ -383,7 +384,7 @@ public class MainFragment extends BaseFragment implements OnClickListener,
 				.findViewById(R.id.ll_search_and_sort);
 
 		tv_number = (TextView) rootView.findViewById(R.id.tv_number);
-		
+
 		iv_hongti = (ImageView) rootView.findViewById(R.id.iv_hongti);
 		iv_xilanhua = (ImageView) rootView.findViewById(R.id.iv_xilanhua);
 		iv_jiliu = (ImageView) rootView.findViewById(R.id.iv_jiliu);
@@ -394,18 +395,18 @@ public class MainFragment extends BaseFragment implements OnClickListener,
 		iv_jingrou = (ImageView) rootView.findViewById(R.id.iv_jingrou);
 		iv_ningmeng = (ImageView) rootView.findViewById(R.id.iv_ningmeng);
 		iv_boluo = (ImageView) rootView.findViewById(R.id.iv_boluo);
-		
+
 		vp_goods = (ViewPager) rootView.findViewById(R.id.vp_goods);
-		
-		v_dot =new View[7];
+
+		v_dot = new View[7];
 		v_dot[1] = (View) rootView.findViewById(R.id.v_dot1);
 		v_dot[2] = (View) rootView.findViewById(R.id.v_dot2);
 		v_dot[3] = (View) rootView.findViewById(R.id.v_dot3);
 		v_dot[4] = (View) rootView.findViewById(R.id.v_dot4);
 		v_dot[5] = (View) rootView.findViewById(R.id.v_dot5);
 		v_dot[6] = (View) rootView.findViewById(R.id.v_dot6);
- 		listViews = new ArrayList<View>();
-		
+		listViews = new ArrayList<View>();
+
 		LayoutInflater mInflater = getActivity().getLayoutInflater();
 		listViews.add(mInflater.inflate(R.layout.item_b1, null));
 		listViews.add(mInflater.inflate(R.layout.item_b2, null));
@@ -413,33 +414,66 @@ public class MainFragment extends BaseFragment implements OnClickListener,
 		listViews.add(mInflater.inflate(R.layout.item_b4, null));
 		listViews.add(mInflater.inflate(R.layout.item_b5, null));
 		listViews.add(mInflater.inflate(R.layout.item_b6, null));
-		
+
 		vp_goods.setAdapter(new MyPagerAdapter(listViews));
 		vp_goods.setCurrentItem(0);
 		setPagerDot(1, 6);
-		//TODO set the listener.
+		// TODO set the listener.
 		vp_goods.setOnPageChangeListener(new OnPageChangeListener() {
-			
+
 			@Override
 			public void onPageSelected(int pos) {
 				// the pos is from 0 to 5;
-				//and the v_dot[] is from 1 to 6;
-				setPagerDot(pos + 1,6);
+				// and the v_dot[] is from 1 to 6;
+				setPagerDot(pos + 1, 6);
 			}
-			
+
 			@Override
 			public void onPageScrolled(int arg0, float arg1, int arg2) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void onPageScrollStateChanged(int arg0) {
 				// TODO Auto-generated method stub
-				
+//				switch (arg0) {
+//
+//				case 1:// 手势滑动，空闲中
+//
+//					break;
+//
+//				case 2:// 界面切换中
+//
+//					break;
+//
+//				case 0:// 滑动结束，即切换完毕或者加载完毕
+//
+//					// 当前为最后一张，此时从右向左滑，则切换到第一张
+//
+//					if (vp_goods.getCurrentItem() == vp_goods.getAdapter()
+//							.getCount() - 1) {
+//
+//						vp_goods.setCurrentItem(0);
+//						setPagerDot(1, 6);
+//
+//					}
+//					// 当前为第一张，此时从左向右滑，则切换到最后一张
+//
+//					else if (vp_goods.getCurrentItem() == 0 ) {
+//
+//						vp_goods.setCurrentItem(vp_goods.getAdapter()
+//								.getCount() - 1);
+//						setPagerDot(6, 6);
+//
+//					}
+//
+//					break;
+//
+//				}
+
 			}
 		});
-
 
 		// webView = (MyWebView) rootView.findViewById(R.id.webview);
 		// webView.setEmbeddedTitleBar(MyLy);
@@ -461,16 +495,20 @@ public class MainFragment extends BaseFragment implements OnClickListener,
 
 	}
 
-	@SuppressLint("NewApi") private void setPagerDot(int pos,int total){
-		for(int i = 1;i <= total;i++){
-			if(i == pos){
-				v_dot[i].setBackground(getResources().getDrawable(R.drawable.circle_green_bg)); 
-			}else{
-				v_dot[i].setBackground(getResources().getDrawable(R.drawable.circle_gray_bg));
+	@SuppressLint("NewApi")
+	private void setPagerDot(int pos, int total) {
+		for (int i = 1; i <= total; i++) {
+			if (i == pos) {
+				v_dot[i].setBackground(getResources().getDrawable(
+						R.drawable.circle_green_bg));
+			} else {
+				v_dot[i].setBackground(getResources().getDrawable(
+						R.drawable.circle_gray_bg));
 			}
 		}
-		
+
 	}
+
 	private void initListener() {
 		iv_top_left.setOnClickListener(this);
 		rl_gouwuche.setOnClickListener(this);
@@ -508,7 +546,6 @@ public class MainFragment extends BaseFragment implements OnClickListener,
 
 			}
 		});
-
 
 	}
 
@@ -725,71 +762,71 @@ public class MainFragment extends BaseFragment implements OnClickListener,
 	// ll_focus_indicator_container.addView(localImageView);
 	// }
 	// }
-	
-	  /**
-	       * ViewPager适配器
-	  */
-	      public class MyPagerAdapter extends PagerAdapter {
-	          public List<View> mListViews;
-	  
-	          public MyPagerAdapter(List<View> mListViews) {
-	             this.mListViews = mListViews;
-	          }
-	 
-	         @Override
-	         public void destroyItem(View arg0, int arg1, Object arg2) {
-	             ((ViewPager) arg0).removeView(mListViews.get(arg1));
-	         }
-	 
-	         @Override
-	         public void finishUpdate(View arg0) {
-	         }
-	 
-	         @Override
-	         public int getCount() {
-	             return mListViews.size();
-	         }
-	 
-	         @Override
-	         public Object instantiateItem(View arg0, int arg1) {
-	            ((ViewPager) arg0).addView(mListViews.get(arg1), 0);
-	            mListViews.get(arg1).setOnClickListener(new OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						if (StringUtil.isEmpty(UserInfoBean.getUserInfo(getActivity())
-								.getUid())) {
-							Intent intentt = new Intent(getActivity(),
-									LoginReginActivity.class);
-							getActivity().startActivity(intentt);
-							return;
-						}
-						if ((MainActivity) getActivity() != null) {
-							((MainActivity) getActivity()).switchContent(1);
-						}
-						
+
+	/**
+	 * ViewPager适配器
+	 */
+	public class MyPagerAdapter extends PagerAdapter {
+		public List<View> mListViews;
+
+		public MyPagerAdapter(List<View> mListViews) {
+			this.mListViews = mListViews;
+		}
+
+		@Override
+		public void destroyItem(View arg0, int arg1, Object arg2) {
+			((ViewPager) arg0).removeView(mListViews.get(arg1));
+		}
+
+		@Override
+		public void finishUpdate(View arg0) {
+		}
+
+		@Override
+		public int getCount() {
+			return mListViews.size();
+		}
+
+		@Override
+		public Object instantiateItem(View arg0, int arg1) {
+			((ViewPager) arg0).addView(mListViews.get(arg1), 0);
+			mListViews.get(arg1).setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					if (StringUtil.isEmpty(UserInfoBean.getUserInfo(
+							getActivity()).getUid())) {
+						Intent intentt = new Intent(getActivity(),
+								LoginReginActivity.class);
+						getActivity().startActivity(intentt);
+						return;
 					}
-				});
-	            
-	             return mListViews.get(arg1);
-	         }
-	 
-	         @Override
-	         public boolean isViewFromObject(View arg0, Object arg1) {
-	             return arg0 == (arg1);
-	         }
-	 
-	         @Override
-	         public void restoreState(Parcelable arg0, ClassLoader arg1) {
-	         }
-	 
-	         @Override
-	         public Parcelable saveState() {
-	             return null;
-	         }
-	 
-	         @Override
-	         public void startUpdate(View arg0) {
-	         }
-	     }
+					if ((MainActivity) getActivity() != null) {
+						((MainActivity) getActivity()).switchContent(1);
+					}
+
+				}
+			});
+
+			return mListViews.get(arg1);
+		}
+
+		@Override
+		public boolean isViewFromObject(View arg0, Object arg1) {
+			return arg0 == (arg1);
+		}
+
+		@Override
+		public void restoreState(Parcelable arg0, ClassLoader arg1) {
+		}
+
+		@Override
+		public Parcelable saveState() {
+			return null;
+		}
+
+		@Override
+		public void startUpdate(View arg0) {
+		}
+	}
 }
