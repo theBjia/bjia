@@ -81,6 +81,7 @@ public class MainFragment extends BaseFragment implements OnClickListener,
 	private ImageView iv_hongti, iv_xilanhua, iv_jiliu, iv_yanmai, iv_jingrou,
 			iv_ningmeng, iv_boluo;
 	private ImageView iv_liaotian, iv_haoyou, iv_quanzi;
+	private View v_dot[];
 	// TODO
 	private ViewPager vp_goods;
 	private List<View> listViews; // Tab页面列表
@@ -395,7 +396,15 @@ public class MainFragment extends BaseFragment implements OnClickListener,
 		iv_boluo = (ImageView) rootView.findViewById(R.id.iv_boluo);
 		
 		vp_goods = (ViewPager) rootView.findViewById(R.id.vp_goods);
-		listViews = new ArrayList<View>();
+		
+		v_dot =new View[7];
+		v_dot[1] = (View) rootView.findViewById(R.id.v_dot1);
+		v_dot[2] = (View) rootView.findViewById(R.id.v_dot2);
+		v_dot[3] = (View) rootView.findViewById(R.id.v_dot3);
+		v_dot[4] = (View) rootView.findViewById(R.id.v_dot4);
+		v_dot[5] = (View) rootView.findViewById(R.id.v_dot5);
+		v_dot[6] = (View) rootView.findViewById(R.id.v_dot6);
+ 		listViews = new ArrayList<View>();
 		
 		LayoutInflater mInflater = getActivity().getLayoutInflater();
 		listViews.add(mInflater.inflate(R.layout.item_b1, null));
@@ -407,13 +416,15 @@ public class MainFragment extends BaseFragment implements OnClickListener,
 		
 		vp_goods.setAdapter(new MyPagerAdapter(listViews));
 		vp_goods.setCurrentItem(0);
+		setPagerDot(1, 6);
 		//TODO set the listener.
 		vp_goods.setOnPageChangeListener(new OnPageChangeListener() {
 			
 			@Override
-			public void onPageSelected(int arg0) {
-				// TODO Auto-generated method stub
-				
+			public void onPageSelected(int pos) {
+				// the pos is from 0 to 5;
+				//and the v_dot[] is from 1 to 6;
+				setPagerDot(pos + 1,6);
 			}
 			
 			@Override
@@ -450,6 +461,16 @@ public class MainFragment extends BaseFragment implements OnClickListener,
 
 	}
 
+	@SuppressLint("NewApi") private void setPagerDot(int pos,int total){
+		for(int i = 1;i <= total;i++){
+			if(i == pos){
+				v_dot[i].setBackground(getResources().getDrawable(R.drawable.circle_green_bg)); 
+			}else{
+				v_dot[i].setBackground(getResources().getDrawable(R.drawable.circle_gray_bg));
+			}
+		}
+		
+	}
 	private void initListener() {
 		iv_top_left.setOnClickListener(this);
 		rl_gouwuche.setOnClickListener(this);
