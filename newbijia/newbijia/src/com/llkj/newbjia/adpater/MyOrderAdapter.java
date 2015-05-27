@@ -97,8 +97,8 @@ public class MyOrderAdapter extends BaseAdapter {
 					.findViewById(R.id.tv_cancle_sure);
 			holdView.hlv = (HorizontalListView) convertView
 					.findViewById(R.id.hlv);
-			holdView.tv_sure_shouhuo = (TextView) convertView
-					.findViewById(R.id.tv_sure_shouhuo);
+//			holdView.tv_sure_shouhuo = (TextView) convertView
+//					.findViewById(R.id.tv_sure_shouhuo);
 			holdView.tv_contactskefu = (TextView) convertView
 					.findViewById(R.id.tv_contactskefu);
 			holdView.rl_one.setOnClickListener(new OnClickListener() {
@@ -123,13 +123,13 @@ public class MyOrderAdapter extends BaseAdapter {
 					myClicker.myClick(v, 1);// 付款
 				}
 			});
-			holdView.tv_sure_shouhuo.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					myClicker.myClick(v, 2);// 确认收货
-				}
-			});
+//			holdView.tv_sure_shouhuo.setOnClickListener(new OnClickListener() {
+//
+//				@Override
+//				public void onClick(View v) {
+//					myClicker.myClick(v, 2);// 确认收货
+//				}
+//			});
 			holdView.tv_contactskefu.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -161,7 +161,7 @@ public class MyOrderAdapter extends BaseAdapter {
 
 		HashMap item = (HashMap) arrayList.get(position);
 		holdView.tv_pay.setTag(item);
-		holdView.tv_sure_shouhuo.setTag(item);
+//		holdView.tv_sure_shouhuo.setTag(item);
 		holdView.tv_contactskefu.setTag(item);
 		holdView.rl_bg.setTag(item);
 		holdView.tv_cancle_sure.setTag(item);
@@ -221,31 +221,31 @@ public class MyOrderAdapter extends BaseAdapter {
 			if ("0".equals(status)) {
 				holdView.tv_status.setText("已付款");//
 				holdView.tv_cancle_sure.setVisibility(View.INVISIBLE);
-				holdView.tv_sure_shouhuo.setVisibility(View.VISIBLE);
+//				holdView.tv_sure_shouhuo.setVisibility(View.VISIBLE);
 				holdView.tv_contactskefu.setVisibility(View.INVISIBLE);
 				holdView.tv_pay.setVisibility(View.INVISIBLE);
 			} else if ("1".equals(status)) {
 				holdView.tv_status.setText("未付款");// 取消 付款两个按钮
 				holdView.tv_cancle_sure.setVisibility(View.VISIBLE);
-				holdView.tv_sure_shouhuo.setVisibility(View.INVISIBLE);
+//				holdView.tv_sure_shouhuo.setVisibility(View.INVISIBLE);
 				holdView.tv_contactskefu.setVisibility(View.INVISIBLE);
 				holdView.tv_pay.setVisibility(View.VISIBLE);
 			} else if ("2".equals(status)) {
 				holdView.tv_status.setText("待收货");// 确认收货按钮
 				holdView.tv_cancle_sure.setVisibility(View.INVISIBLE);
-				holdView.tv_sure_shouhuo.setVisibility(View.INVISIBLE);
+//				holdView.tv_sure_shouhuo.setVisibility(View.INVISIBLE);
 				holdView.tv_contactskefu.setVisibility(View.INVISIBLE);
 				holdView.tv_pay.setVisibility(View.INVISIBLE);
 			} else if ("3".equals(status)) {
 				holdView.tv_status.setText("完成");// 联系客服按钮显示
 				holdView.tv_cancle_sure.setVisibility(View.INVISIBLE);
-				holdView.tv_sure_shouhuo.setVisibility(View.INVISIBLE);
+//				holdView.tv_sure_shouhuo.setVisibility(View.INVISIBLE);
 				holdView.tv_contactskefu.setVisibility(View.VISIBLE);
 				holdView.tv_pay.setVisibility(View.INVISIBLE);
 			} else if ("4".equals(status)) {
 				holdView.tv_status.setText("已取消");//
 				holdView.tv_cancle_sure.setVisibility(View.INVISIBLE);
-				holdView.tv_sure_shouhuo.setVisibility(View.INVISIBLE);
+//				holdView.tv_sure_shouhuo.setVisibility(View.INVISIBLE);
 				holdView.tv_contactskefu.setVisibility(View.VISIBLE);
 				holdView.tv_pay.setVisibility(View.INVISIBLE);
 			}
@@ -329,8 +329,9 @@ public class MyOrderAdapter extends BaseAdapter {
 		ImageView iv_goods_thumb;
 		
 		TextView tv_order_sn, tv_goods_amount, tv_add_time, tv_goods_name,
-				tv_weight_page, tv_status, tv_pay, tv_cancle_sure, tv_sure_shouhuo,
+				tv_weight_page, tv_status, tv_pay, tv_cancle_sure, 
 				tv_contactskefu;
+//		TextView tv_sure_shouhuo;
 		HorizontalListView hlv;
 		
 		RelativeLayout rl_one, rl_two, rl_bg;

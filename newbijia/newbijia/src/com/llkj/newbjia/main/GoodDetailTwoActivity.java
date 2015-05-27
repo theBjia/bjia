@@ -669,7 +669,7 @@ public class GoodDetailTwoActivity extends BaseActivity implements
 					tv_shifouxianhuo.setText("失败");
 				}
 				if (StringUtil.isEmpty(numbers)) {
-					mShopCartList = mRequestManager.getShopCartList(uid, true);
+					mShopCartList = mRequestManager.getShopCartList(uid, false);
 				}
 
 			} else if (mShopCartList == requestId) {
