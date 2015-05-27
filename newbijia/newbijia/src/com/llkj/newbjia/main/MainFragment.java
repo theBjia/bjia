@@ -436,7 +436,8 @@ public class MainFragment extends BaseFragment implements OnClickListener,
 
 			@Override
 			public void onPageScrollStateChanged(int arg0) {
-				// TODO Auto-generated method stub
+				// TODO  cycle and auto control.
+				
 //				switch (arg0) {
 //
 //				case 1:// 手势滑动，空闲中
