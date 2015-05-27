@@ -75,14 +75,14 @@ public class MyCartFragment extends BaseFragment implements Myclick,
 
 	private void initData() {
 		uid = UserInfoBean.getUserInfo(getActivity()).getUid();
-		if (StringUtil.isNetworkConnected(getActivity())) {
-			if (null != uid) {
-				mShopCartList = mRequestManager.getShopCartList(uid, true);
-				isLoaded = true;
-			}
-		} else {
-			ToastUtil.makeShortText(getActivity(), R.string.no_wangluo);
-		}
+//		if (StringUtil.isNetworkConnected(getActivity())) {
+//			if (null != uid) {
+//				mShopCartList = mRequestManager.getShopCartList(uid, true);
+//				isLoaded = true;
+//			}
+//		} else {
+//			ToastUtil.makeShortText(getActivity(), R.string.no_wangluo);
+//		}
 		arrayList = new ArrayList();
 		adapter = new MyCartAdapter(getActivity(), arrayList, this);
 		My_carnTId.setAdapter(adapter);
@@ -187,9 +187,8 @@ public class MyCartFragment extends BaseFragment implements Myclick,
 	@Override
 	public void onResume() {
 		super.onResume();
-		if (MyApplication.isRefrsh)
-			mShopCartList = mRequestManager.getShopCartList(uid, true);
-		if (!isLoaded) {
+//		if (MyApplication.isRefrsh)
+//			mShopCartList = mRequestManager.getShopCartList(uid, true);
 			if (StringUtil.isNetworkConnected(getActivity())) {
 				if (null != uid) {
 					mShopCartList = mRequestManager.getShopCartList(uid, true);
@@ -198,8 +197,7 @@ public class MyCartFragment extends BaseFragment implements Myclick,
 			} else {
 				ToastUtil.makeShortText(getActivity(), R.string.no_wangluo);
 			}
-
-		}
+		
 	}
 
 	@Override
@@ -233,9 +231,9 @@ public class MyCartFragment extends BaseFragment implements Myclick,
 					// adapter.setBooleans(newList);
 					adapter.notifyDataSetChanged();
 					MyApplication.isRefrsh = false;
-					isLoaded = true;
+					//isLoaded = true;
 				} else {
-					isLoaded = false;
+					//isLoaded = false;
 					String msg = payload
 							.getString(ResponseBean.RESPONSE_MESSAGE);
 					ToastUtil.makeShortText(getActivity(), msg);
