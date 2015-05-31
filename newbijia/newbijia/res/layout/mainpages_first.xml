@@ -305,10 +305,13 @@
                     android:src="@drawable/tyanmai" />
             </LinearLayout>
 
+            <!-- the linearLayout is not used. -->
+
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                android:visibility="gone" >
 
                 <ImageView
                     android:id="@+id/iv_liaotian"
